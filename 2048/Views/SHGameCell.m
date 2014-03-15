@@ -7,16 +7,28 @@
 //
 
 #import "SHGameCell.h"
+#import "SHGameCellData.h"
 
 @implementation SHGameCell
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
     }
     return self;
+}
+
+- (void)configure:(SHGameCellData *)data {
+    self.numberLabel.text = [[self numberFormatter] stringFromNumber:data.number];
+}
+
+- (NSNumberFormatter *)numberFormatter {
+    static NSNumberFormatter *formatter;
+    if (!formatter) {
+        formatter = [[NSNumberFormatter alloc] init];
+    }
+    return formatter;
 }
 
 /*

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static const int kSHGameBoardSize = 4;
+
 @interface SHGameViewController : UIViewController <UICollectionViewDataSource>
+@property (strong, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end

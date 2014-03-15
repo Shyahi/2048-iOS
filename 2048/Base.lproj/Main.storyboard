@@ -81,6 +81,10 @@
                                             <constraint firstAttribute="bottom" secondItem="ito-WQ-vYK" secondAttribute="bottom" id="nTs-MV-Xoy"/>
                                             <constraint firstItem="ito-WQ-vYK" firstAttribute="leading" secondItem="TMu-as-U68" secondAttribute="leading" id="sxl-Vh-2qE"/>
                                         </constraints>
+                                        <connections>
+                                            <outlet property="backgroundView" destination="ito-WQ-vYK" id="s8w-lw-dLi"/>
+                                            <outlet property="numberLabel" destination="Br8-pd-8wX" id="CDO-ve-W8m"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -91,6 +95,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                     </view>
+                    <connections>
+                        <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RA6-Fr-3Je" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

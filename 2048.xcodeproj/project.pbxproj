@@ -24,6 +24,7 @@
 		0285BFEB18D465800096EA5E /* SHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFEA18D465800096EA5E /* SHViewController.m */; };
 		0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFED18D46B780096EA5E /* SHGameViewController.m */; };
 		0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF118D478B30096EA5E /* SHGameCell.m */; };
+		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		0285BFED18D46B780096EA5E /* SHGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameViewController.m; sourceTree = "<group>"; };
 		0285BFF018D478B30096EA5E /* SHGameCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCell.h; sourceTree = "<group>"; };
 		0285BFF118D478B30096EA5E /* SHGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCell.m; sourceTree = "<group>"; };
+		0285BFF418D47A450096EA5E /* SHGameCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCellData.h; sourceTree = "<group>"; };
+		0285BFF518D47A450096EA5E /* SHGameCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,7 @@
 			children = (
 				0285BFE818D465800096EA5E /* Controllers */,
 				0285BFEF18D46DC70096EA5E /* Views */,
+				0285BFF318D47A2B0096EA5E /* Models */,
 				026E28E518D4617A00369891 /* Main.storyboard */,
 				026E28EB18D4617A00369891 /* Images.xcassets */,
 				026E28DA18D4617A00369891 /* Supporting Files */,
@@ -177,6 +181,15 @@
 				0285BFF118D478B30096EA5E /* SHGameCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0285BFF318D47A2B0096EA5E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0285BFF418D47A450096EA5E /* SHGameCellData.h */,
+				0285BFF518D47A450096EA5E /* SHGameCellData.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +291,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */,
 				0285BFE718D4656D0096EA5E /* main.m in Sources */,
 				0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */,
 				0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */,

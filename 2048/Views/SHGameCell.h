@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SHGameCell : UICollectionViewCell
+@class SHGameCellData;
 
+@interface SHGameCell : UICollectionViewCell
+@property(strong, nonatomic) IBOutlet UILabel *numberLabel;
+@property(strong, nonatomic) IBOutlet UIView *backgroundView;
+
+- (void)configure:(SHGameCellData *)data;
 @end
