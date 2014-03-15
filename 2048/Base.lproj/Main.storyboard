@@ -94,12 +94,38 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="qL9-Kr-iNP" appends="YES" id="6i0-pQ-VoC"/>
+                            <outletCollection property="gestureRecognizers" destination="ezF-hr-2QD" appends="YES" id="T7L-Nh-5iX"/>
+                            <outletCollection property="gestureRecognizers" destination="2c5-js-p7N" appends="YES" id="oEk-DB-ShP"/>
+                            <outletCollection property="gestureRecognizers" destination="z9M-Mr-7NN" appends="YES" id="OeB-KP-46R"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RA6-Fr-3Je" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="qL9-Kr-iNP" userLabel="Right Swipe Gesture Recognizer">
+                    <connections>
+                        <action selector="rightSwipePerformed:" destination="cRF-iO-OYJ" id="Lhs-1l-9ri"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="ezF-hr-2QD" userLabel="Left Swipe Gesture Recognizer">
+                    <connections>
+                        <action selector="leftSwipePerformed:" destination="cRF-iO-OYJ" id="TLn-hs-BqU"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="up" id="2c5-js-p7N" userLabel="Up Swipe Gesture Recognizer">
+                    <connections>
+                        <action selector="upSwipePerformed:" destination="cRF-iO-OYJ" id="o6b-We-Q4f"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="down" id="z9M-Mr-7NN" userLabel="Down Swipe Gesture Recognizer">
+                    <connections>
+                        <action selector="downSwipePerformed:" destination="cRF-iO-OYJ" id="BtL-iz-0OK"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="526" y="69"/>
         </scene>

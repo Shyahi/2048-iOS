@@ -28,8 +28,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initBoard];
-    [self addRandomNumberToBoard];
-    [self addRandomNumberToBoard];
+    [self addRandomTile];
+    [self addRandomTile];
 }
 
 - (void)initBoard {
@@ -43,7 +43,7 @@
     }
 }
 
-- (void)addRandomNumberToBoard {
+- (void)addRandomTile {
     NSArray *emptyCellIndices = [self findEmptyCells];
     NSUInteger itemIndex = arc4random_uniform(emptyCellIndices.count);
     NSNumber *cellIndex = emptyCellIndices[itemIndex];
@@ -67,6 +67,94 @@
     return emptyCellIndices;
 }
 
+- (void)moveBoard:(SHMoveDirection)direction {
+    CGPoint vector = [self getVectorInDirection:direction];
+    NSDictionary *traversals = [self buildTraversalsForVector:vector];
+    for (NSNumber *x in traversals[@"x"]) {
+        for (NSNumber *y in traversals[@"y"]) {
+            CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
+            SHGameCellData *cellData = [self cellDataAtX:(NSUInteger) x.integerValue Y:(NSUInteger) y.integerValue];
+            if (cellData.number) {
+                NSDictionary *positions = [self findFarthestPositionOfCell:cell inDirection:vector];
+                CGPoint nextCellPosition = [((NSValue *) positions[@"next"]) CGPointValue];
+                CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
+                SHGameCellData *nextCellData = [self cellDataAtX:(NSUInteger) nextCellPosition.x Y:(NSUInteger) nextCellPosition.y];
+                if (nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
+                    // Merge cells.
+                    nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
+                    cellData.number = nil;
+                } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
+                    // Move current cell to farthest available position.
+                    SHGameCellData *farthestCellData = [self cellDataAtX:(NSUInteger) farthestAvailablePosition.x Y:(NSUInteger) farthestAvailablePosition.y];
+                    farthestCellData.number = cellData.number;
+                    cellData.number = nil;
+                }
+            }
+        }
+    }
+    [self.collectionView reloadData];
+}
+
+- (SHGameCellData *)cellDataAtX:(NSUInteger)x Y:(NSUInteger)y {
+    if ([self checkBoundsForCell:CGPointMake(x, y)]) {
+        return self.board[y][x];
+    }
+    return nil;
+}
+
+- (NSDictionary *)findFarthestPositionOfCell:(CGPoint)cell inDirection:(CGPoint)vector {
+    CGPoint previous;
+
+    // Progress towards the vector direction until an obstacle is found
+    do {
+        previous = cell;
+        cell = CGPointMake(previous.x + vector.x, previous.y + vector.y);
+    } while ([self checkBoundsForCell:cell] && [self checkAvailabilityForCell:cell]);
+
+    return @{
+            @"farthest" : [NSValue value:&previous withObjCType:@encode(CGPoint)],
+            @"next" : [NSValue value:&cell withObjCType:@encode(CGPoint)] // Used to check if a merge is required
+    };
+
+}
+
+- (BOOL)checkBoundsForCell:(CGPoint)point {
+    return point.x >= 0 && point.x < kSHGameBoardSize && point.y >= 0 && point.y < kSHGameBoardSize;
+}
+
+- (BOOL)checkAvailabilityForCell:(CGPoint)point {
+    SHGameCellData *cellData = [self cellDataAtX:(NSUInteger) point.x Y:(NSUInteger) point.y];
+    return cellData.number == nil;
+}
+
+- (NSDictionary *)buildTraversalsForVector:(CGPoint)vector {
+    NSMutableDictionary *traversals = [@{@"x" : [NSMutableArray arrayWithCapacity:kSHGameBoardSize], @"y" : [NSMutableArray arrayWithCapacity:kSHGameBoardSize]} mutableCopy];
+
+    for (int pos = 0; pos < kSHGameBoardSize; ++pos) {
+        [traversals[@"x"] addObject:@(pos)];
+        [traversals[@"y"] addObject:@(pos)];
+    }
+
+    // Always traverse from the farthest cell in the chosen direction
+    if (vector.x == 1) traversals[@"x"] = [[((NSMutableArray *) traversals[@"x"]) reverseObjectEnumerator] allObjects];
+    if (vector.y == 1) traversals[@"y"] = [[((NSMutableArray *) traversals[@"y"]) reverseObjectEnumerator] allObjects];
+    return traversals;
+
+}
+
+- (CGPoint)getVectorInDirection:(SHMoveDirection)direction {
+    switch (direction) {
+        case kSHMoveDirectionDown:
+            return CGPointMake(0, 1);
+        case kSHMoveDirectionUp:
+            return CGPointMake(0, -1);
+        case kSHMoveDirectionLeft:
+            return CGPointMake(-1, 0);
+        case kSHMoveDirectionRight:
+            return CGPointMake(1, 0);
+    }
+}
+
 #pragma mark Collection View Data Source
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return 16;
@@ -80,6 +168,28 @@
     return cell;
 }
 
+#pragma mark - Storyboard Outlets
+- (IBAction)rightSwipePerformed:(id)sender {
+    [self moveBoard:kSHMoveDirectionRight];
+    [self addRandomTile];
+}
+
+- (IBAction)leftSwipePerformed:(id)sender {
+    [self moveBoard:kSHMoveDirectionLeft];
+    [self addRandomTile];
+}
+
+- (IBAction)upSwipePerformed:(id)sender {
+    [self moveBoard:kSHMoveDirectionUp];
+    [self addRandomTile];
+}
+
+- (IBAction)downSwipePerformed:(id)sender {
+    [self moveBoard:kSHMoveDirectionDown];
+    [self addRandomTile];
+}
+
+#pragma mark - Memory Warning
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
