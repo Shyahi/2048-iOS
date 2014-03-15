@@ -1,5 +1,5 @@
 //
-//  SHGameViewController.h
+//  SHGameCell.h
 //  2048
 //
 //  Created by Pulkit Goyal on 15/03/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource>
+@interface SHGameCell : UICollectionViewCell
 
 @end

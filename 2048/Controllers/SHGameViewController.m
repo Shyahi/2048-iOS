@@ -35,6 +35,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark Collection View Data Source
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 16;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SH_GAME_CELL" forIndexPath:indexPath];
+    return cell;
+}
+
+
 /*
 #pragma mark - Navigation
 
