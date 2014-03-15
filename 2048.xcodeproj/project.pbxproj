@@ -22,6 +22,7 @@
 		0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0285BFE318D4656D0096EA5E /* 2048-Info.plist */; };
 		0285BFE718D4656D0096EA5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE518D4656D0096EA5E /* main.m */; };
 		0285BFEB18D465800096EA5E /* SHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFEA18D465800096EA5E /* SHViewController.m */; };
+		0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFED18D46B780096EA5E /* SHGameViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,8 @@
 		0285BFE518D4656D0096EA5E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Supporting Files/main.m"; sourceTree = "<group>"; };
 		0285BFE918D465800096EA5E /* SHViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHViewController.h; sourceTree = "<group>"; };
 		0285BFEA18D465800096EA5E /* SHViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHViewController.m; sourceTree = "<group>"; };
+		0285BFEC18D46B780096EA5E /* SHGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameViewController.h; sourceTree = "<group>"; };
+		0285BFED18D46B780096EA5E /* SHGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +160,8 @@
 			children = (
 				0285BFE918D465800096EA5E /* SHViewController.h */,
 				0285BFEA18D465800096EA5E /* SHViewController.m */,
+				0285BFEC18D46B780096EA5E /* SHGameViewController.h */,
+				0285BFED18D46B780096EA5E /* SHGameViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -261,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0285BFE718D4656D0096EA5E /* main.m in Sources */,
+				0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */,
 				0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */,
 				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 			);

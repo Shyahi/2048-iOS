@@ -20,6 +20,11 @@
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self performSegueWithIdentifier:@"SH_GAME_SEGUE" sender:self];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
