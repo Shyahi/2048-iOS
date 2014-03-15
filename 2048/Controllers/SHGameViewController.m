@@ -68,6 +68,8 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
+    [self prepareCells];
+
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
     for (NSNumber *x in traversals[@"x"]) {
@@ -79,9 +81,10 @@
                 CGPoint nextCellPosition = [((NSValue *) positions[@"next"]) CGPointValue];
                 CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
                 SHGameCellData *nextCellData = [self cellDataAtX:(NSUInteger) nextCellPosition.x Y:(NSUInteger) nextCellPosition.y];
-                if (nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
+                if (!cellData.merged && !nextCellData.merged && nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
                     // Merge cells.
                     nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
+                    nextCellData.merged = YES;
                     cellData.number = nil;
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
                     // Move current cell to farthest available position.
@@ -93,6 +96,16 @@
         }
     }
     [self.collectionView reloadData];
+}
+
+- (void)prepareCells {
+    for (int i = 0; i < self.board.count; ++i) {
+        NSArray *boardRow = self.board[(NSUInteger) i];
+        for (int j = 0; j < boardRow.count; ++j) {
+            SHGameCellData *cellData = boardRow[j];
+            cellData.merged = NO;
+        }
+    }
 }
 
 - (SHGameCellData *)cellDataAtX:(NSUInteger)x Y:(NSUInteger)y {

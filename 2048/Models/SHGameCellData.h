@@ -10,6 +10,7 @@
 
 @interface SHGameCellData : NSObject
 @property(nonatomic, strong) NSNumber *number;
+@property(nonatomic) BOOL merged;
 
 - (instancetype)initWithNumber:(NSNumber *)number;
 
