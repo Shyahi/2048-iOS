@@ -11,16 +11,17 @@
 		026E28D618D4617A00369891 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D518D4617A00369891 /* CoreGraphics.framework */; };
 		026E28D818D4617A00369891 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D718D4617A00369891 /* UIKit.framework */; };
 		026E28DE18D4617A00369891 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 026E28DC18D4617A00369891 /* InfoPlist.strings */; };
-		026E28E018D4617A00369891 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28DF18D4617A00369891 /* main.m */; };
-		026E28E418D4617A00369891 /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28E318D4617A00369891 /* SHAppDelegate.m */; };
 		026E28E718D4617A00369891 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 026E28E518D4617A00369891 /* Main.storyboard */; };
-		026E28EA18D4617A00369891 /* SHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28E918D4617A00369891 /* SHViewController.m */; };
 		026E28EC18D4617A00369891 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 026E28EB18D4617A00369891 /* Images.xcassets */; };
 		026E28F318D4617A00369891 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28F218D4617A00369891 /* XCTest.framework */; };
 		026E28F418D4617A00369891 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D318D4617A00369891 /* Foundation.framework */; };
 		026E28F518D4617A00369891 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D718D4617A00369891 /* UIKit.framework */; };
 		026E28FD18D4617A00369891 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 026E28FB18D4617A00369891 /* InfoPlist.strings */; };
 		026E28FF18D4617A00369891 /* _048Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28FE18D4617A00369891 /* _048Tests.m */; };
+		0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE118D465640096EA5E /* SHAppDelegate.m */; };
+		0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0285BFE318D4656D0096EA5E /* 2048-Info.plist */; };
+		0285BFE718D4656D0096EA5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE518D4656D0096EA5E /* main.m */; };
+		0285BFEB18D465800096EA5E /* SHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFEA18D465800096EA5E /* SHViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,21 +39,21 @@
 		026E28D318D4617A00369891 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		026E28D518D4617A00369891 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		026E28D718D4617A00369891 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		026E28DB18D4617A00369891 /* 2048-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048-Info.plist"; sourceTree = "<group>"; };
 		026E28DD18D4617A00369891 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		026E28DF18D4617A00369891 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		026E28E118D4617A00369891 /* 2048-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "2048-Prefix.pch"; sourceTree = "<group>"; };
-		026E28E218D4617A00369891 /* SHAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHAppDelegate.h; sourceTree = "<group>"; };
-		026E28E318D4617A00369891 /* SHAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHAppDelegate.m; sourceTree = "<group>"; };
 		026E28E618D4617A00369891 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		026E28E818D4617A00369891 /* SHViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHViewController.h; sourceTree = "<group>"; };
-		026E28E918D4617A00369891 /* SHViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHViewController.m; sourceTree = "<group>"; };
 		026E28EB18D4617A00369891 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		026E28F118D4617A00369891 /* 2048Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = 2048Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		026E28F218D4617A00369891 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		026E28FA18D4617A00369891 /* 2048Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048Tests-Info.plist"; sourceTree = "<group>"; };
 		026E28FC18D4617A00369891 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		026E28FE18D4617A00369891 /* _048Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048Tests.m; sourceTree = "<group>"; };
+		0285BFE018D465640096EA5E /* SHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHAppDelegate.h; path = "Supporting Files/SHAppDelegate.h"; sourceTree = "<group>"; };
+		0285BFE118D465640096EA5E /* SHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHAppDelegate.m; path = "Supporting Files/SHAppDelegate.m"; sourceTree = "<group>"; };
+		0285BFE318D4656D0096EA5E /* 2048-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "2048-Info.plist"; path = "Supporting Files/2048-Info.plist"; sourceTree = "<group>"; };
+		0285BFE418D4656D0096EA5E /* 2048-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "2048-Prefix.pch"; path = "Supporting Files/2048-Prefix.pch"; sourceTree = "<group>"; };
+		0285BFE518D4656D0096EA5E /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "Supporting Files/main.m"; sourceTree = "<group>"; };
+		0285BFE918D465800096EA5E /* SHViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHViewController.h; sourceTree = "<group>"; };
+		0285BFEA18D465800096EA5E /* SHViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,11 +113,8 @@
 		026E28D918D4617A00369891 /* 2048 */ = {
 			isa = PBXGroup;
 			children = (
-				026E28E218D4617A00369891 /* SHAppDelegate.h */,
-				026E28E318D4617A00369891 /* SHAppDelegate.m */,
+				0285BFE818D465800096EA5E /* Controllers */,
 				026E28E518D4617A00369891 /* Main.storyboard */,
-				026E28E818D4617A00369891 /* SHViewController.h */,
-				026E28E918D4617A00369891 /* SHViewController.m */,
 				026E28EB18D4617A00369891 /* Images.xcassets */,
 				026E28DA18D4617A00369891 /* Supporting Files */,
 			);
@@ -126,10 +124,12 @@
 		026E28DA18D4617A00369891 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				026E28DB18D4617A00369891 /* 2048-Info.plist */,
+				0285BFE018D465640096EA5E /* SHAppDelegate.h */,
+				0285BFE118D465640096EA5E /* SHAppDelegate.m */,
+				0285BFE318D4656D0096EA5E /* 2048-Info.plist */,
+				0285BFE418D4656D0096EA5E /* 2048-Prefix.pch */,
+				0285BFE518D4656D0096EA5E /* main.m */,
 				026E28DC18D4617A00369891 /* InfoPlist.strings */,
-				026E28DF18D4617A00369891 /* main.m */,
-				026E28E118D4617A00369891 /* 2048-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -150,6 +150,15 @@
 				026E28FB18D4617A00369891 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0285BFE818D465800096EA5E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0285BFE918D465800096EA5E /* SHViewController.h */,
+				0285BFEA18D465800096EA5E /* SHViewController.m */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +238,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */,
 				026E28EC18D4617A00369891 /* Images.xcassets in Resources */,
 				026E28DE18D4617A00369891 /* InfoPlist.strings in Resources */,
 				026E28E718D4617A00369891 /* Main.storyboard in Resources */,
@@ -250,9 +260,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				026E28E018D4617A00369891 /* main.m in Sources */,
-				026E28EA18D4617A00369891 /* SHViewController.m in Sources */,
-				026E28E418D4617A00369891 /* SHAppDelegate.m in Sources */,
+				0285BFE718D4656D0096EA5E /* main.m in Sources */,
+				0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */,
+				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,8 +388,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "2048/2048-Prefix.pch";
-				INFOPLIST_FILE = "2048/2048-Info.plist";
+				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
+				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -391,8 +401,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "2048/2048-Prefix.pch";
-				INFOPLIST_FILE = "2048/2048-Info.plist";
+				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
+				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -457,6 +467,7 @@
 				026E290418D4617A00369891 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		026E290518D4617A00369891 /* Build configuration list for PBXNativeTarget "2048Tests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +476,7 @@
 				026E290718D4617A00369891 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
