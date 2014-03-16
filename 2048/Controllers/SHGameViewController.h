@@ -25,4 +25,5 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 
 @property (strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
 @property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;
 @end

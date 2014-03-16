@@ -1,12 +1,19 @@
 PODS:
+  - CocoaLumberjack (1.8.1):
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/Core (1.8.1)
+  - CocoaLumberjack/Extensions (1.8.1):
+    - CocoaLumberjack/Core
   - HexColors (2.2.1)
   - UIColor+Additions (1.0.1)
 
 DEPENDENCIES:
+  - CocoaLumberjack (~> 1.8)
   - HexColors (~> 2.2)
   - UIColor+Additions (~> 1.0)
 
 SPEC CHECKSUMS:
+  CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
   HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
   UIColor+Additions: 70c89ff5bc2d00ac38662d5c02ed7c3bf69e26c4
 

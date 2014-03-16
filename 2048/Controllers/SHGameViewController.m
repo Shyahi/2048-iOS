@@ -16,6 +16,7 @@
 @property(nonatomic, strong) NSMutableArray *board;
 @property(nonatomic) int score;
 @property(nonatomic) NSInteger bestScore;
+@property(nonatomic) BOOL gameTerminated;
 @end
 
 @implementation SHGameViewController
@@ -35,8 +36,10 @@
 
 - (void)initGame {
     self.score = 0;
+    self.gameTerminated = NO;
     self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
     [self initBoard];
+    [self.collectionView reloadData];
     [self addRandomTile];
     [self addRandomTile];
 }
@@ -81,6 +84,7 @@
 
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
+    BOOL moved = NO;
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
@@ -124,6 +128,9 @@
 
                     // Update score.
                     self.score += nextCellData.number.integerValue;
+
+                    // Board was moved;
+                    moved = YES;
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
                     // Move current cell to farthest available position.
                     SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
@@ -144,9 +151,23 @@
                             [cellView removeFromSuperview];
                         }];
                     }];
+
+                    // Board was moved;
+                    moved = YES;
                 }
             }
         }
+    }
+
+    if (moved) {
+        [self performSelector:@selector(didMoveBoard) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
+    }
+}
+
+- (void)didMoveBoard {
+    [self addRandomTile];
+    if (![self movesAvailable]) {
+        self.gameTerminated = YES;
     }
 }
 
@@ -231,6 +252,46 @@
         case kSHMoveDirectionRight:
             return CGPointMake(1, 0);
     }
+    return CGPointZero;
+}
+
+- (BOOL)movesAvailable {
+    return [self cellsAvailable] || [self tileMatchesAvailable];
+}
+
+- (BOOL)tileMatchesAvailable {
+    for (int x = 0; x < kSHGameBoardSize; x++) {
+        for (int y = 0; y < kSHGameBoardSize; y++) {
+            SHGameCellData *cellData = [self dataForCellAtPosition:CGPointMake(x, y)];
+            if (cellData && cellData.number) {
+                for (int direction = 0; direction < 4; direction++) {
+                    CGPoint vector = [self getVectorInDirection:(SHMoveDirection) direction];
+                    CGPoint cell = CGPointMake(x + vector.x, y + vector.y);
+                    SHGameCellData *otherData = [self dataForCellAtPosition:cell];
+                    if (otherData && otherData.number && [otherData.number isEqualToNumber:cellData.number]) {
+                        DDLogVerbose(@"Matching tiles available.");
+                        return YES; // These two tiles can be merged
+                    }
+                }
+            }
+        }
+    }
+    DDLogVerbose(@"No matching tile available.");
+    return NO;
+}
+
+- (BOOL)cellsAvailable {
+    for (int x = 0; x < kSHGameBoardSize; x++) {
+        for (int y = 0; y < kSHGameBoardSize; y++) {
+            SHGameCellData *cellData = [self dataForCellAtPosition:CGPointMake(x, y)];
+            if (cellData && cellData.number == nil) {
+                DDLogVerbose(@"Cells available.");
+                return YES; // This cell is available.
+            }
+        }
+    }
+    DDLogVerbose(@"No Cells available.");
+    return NO;
 }
 
 #pragma mark Collection View Data Source
@@ -249,27 +310,56 @@
 #pragma mark - Storyboard Outlets
 - (IBAction)rightSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionRight];
-    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (IBAction)leftSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionLeft];
-    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (IBAction)upSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionUp];
-    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (IBAction)downSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionDown];
-    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (void)setScore:(int)score {
     _score = score;
     self.scoreLabel.text = [[self scoreFormatter] stringFromNumber:@(score)];
+}
+
+- (void)setBestScore:(NSInteger)bestScore {
+    _bestScore = bestScore;
+    if (bestScore != 0) {
+        self.bestScoreLabel.text = [[self scoreFormatter] stringFromNumber:@(bestScore)];
+    } else {
+        self.bestScoreLabel.text = @"-";
+    }
+}
+
+- (void)setGameTerminated:(BOOL)gameTerminated {
+    _gameTerminated = gameTerminated;
+
+    if (!gameTerminated) {
+        self.gameTerminatedView.hidden = YES;
+        self.gameTerminatedView.alpha = 1;
+    } else {
+        // Show the game terminated view.
+        self.gameTerminatedView.alpha = 0;
+        self.gameTerminatedView.hidden = NO;
+        [UIView animateWithDuration:1 animations:^{
+            self.gameTerminatedView.alpha = 1;
+        }                completion:^(BOOL finished) {
+
+        }];
+
+        // Save best score.
+        NSInteger currentBest = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
+        if (currentBest < self.score) {
+            [[NSUserDefaults standardUserDefaults] setInteger:self.score forKey:kSHBestUserScoreKey];
+        }
+    }
 }
 
 - (NSNumberFormatter *)scoreFormatter {
@@ -278,6 +368,10 @@
         formatter = [[NSNumberFormatter alloc] init];
     }
     return formatter;
+}
+
+- (IBAction)tryAgainClick:(id)sender {
+    [self initGame];
 }
 
 #pragma mark - Memory Warning

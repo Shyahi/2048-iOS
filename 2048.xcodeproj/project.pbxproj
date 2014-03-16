@@ -20,6 +20,7 @@
 		026E28FF18D4617A00369891 /* _048Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28FE18D4617A00369891 /* _048Tests.m */; };
 		0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0278092818D5B4CC00FED688 /* SHGameCellView.m */; };
 		0278093818D5C6F400FED688 /* SHColorMixer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0278093718D5C6F400FED688 /* SHColorMixer.m */; };
+		0278093E18D6111E00FED688 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0278093D18D6111E00FED688 /* Constants.m */; };
 		0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE118D465640096EA5E /* SHAppDelegate.m */; };
 		0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0285BFE318D4656D0096EA5E /* 2048-Info.plist */; };
 		0285BFE718D4656D0096EA5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE518D4656D0096EA5E /* main.m */; };
@@ -57,6 +58,8 @@
 		0278092818D5B4CC00FED688 /* SHGameCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellView.m; sourceTree = "<group>"; };
 		0278093618D5C6F400FED688 /* SHColorMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHColorMixer.h; sourceTree = "<group>"; };
 		0278093718D5C6F400FED688 /* SHColorMixer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHColorMixer.m; sourceTree = "<group>"; };
+		0278093C18D6111E00FED688 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = "Supporting Files/Constants.h"; sourceTree = "<group>"; };
+		0278093D18D6111E00FED688 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = "Supporting Files/Constants.m"; sourceTree = "<group>"; };
 		0285BFE018D465640096EA5E /* SHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHAppDelegate.h; path = "Supporting Files/SHAppDelegate.h"; sourceTree = "<group>"; };
 		0285BFE118D465640096EA5E /* SHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHAppDelegate.m; path = "Supporting Files/SHAppDelegate.m"; sourceTree = "<group>"; };
 		0285BFE318D4656D0096EA5E /* 2048-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "2048-Info.plist"; path = "Supporting Files/2048-Info.plist"; sourceTree = "<group>"; };
@@ -148,6 +151,8 @@
 		026E28DA18D4617A00369891 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0278093C18D6111E00FED688 /* Constants.h */,
+				0278093D18D6111E00FED688 /* Constants.m */,
 				0285BFE018D465640096EA5E /* SHAppDelegate.h */,
 				0285BFE118D465640096EA5E /* SHAppDelegate.m */,
 				0285BFE318D4656D0096EA5E /* 2048-Info.plist */,
@@ -282,8 +287,6 @@
 			mainGroup = 026E28C718D4617A00369891;
 			productRefGroup = 026E28D118D4617A00369891 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-			);
 			projectRoot = "";
 			targets = (
 				026E28CF18D4617A00369891 /* 2048 */,
@@ -360,6 +363,7 @@
 				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 				0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */,
 				0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */,
+				0278093E18D6111E00FED688 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
