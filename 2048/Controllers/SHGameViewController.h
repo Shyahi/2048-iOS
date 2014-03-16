@@ -12,6 +12,7 @@ static const int kSHGameBoardSize = 4;
 
 static const float kSHCellAnimationsDuration = 0.15;
 static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
+static const int kSHGameMaxScore = 2048;
 typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionLeft,
     kSHMoveDirectionRight,
@@ -26,4 +27,5 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 @property (strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
 @property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;
+@property (strong, nonatomic) IBOutlet UIView *gameWonView;
 @end

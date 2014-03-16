@@ -190,15 +190,66 @@
                                             <constraint firstAttribute="centerX" secondItem="uNC-y0-sTp" secondAttribute="centerX" id="pNp-Yz-9Gs"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YIs-se-mHg" userLabel="Game Won View">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You win!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckt-g8-HYr">
+                                                <rect key="frame" x="86" y="138" width="149" height="44"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="32"/>
+                                                <color key="textColor" red="0.46666666670000001" green="0.43137254899999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Taw-yb-tVL">
+                                                <rect key="frame" x="97" y="222" width="127" height="58"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Def-3n-yn7">
+                                                        <rect key="frame" x="11" y="11" width="105" height="36"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <color key="backgroundColor" red="0.56078431370000004" green="0.47843137250000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                        <inset key="contentEdgeInsets" minX="15" minY="7" maxX="15" maxY="7"/>
+                                                        <state key="normal" title="Play again">
+                                                            <color key="titleColor" red="0.97647058819999999" green="0.96470588239999999" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="tryAgainClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="B8f-5i-0s6"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="Def-3n-yn7" firstAttribute="leading" secondItem="Taw-yb-tVL" secondAttribute="leading" constant="11" id="7eD-Rx-6PJ"/>
+                                                    <constraint firstItem="Def-3n-yn7" firstAttribute="top" secondItem="Taw-yb-tVL" secondAttribute="top" constant="11" id="B9S-6R-kHF"/>
+                                                    <constraint firstAttribute="bottom" secondItem="Def-3n-yn7" secondAttribute="bottom" constant="11" id="Zxf-pq-Ky9"/>
+                                                    <constraint firstAttribute="trailing" secondItem="Def-3n-yn7" secondAttribute="trailing" constant="11" id="lnZ-qH-53B"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.92941176470588238" green="0.76078431372549016" blue="0.1803921568627451" alpha="0.5" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerX" secondItem="ckt-g8-HYr" secondAttribute="centerX" id="L41-Rg-uNC"/>
+                                            <constraint firstAttribute="centerX" secondItem="Taw-yb-tVL" secondAttribute="centerX" id="Lbn-qr-13C"/>
+                                            <constraint firstItem="Taw-yb-tVL" firstAttribute="top" secondItem="ckt-g8-HYr" secondAttribute="bottom" constant="40" id="vT2-Us-9yp"/>
+                                            <constraint firstAttribute="centerY" secondItem="ckt-g8-HYr" secondAttribute="centerY" id="wY8-3p-vFE"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="6ft-BN-mNd" firstAttribute="leading" secondItem="IOv-dE-leu" secondAttribute="leading" id="ChD-d2-DZN"/>
                                     <constraint firstItem="6ft-BN-mNd" firstAttribute="top" secondItem="IOv-dE-leu" secondAttribute="top" id="Fbo-Ic-sK2"/>
+                                    <constraint firstItem="DhN-Z5-fhc" firstAttribute="bottom" secondItem="YIs-se-mHg" secondAttribute="bottom" id="GZu-hc-dBe"/>
+                                    <constraint firstItem="DhN-Z5-fhc" firstAttribute="leading" secondItem="YIs-se-mHg" secondAttribute="leading" id="H5F-7j-x6a"/>
                                     <constraint firstItem="DhN-Z5-fhc" firstAttribute="trailing" secondItem="6ft-BN-mNd" secondAttribute="trailing" id="IkR-of-xIO"/>
                                     <constraint firstAttribute="trailing" secondItem="6ft-BN-mNd" secondAttribute="trailing" id="KpX-hE-PUq"/>
                                     <constraint firstItem="DhN-Z5-fhc" firstAttribute="leading" secondItem="6ft-BN-mNd" secondAttribute="leading" id="YaA-fe-Yk5"/>
                                     <constraint firstItem="DhN-Z5-fhc" firstAttribute="top" secondItem="6ft-BN-mNd" secondAttribute="top" id="dED-yF-xMS"/>
+                                    <constraint firstItem="DhN-Z5-fhc" firstAttribute="top" secondItem="YIs-se-mHg" secondAttribute="top" id="rTj-wm-QfL"/>
+                                    <constraint firstItem="DhN-Z5-fhc" firstAttribute="trailing" secondItem="YIs-se-mHg" secondAttribute="trailing" id="sio-sK-qJJ"/>
                                     <constraint firstItem="DhN-Z5-fhc" firstAttribute="bottom" secondItem="6ft-BN-mNd" secondAttribute="bottom" id="vsv-jP-Icm"/>
                                 </constraints>
                             </view>
@@ -226,6 +277,7 @@
                         <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
+                        <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
                     </connections>
                 </viewController>

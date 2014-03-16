@@ -18,6 +18,7 @@
 @property(nonatomic) int score;
 @property(nonatomic) NSInteger bestScore;
 @property(nonatomic) BOOL gameTerminated;
+@property(nonatomic) BOOL gameWon;
 @end
 
 @implementation SHGameViewController
@@ -40,6 +41,7 @@
 
     self.score = 0;
     self.gameTerminated = NO;
+    self.gameWon = NO;
     self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
     [self initBoard];
     [self.collectionView reloadData];
@@ -134,6 +136,11 @@
 
                     // Board was moved;
                     moved = YES;
+
+                    // The mighty 2048 tile
+                    if (nextCellData.number.integerValue == kSHGameMaxScore) {
+                        self.gameWon = YES;
+                    }
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
                     // Move current cell to farthest available position.
                     SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
@@ -327,6 +334,12 @@
     [self moveBoard:kSHMoveDirectionDown];
 }
 
+- (IBAction)tryAgainClick:(id)sender {
+    [Flurry logEvent:@"Game_Try_Again"];
+    [self initGame];
+}
+
+#pragma mark - Setters
 - (void)setScore:(int)score {
     _score = score;
     self.scoreLabel.text = [[self scoreFormatter] stringFromNumber:@(score)];
@@ -357,14 +370,40 @@
 
         }];
 
-        // Save best score.
-        NSInteger currentBest = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
-        if (currentBest < self.score) {
-            [[NSUserDefaults standardUserDefaults] setInteger:self.score forKey:kSHBestUserScoreKey];
-        }
+        [self saveScore];
     }
 }
 
+- (void)saveScore {
+// Save best score.
+    NSInteger currentBest = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
+    if (currentBest < self.score) {
+        [[NSUserDefaults standardUserDefaults] setInteger:self.score forKey:kSHBestUserScoreKey];
+    }
+}
+
+- (void)setGameWon:(BOOL)gameWon {
+    _gameWon = gameWon;
+
+    if (!gameWon) {
+        self.gameWonView.hidden = YES;
+        self.gameWonView.alpha = 1;
+    } else {
+        [Flurry logEvent:@"Game_Won"];
+        // Show the game terminated view.
+        self.gameWonView.alpha = 0;
+        self.gameWonView.hidden = NO;
+        [UIView animateWithDuration:1 animations:^{
+            self.gameWonView.alpha = 1;
+        }                completion:^(BOOL finished) {
+
+        }];
+
+        [self saveScore];
+    }
+}
+
+#pragma mark - Constants
 - (NSNumberFormatter *)scoreFormatter {
     static NSNumberFormatter *formatter;
     if (!formatter) {
@@ -373,10 +412,6 @@
     return formatter;
 }
 
-- (IBAction)tryAgainClick:(id)sender {
-    [Flurry logEvent:@"Game_Try_Again"];
-    [self initGame];
-}
 
 #pragma mark - Memory Warning
 - (void)didReceiveMemoryWarning {
