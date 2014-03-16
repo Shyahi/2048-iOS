@@ -38,10 +38,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZdA-eO-Sgx">
-                                <rect key="frame" x="0.0" y="20" width="320" height="100"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="125"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLp-9g-noF">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLp-9g-noF" userLabel="Best Score View">
                                         <rect key="frame" x="262" y="11" width="47" height="57"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
@@ -71,7 +71,7 @@
                                             <constraint firstAttribute="centerX" secondItem="Ymf-g8-0IJ" secondAttribute="centerX" id="taU-9L-Wpa"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gzk-an-zjd">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gzk-an-zjd" userLabel="Score View">
                                         <rect key="frame" x="198" y="11" width="54" height="57"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
@@ -101,18 +101,52 @@
                                             <constraint firstItem="qYM-7a-FXv" firstAttribute="leading" secondItem="Gzk-an-zjd" secondAttribute="leading" constant="20" id="xsY-XJ-cHe"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="2048" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="KGq-c6-H6u">
+                                        <rect key="frame" x="11" y="11" width="176" height="57"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="40"/>
+                                        <color key="textColor" red="0.46666666666666667" green="0.43137254901960786" blue="0.396078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4J-h8-HyH">
+                                        <rect key="frame" x="11" y="78" width="290" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <attributedString key="attributedText">
+                                            <fragment content="Join the numbers and get to the ">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.46666666666666667" green="0.43137254901960786" blue="0.396078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="15" name="AvenirNext-Regular"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                </attributes>
+                                            </fragment>
+                                            <fragment content="2048 tile!">
+                                                <attributes>
+                                                    <color key="NSColor" red="0.46666666666666667" green="0.43137254901960786" blue="0.396078431372549" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <font key="NSFont" size="15" name="AvenirNext-Medium"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="aLp-9g-noF" firstAttribute="top" secondItem="ZdA-eO-Sgx" secondAttribute="top" constant="11" id="00n-IW-HMk"/>
+                                    <constraint firstItem="Gzk-an-zjd" firstAttribute="bottom" secondItem="KGq-c6-H6u" secondAttribute="bottom" id="2em-Xd-uwN"/>
+                                    <constraint firstItem="KGq-c6-H6u" firstAttribute="leading" secondItem="ZdA-eO-Sgx" secondAttribute="leading" constant="11" id="3d9-39-gPJ"/>
                                     <constraint firstAttribute="trailing" secondItem="aLp-9g-noF" secondAttribute="trailing" constant="11" id="5sV-XB-gv0"/>
-                                    <constraint firstAttribute="height" constant="100" id="CM0-Hf-Dk5"/>
+                                    <constraint firstItem="Gzk-an-zjd" firstAttribute="leading" secondItem="KGq-c6-H6u" secondAttribute="trailing" constant="11" id="9uA-oK-T4Y"/>
+                                    <constraint firstAttribute="height" constant="125" id="CM0-Hf-Dk5"/>
                                     <constraint firstItem="aLp-9g-noF" firstAttribute="leading" secondItem="Gzk-an-zjd" secondAttribute="trailing" constant="10" id="TU6-fn-qDn"/>
                                     <constraint firstItem="Gzk-an-zjd" firstAttribute="top" secondItem="ZdA-eO-Sgx" secondAttribute="top" constant="11" id="bIT-0y-vMB"/>
+                                    <constraint firstItem="n4J-h8-HyH" firstAttribute="top" secondItem="Gzk-an-zjd" secondAttribute="bottom" constant="10" id="mDU-WI-bbs"/>
+                                    <constraint firstItem="n4J-h8-HyH" firstAttribute="leading" secondItem="KGq-c6-H6u" secondAttribute="leading" id="sJo-l7-I6V"/>
+                                    <constraint firstItem="Gzk-an-zjd" firstAttribute="top" secondItem="KGq-c6-H6u" secondAttribute="top" id="uMJ-hz-831"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IOv-dE-leu" userLabel="Game Container View">
-                                <rect key="frame" x="0.0" y="120" width="320" height="448"/>
+                                <rect key="frame" x="0.0" y="145" width="320" height="423"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6ft-BN-mNd">
