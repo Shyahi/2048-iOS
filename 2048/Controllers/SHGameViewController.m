@@ -73,7 +73,6 @@
 
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
-//    [self.collectionView performBatchUpdates:^{
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
@@ -91,8 +90,8 @@
                 NSIndexPath *nextCellIndexPath = [self indexPathForPosition:nextCellPosition];
                 NSIndexPath *farthestCellIndexPath = [self indexPathForPosition:farthestAvailablePosition];
                 CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
-                CGRect nextCellRect = [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame;
-                CGRect farthestCellRect = [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame;
+                CGRect nextCellRect = [self checkBoundsForCell:nextCellPosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame : CGRectZero;
+                CGRect farthestCellRect = [self checkBoundsForCell:farthestAvailablePosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame : CGRectZero;
 
                 // Can cells be merged?
                 if (!cellData.merged && !nextCellData.merged && nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {

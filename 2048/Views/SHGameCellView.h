@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface SHGameCellView : UIView
 @property(nonatomic, strong) NSNumber *number;
 @end

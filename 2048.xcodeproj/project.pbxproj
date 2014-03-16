@@ -19,6 +19,7 @@
 		026E28FD18D4617A00369891 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 026E28FB18D4617A00369891 /* InfoPlist.strings */; };
 		026E28FF18D4617A00369891 /* _048Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28FE18D4617A00369891 /* _048Tests.m */; };
 		0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0278092818D5B4CC00FED688 /* SHGameCellView.m */; };
+		0278093818D5C6F400FED688 /* SHColorMixer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0278093718D5C6F400FED688 /* SHColorMixer.m */; };
 		0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE118D465640096EA5E /* SHAppDelegate.m */; };
 		0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0285BFE318D4656D0096EA5E /* 2048-Info.plist */; };
 		0285BFE718D4656D0096EA5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE518D4656D0096EA5E /* main.m */; };
@@ -26,6 +27,7 @@
 		0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFED18D46B780096EA5E /* SHGameViewController.m */; };
 		0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF118D478B30096EA5E /* SHGameCell.m */; };
 		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
+		85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BE56919F734A13B42841F2 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +55,8 @@
 		026E28FE18D4617A00369891 /* _048Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048Tests.m; sourceTree = "<group>"; };
 		0278092718D5B4CC00FED688 /* SHGameCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCellView.h; sourceTree = "<group>"; };
 		0278092818D5B4CC00FED688 /* SHGameCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellView.m; sourceTree = "<group>"; };
+		0278093618D5C6F400FED688 /* SHColorMixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHColorMixer.h; sourceTree = "<group>"; };
+		0278093718D5C6F400FED688 /* SHColorMixer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHColorMixer.m; sourceTree = "<group>"; };
 		0285BFE018D465640096EA5E /* SHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHAppDelegate.h; path = "Supporting Files/SHAppDelegate.h"; sourceTree = "<group>"; };
 		0285BFE118D465640096EA5E /* SHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHAppDelegate.m; path = "Supporting Files/SHAppDelegate.m"; sourceTree = "<group>"; };
 		0285BFE318D4656D0096EA5E /* 2048-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "2048-Info.plist"; path = "Supporting Files/2048-Info.plist"; sourceTree = "<group>"; };
@@ -66,6 +70,8 @@
 		0285BFF118D478B30096EA5E /* SHGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCell.m; sourceTree = "<group>"; };
 		0285BFF418D47A450096EA5E /* SHGameCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCellData.h; sourceTree = "<group>"; };
 		0285BFF518D47A450096EA5E /* SHGameCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellData.m; sourceTree = "<group>"; };
+		69BE56919F734A13B42841F2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A72807A03D94D5388ECAB10 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +82,7 @@
 				026E28D618D4617A00369891 /* CoreGraphics.framework in Frameworks */,
 				026E28D818D4617A00369891 /* UIKit.framework in Frameworks */,
 				026E28D418D4617A00369891 /* Foundation.framework in Frameworks */,
+				85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +106,7 @@
 				026E28F818D4617A00369891 /* 2048Tests */,
 				026E28D218D4617A00369891 /* Frameworks */,
 				026E28D118D4617A00369891 /* Products */,
+				9A72807A03D94D5388ECAB10 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -118,6 +126,7 @@
 				026E28D518D4617A00369891 /* CoreGraphics.framework */,
 				026E28D718D4617A00369891 /* UIKit.framework */,
 				026E28F218D4617A00369891 /* XCTest.framework */,
+				69BE56919F734A13B42841F2 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -127,6 +136,7 @@
 			children = (
 				0285BFE818D465800096EA5E /* Controllers */,
 				0285BFEF18D46DC70096EA5E /* Views */,
+				0278093518D5C6DC00FED688 /* Helpers */,
 				0285BFF318D47A2B0096EA5E /* Models */,
 				026E28E518D4617A00369891 /* Main.storyboard */,
 				026E28EB18D4617A00369891 /* Images.xcassets */,
@@ -164,6 +174,15 @@
 				026E28FB18D4617A00369891 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0278093518D5C6DC00FED688 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				0278093618D5C6F400FED688 /* SHColorMixer.h */,
+				0278093718D5C6F400FED688 /* SHColorMixer.m */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		0285BFE818D465800096EA5E /* Controllers */ = {
@@ -204,9 +223,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 026E290218D4617A00369891 /* Build configuration list for PBXNativeTarget "2048" */;
 			buildPhases = (
+				D3B02BC0C7594B7192781DE1 /* Check Pods Manifest.lock */,
 				026E28CC18D4617A00369891 /* Sources */,
 				026E28CD18D4617A00369891 /* Frameworks */,
 				026E28CE18D4617A00369891 /* Resources */,
+				62E671ED979D4461AFCED2DF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -261,6 +282,8 @@
 			mainGroup = 026E28C718D4617A00369891;
 			productRefGroup = 026E28D118D4617A00369891 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+			);
 			projectRoot = "";
 			targets = (
 				026E28CF18D4617A00369891 /* 2048 */,
@@ -291,11 +314,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		62E671ED979D4461AFCED2DF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3B02BC0C7594B7192781DE1 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		026E28CC18D4617A00369891 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0278093818D5C6F400FED688 /* SHColorMixer.m in Sources */,
 				0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */,
 				0285BFE718D4656D0096EA5E /* main.m in Sources */,
 				0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */,
@@ -424,6 +481,7 @@
 		};
 		026E290318D4617A00369891 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A72807A03D94D5388ECAB10 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -431,12 +489,14 @@
 				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
 				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		026E290418D4617A00369891 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9A72807A03D94D5388ECAB10 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -444,6 +504,7 @@
 				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
 				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
