@@ -102,36 +102,49 @@
                     [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
                         cellView.frame = nextCellRect;
                     }                completion:^(BOOL finished) {
-                        [self.collectionView reloadItemsAtIndexPaths:@[nextCellIndexPath]];
-                        [cellView removeFromSuperview];
+                        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL finished) {
+                            [cellView removeFromSuperview];
+                        }];
                     }];
 
                     // Merge cells.
                     nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
                     nextCellData.merged = YES;
                     cellData.number = nil;
-                    [self.collectionView reloadItemsAtIndexPaths:@[cellIndexPath]];
+                    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
+                    }];
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
                     // Move current cell to farthest available position.
                     SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
                     farthestCellData.number = cellData.number;
                     cellData.number = nil;
-                    [self.collectionView reloadItemsAtIndexPaths:@[cellIndexPath]];
+                    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
+                    }];
 
                     // Create view and animate.
                     SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
                     cellView.number = farthestCellData.number;
                     [self.view addSubview:cellView];
+
                     [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
                         cellView.frame = farthestCellRect;
                     }                completion:^(BOOL finished) {
-                        [cellView removeFromSuperview];
-                        [self.collectionView reloadItemsAtIndexPaths:@[farthestCellIndexPath]];
+                        [self reloadCollectionViewItemsAtIndexPaths:@[farthestCellIndexPath] completion:^(BOOL b) {
+                            [cellView removeFromSuperview];
+                        }];
                     }];
                 }
             }
         }
     }
+}
+
+- (void)reloadCollectionViewItemsAtIndexPaths:(NSArray *)indexPaths completion:(void (^)(BOOL))completion {
+    // Perform collection view updates without animation.
+    // http://stackoverflow.com/a/15068865/643109
+    [UIView animateWithDuration:0 animations:^{
+        [self.collectionView reloadItemsAtIndexPaths:indexPaths];
+    }                completion:completion];
 }
 
 - (NSIndexPath *)indexPathForPosition:(CGPoint)position {
