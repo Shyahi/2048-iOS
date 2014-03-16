@@ -18,6 +18,7 @@
 		026E28F518D4617A00369891 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D718D4617A00369891 /* UIKit.framework */; };
 		026E28FD18D4617A00369891 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 026E28FB18D4617A00369891 /* InfoPlist.strings */; };
 		026E28FF18D4617A00369891 /* _048Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 026E28FE18D4617A00369891 /* _048Tests.m */; };
+		0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0278092818D5B4CC00FED688 /* SHGameCellView.m */; };
 		0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE118D465640096EA5E /* SHAppDelegate.m */; };
 		0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0285BFE318D4656D0096EA5E /* 2048-Info.plist */; };
 		0285BFE718D4656D0096EA5E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFE518D4656D0096EA5E /* main.m */; };
@@ -50,6 +51,8 @@
 		026E28FA18D4617A00369891 /* 2048Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "2048Tests-Info.plist"; sourceTree = "<group>"; };
 		026E28FC18D4617A00369891 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		026E28FE18D4617A00369891 /* _048Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _048Tests.m; sourceTree = "<group>"; };
+		0278092718D5B4CC00FED688 /* SHGameCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCellView.h; sourceTree = "<group>"; };
+		0278092818D5B4CC00FED688 /* SHGameCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellView.m; sourceTree = "<group>"; };
 		0285BFE018D465640096EA5E /* SHAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHAppDelegate.h; path = "Supporting Files/SHAppDelegate.h"; sourceTree = "<group>"; };
 		0285BFE118D465640096EA5E /* SHAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHAppDelegate.m; path = "Supporting Files/SHAppDelegate.m"; sourceTree = "<group>"; };
 		0285BFE318D4656D0096EA5E /* 2048-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "2048-Info.plist"; path = "Supporting Files/2048-Info.plist"; sourceTree = "<group>"; };
@@ -179,6 +182,8 @@
 			children = (
 				0285BFF018D478B30096EA5E /* SHGameCell.h */,
 				0285BFF118D478B30096EA5E /* SHGameCell.m */,
+				0278092718D5B4CC00FED688 /* SHGameCellView.h */,
+				0278092818D5B4CC00FED688 /* SHGameCellView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -297,6 +302,7 @@
 				0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */,
 				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 				0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */,
+				0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

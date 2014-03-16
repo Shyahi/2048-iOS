@@ -41,7 +41,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.67843137254901964" green="0.61568627450980395" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="GOH-Mc-Xo2">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="5" id="DCh-Q6-FJC">
                                     <size key="itemSize" width="75" height="75"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -54,37 +54,8 @@
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ito-WQ-vYK">
-                                                    <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Br8-pd-8wX">
-                                                            <rect key="frame" x="27" y="16" width="21" height="44"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                            <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="32"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="centerX" secondItem="Br8-pd-8wX" secondAttribute="centerX" id="OYJ-kb-wPF"/>
-                                                        <constraint firstAttribute="centerY" secondItem="Br8-pd-8wX" secondAttribute="centerY" id="z5N-eu-Qgb"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="ito-WQ-vYK" firstAttribute="top" secondItem="TMu-as-U68" secondAttribute="top" id="4IJ-Hx-g5P"/>
-                                            <constraint firstAttribute="trailing" secondItem="ito-WQ-vYK" secondAttribute="trailing" id="MxO-5V-N0C"/>
-                                            <constraint firstAttribute="bottom" secondItem="ito-WQ-vYK" secondAttribute="bottom" id="nTs-MV-Xoy"/>
-                                            <constraint firstItem="ito-WQ-vYK" firstAttribute="leading" secondItem="TMu-as-U68" secondAttribute="leading" id="sxl-Vh-2qE"/>
-                                        </constraints>
-                                        <connections>
-                                            <outlet property="backgroundView" destination="ito-WQ-vYK" id="s8w-lw-dLi"/>
-                                            <outlet property="numberLabel" destination="Br8-pd-8wX" id="CDO-ve-W8m"/>
-                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>

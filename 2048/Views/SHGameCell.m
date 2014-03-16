@@ -8,6 +8,7 @@
 
 #import "SHGameCell.h"
 #import "SHGameCellData.h"
+#import "SHGameCellView.h"
 
 @implementation SHGameCell
 
@@ -19,16 +20,14 @@
     return self;
 }
 
-- (void)configure:(SHGameCellData *)data {
-    self.numberLabel.text = [[self numberFormatter] stringFromNumber:data.number];
-}
 
-- (NSNumberFormatter *)numberFormatter {
-    static NSNumberFormatter *formatter;
-    if (!formatter) {
-        formatter = [[NSNumberFormatter alloc] init];
+- (void)configure:(SHGameCellData *)data {
+    if (!self.cellView) {
+        self.cellView = [[SHGameCellView alloc] initWithFrame:self.contentView.bounds];
+        [self.contentView addSubview:self.cellView];
     }
-    return formatter;
+
+    self.cellView.number = data.number;
 }
 
 /*

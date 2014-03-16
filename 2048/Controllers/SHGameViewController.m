@@ -9,6 +9,7 @@
 #import "SHGameViewController.h"
 #import "SHGameCellData.h"
 #import "SHGameCell.h"
+#import "SHGameCellView.h"
 
 @interface SHGameViewController ()
 
@@ -72,30 +73,70 @@
 
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
+//    [self.collectionView performBatchUpdates:^{
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
-            SHGameCellData *cellData = [self cellDataAtX:(NSUInteger) x.integerValue Y:(NSUInteger) y.integerValue];
+            SHGameCellData *cellData = [self dataForCellAtPosition:cell];
+            // Move cells only if it is not empty.
             if (cellData.number) {
+                // Find positions of farthest available and next cells.
                 NSDictionary *positions = [self findFarthestPositionOfCell:cell inDirection:vector];
                 CGPoint nextCellPosition = [((NSValue *) positions[@"next"]) CGPointValue];
                 CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
-                SHGameCellData *nextCellData = [self cellDataAtX:(NSUInteger) nextCellPosition.x Y:(NSUInteger) nextCellPosition.y];
+                SHGameCellData *nextCellData = [self dataForCellAtPosition:nextCellPosition];
+
+                // Find index paths and frame of items.
+                NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
+                NSIndexPath *nextCellIndexPath = [self indexPathForPosition:nextCellPosition];
+                NSIndexPath *farthestCellIndexPath = [self indexPathForPosition:farthestAvailablePosition];
+                CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
+                CGRect nextCellRect = [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame;
+                CGRect farthestCellRect = [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame;
+
+                // Can cells be merged?
                 if (!cellData.merged && !nextCellData.merged && nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
+                    // Create a new view and animate it.
+                    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
+                    cellView.number = cellData.number;
+                    [self.view addSubview:cellView];
+                    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
+                        cellView.frame = nextCellRect;
+                    }                completion:^(BOOL finished) {
+                        [self.collectionView reloadItemsAtIndexPaths:@[nextCellIndexPath]];
+                        [cellView removeFromSuperview];
+                    }];
+
                     // Merge cells.
                     nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
                     nextCellData.merged = YES;
                     cellData.number = nil;
+                    [self.collectionView reloadItemsAtIndexPaths:@[cellIndexPath]];
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
                     // Move current cell to farthest available position.
-                    SHGameCellData *farthestCellData = [self cellDataAtX:(NSUInteger) farthestAvailablePosition.x Y:(NSUInteger) farthestAvailablePosition.y];
+                    SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
                     farthestCellData.number = cellData.number;
                     cellData.number = nil;
+                    [self.collectionView reloadItemsAtIndexPaths:@[cellIndexPath]];
+
+                    // Create view and animate.
+                    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
+                    cellView.number = farthestCellData.number;
+                    [self.view addSubview:cellView];
+                    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
+                        cellView.frame = farthestCellRect;
+                    }                completion:^(BOOL finished) {
+                        [cellView removeFromSuperview];
+                        [self.collectionView reloadItemsAtIndexPaths:@[farthestCellIndexPath]];
+                    }];
                 }
             }
         }
     }
-    [self.collectionView reloadData];
+}
+
+- (NSIndexPath *)indexPathForPosition:(CGPoint)position {
+    return [NSIndexPath indexPathForItem:(NSInteger) (position.y * kSHGameBoardSize + position.x) inSection:0];
 }
 
 - (void)prepareCells {
@@ -108,9 +149,10 @@
     }
 }
 
-- (SHGameCellData *)cellDataAtX:(NSUInteger)x Y:(NSUInteger)y {
-    if ([self checkBoundsForCell:CGPointMake(x, y)]) {
-        return self.board[y][x];
+
+- (SHGameCellData *)dataForCellAtPosition:(CGPoint)position {
+    if ([self checkBoundsForCell:position]) {
+        return self.board[(NSUInteger) position.y][(NSUInteger) position.x];
     }
     return nil;
 }
@@ -136,7 +178,7 @@
 }
 
 - (BOOL)checkAvailabilityForCell:(CGPoint)point {
-    SHGameCellData *cellData = [self cellDataAtX:(NSUInteger) point.x Y:(NSUInteger) point.y];
+    SHGameCellData *cellData = [self dataForCellAtPosition:point];
     return cellData.number == nil;
 }
 
@@ -184,22 +226,22 @@
 #pragma mark - Storyboard Outlets
 - (IBAction)rightSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionRight];
-    [self addRandomTile];
+    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (IBAction)leftSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionLeft];
-    [self addRandomTile];
+    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (IBAction)upSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionUp];
-    [self addRandomTile];
+    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 - (IBAction)downSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionDown];
-    [self addRandomTile];
+    [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
 }
 
 #pragma mark - Memory Warning

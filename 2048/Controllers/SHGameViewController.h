@@ -10,6 +10,7 @@
 
 static const int kSHGameBoardSize = 4;
 
+static const float kSHCellAnimationsDuration = 0.5;
 typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionLeft,
     kSHMoveDirectionRight,

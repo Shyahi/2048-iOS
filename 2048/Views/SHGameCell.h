@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @class SHGameCellData;
+@class SHGameCellView;
 
 @interface SHGameCell : UICollectionViewCell
-@property(strong, nonatomic) IBOutlet UILabel *numberLabel;
-@property(strong, nonatomic) IBOutlet UIView *backgroundView;
+@property(strong, nonatomic) SHGameCellView *cellView;
 
 - (void)configure:(SHGameCellData *)data;
 @end
