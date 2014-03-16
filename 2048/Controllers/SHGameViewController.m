@@ -58,7 +58,7 @@
     NSNumber *cellIndex = emptyCellIndices[itemIndex];
     NSUInteger row = (NSUInteger) (cellIndex.integerValue / kSHGameBoardSize);
     NSUInteger column = (NSUInteger) (cellIndex.integerValue % kSHGameBoardSize);
-    ((SHGameCellData *) self.board[row][column]).number = @2;
+    ((SHGameCellData *) self.board[row][column]).number = (drand48() > 0.9) ? @4 : @2;
     [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cellIndex.integerValue inSection:0]]];
 }
 
