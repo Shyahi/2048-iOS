@@ -10,6 +10,7 @@
 #import "SHGameCellData.h"
 #import "SHGameCell.h"
 #import "SHGameCellView.h"
+#import "Flurry.h"
 
 @interface SHGameViewController ()
 
@@ -35,6 +36,8 @@
 }
 
 - (void)initGame {
+    [Flurry logEvent:@"Game_Start"];
+
     self.score = 0;
     self.gameTerminated = NO;
     self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
@@ -371,6 +374,7 @@
 }
 
 - (IBAction)tryAgainClick:(id)sender {
+    [Flurry logEvent:@"Game_Try_Again"];
     [self initGame];
 }
 

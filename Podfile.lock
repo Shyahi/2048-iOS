@@ -4,16 +4,21 @@ PODS:
   - CocoaLumberjack/Core (1.8.1)
   - CocoaLumberjack/Extensions (1.8.1):
     - CocoaLumberjack/Core
+  - FlurrySDK (4.3.2):
+    - FlurrySDK/FlurrySDK
+  - FlurrySDK/FlurrySDK (4.3.2)
   - HexColors (2.2.1)
   - UIColor+Additions (1.0.1)
 
 DEPENDENCIES:
   - CocoaLumberjack (~> 1.8)
+  - FlurrySDK (~> 4.3)
   - HexColors (~> 2.2)
   - UIColor+Additions (~> 1.0)
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
+  FlurrySDK: 0ba42379fd272d69246ae06386a2c5688516ffd8
   HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
   UIColor+Additions: 70c89ff5bc2d00ac38662d5c02ed7c3bf69e26c4
 
