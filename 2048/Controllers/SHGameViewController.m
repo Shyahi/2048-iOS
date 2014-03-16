@@ -14,6 +14,8 @@
 @interface SHGameViewController ()
 
 @property(nonatomic, strong) NSMutableArray *board;
+@property(nonatomic) int score;
+@property(nonatomic) NSInteger bestScore;
 @end
 
 @implementation SHGameViewController
@@ -28,6 +30,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self initGame];
+}
+
+- (void)initGame {
+    self.score = 0;
+    self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
     [self initBoard];
     [self addRandomTile];
     [self addRandomTile];
@@ -98,7 +106,7 @@
                     // Create a new view and animate it.
                     SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
                     cellView.number = cellData.number;
-                    [self.view addSubview:cellView];
+                    [self.gameContainerView addSubview:cellView];
                     [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
                         cellView.frame = nextCellRect;
                     }                completion:^(BOOL finished) {
@@ -113,6 +121,9 @@
                     cellData.number = nil;
                     [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
                     }];
+
+                    // Update score.
+                    self.score += nextCellData.number.integerValue;
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
                     // Move current cell to farthest available position.
                     SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
@@ -124,7 +135,7 @@
                     // Create view and animate.
                     SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
                     cellView.number = farthestCellData.number;
-                    [self.view addSubview:cellView];
+                    [self.gameContainerView addSubview:cellView];
 
                     [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
                         cellView.frame = farthestCellRect;
@@ -254,6 +265,19 @@
 - (IBAction)downSwipePerformed:(id)sender {
     [self moveBoard:kSHMoveDirectionDown];
     [self performSelector:@selector(addRandomTile) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
+}
+
+- (void)setScore:(int)score {
+    _score = score;
+    self.scoreLabel.text = [[self scoreFormatter] stringFromNumber:@(score)];
+}
+
+- (NSNumberFormatter *)scoreFormatter {
+    static NSNumberFormatter *formatter;
+    if (!formatter) {
+        formatter = [[NSNumberFormatter alloc] init];
+    }
+    return formatter;
 }
 
 #pragma mark - Memory Warning
