@@ -21,4 +21,8 @@
     return image;
 }
 
+-(void) sh_addCornerRadius:(int)cornerRadius {
+    self.layer.cornerRadius = cornerRadius;
+    self.layer.masksToBounds = YES;
+}
 @end

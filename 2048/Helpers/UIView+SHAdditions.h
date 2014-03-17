@@ -9,4 +9,6 @@
 
 @interface UIView (SHAdditions)
 - (UIImage *)sh_takeSnapshot;
+
+- (void)sh_addCornerRadius:(int)cornerRadius;
 @end

@@ -40,11 +40,16 @@
 
 - (void)setupViews {
     [self setupCollectionView];
+    [self setupScoreViews];
+}
+
+- (void)setupScoreViews {
+    [self.scoreView sh_addCornerRadius:3];
+    [self.bestScoreView sh_addCornerRadius:3];
 }
 
 - (void)setupCollectionView {
-    self.collectionView.layer.cornerRadius = 5;
-    self.collectionView.layer.masksToBounds = YES;
+    [self.collectionView sh_addCornerRadius:5];
 }
 
 - (void)initGame {

@@ -24,6 +24,8 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 @property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIView *gameContainerView;
 
+@property (strong, nonatomic) IBOutlet UIView *scoreView;
+@property (strong, nonatomic) IBOutlet UIView *bestScoreView;
 @property (strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
 @property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;

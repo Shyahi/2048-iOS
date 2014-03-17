@@ -343,11 +343,13 @@
                     </view>
                     <connections>
                         <outlet property="bestScoreLabel" destination="Ymf-g8-0IJ" id="foe-js-T3K"/>
+                        <outlet property="bestScoreView" destination="aLp-9g-noF" id="JAV-5m-kOh"/>
                         <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
                         <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
+                        <outlet property="scoreView" destination="Gzk-an-zjd" id="wcI-xI-8nc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RA6-Fr-3Je" userLabel="First Responder" sceneMemberID="firstResponder"/>
