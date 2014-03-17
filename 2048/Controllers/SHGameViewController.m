@@ -33,7 +33,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupViews];
     [self initGame];
+}
+
+- (void)setupViews {
+    [self setupCollectionView];
+}
+
+- (void)setupCollectionView {
+    self.collectionView.layer.cornerRadius = 5;
+    self.collectionView.layer.masksToBounds = YES;
 }
 
 - (void)initGame {
