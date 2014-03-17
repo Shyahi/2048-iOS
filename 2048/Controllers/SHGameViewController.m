@@ -11,6 +11,7 @@
 #import "SHGameCell.h"
 #import "SHGameCellView.h"
 #import "Flurry.h"
+#import "UIView+SHAdditions.h"
 
 @interface SHGameViewController ()
 
@@ -148,7 +149,7 @@
                     moved = YES;
 
                     // The mighty 2048 tile
-                    if (nextCellData.number.integerValue == kSHGameMaxScore) {
+                    if (nextCellData.number.integerValue == 8){//kSHGameMaxScore) {
                         self.gameWon = YES;
                     }
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
@@ -347,6 +348,15 @@
 - (IBAction)tryAgainClick:(id)sender {
     [Flurry logEvent:@"Game_Try_Again"];
     [self initGame];
+}
+
+- (IBAction)shareClick:(id)sender {
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+    NSString *textToShare = [NSString stringWithFormat:@"I scored %d points at 2048! #2048game http://itunes.com/apps/%@ via @2048iOS ", self.score, appName];
+    UIImage *imageToShare = [self.collectionView sh_takeSnapshot];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textToShare, imageToShare] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeAddToReadingList, UIActivityTypePostToVimeo, UIActivityTypeAirDrop];
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 #pragma mark - Setters

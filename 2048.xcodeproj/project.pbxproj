@@ -29,6 +29,7 @@
 		0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF118D478B30096EA5E /* SHGameCell.m */; };
 		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
 		85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BE56919F734A13B42841F2 /* libPods.a */; };
+		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		0285BFF518D47A450096EA5E /* SHGameCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellData.m; sourceTree = "<group>"; };
 		69BE56919F734A13B42841F2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A72807A03D94D5388ECAB10 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SHAdditions.m"; sourceTree = "<group>"; };
+		C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SHAdditions.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +189,8 @@
 			children = (
 				0278093618D5C6F400FED688 /* SHColorMixer.h */,
 				0278093718D5C6F400FED688 /* SHColorMixer.m */,
+				C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */,
+				C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -364,6 +369,7 @@
 				0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */,
 				0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */,
 				0278093E18D6111E00FED688 /* Constants.m in Sources */,
+				C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
