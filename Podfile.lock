@@ -4,6 +4,7 @@ PODS:
   - CocoaLumberjack/Core (1.8.1)
   - CocoaLumberjack/Extensions (1.8.1):
     - CocoaLumberjack/Core
+  - Facebook-iOS-SDK (3.13.0)
   - FlurrySDK (4.3.2):
     - FlurrySDK/FlurrySDK
   - FlurrySDK/FlurrySDK (4.3.2)
@@ -13,6 +14,7 @@ PODS:
 
 DEPENDENCIES:
   - CocoaLumberjack (~> 1.8)
+  - Facebook-iOS-SDK (~> 3.13)
   - FlurrySDK (~> 4.3)
   - HexColors (~> 2.2)
   - iRate (~> 1.9)
@@ -20,6 +22,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
+  Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
   FlurrySDK: 0ba42379fd272d69246ae06386a2c5688516ffd8
   HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
   iRate: 99aef520b335a1eb4a14a8d9ba5e8db4e1d95bbe

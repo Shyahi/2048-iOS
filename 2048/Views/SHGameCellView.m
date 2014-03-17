@@ -33,6 +33,9 @@
     self.numberLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:32];
     [self.numberLabel setTextAlignment:NSTextAlignmentCenter];
     [self addSubview:self.numberLabel];
+
+    self.layer.cornerRadius = 3;
+    self.layer.masksToBounds = YES;
 }
 
 - (void)setNumber:(NSNumber *)number {
