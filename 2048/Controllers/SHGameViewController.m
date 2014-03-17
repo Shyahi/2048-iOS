@@ -149,7 +149,7 @@
                     moved = YES;
 
                     // The mighty 2048 tile
-                    if (nextCellData.number.integerValue == 8){//kSHGameMaxScore) {
+                    if (nextCellData.number.integerValue == kSHGameMaxScore) {
                         self.gameWon = YES;
                     }
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {

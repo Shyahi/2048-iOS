@@ -50,6 +50,11 @@
 }
 
 - (void)updateBackground {
+    if (self.number == nil) {
+        self.backgroundColor = [[self tileColor] colorWithAlphaComponent:0.35];
+        return;
+    }
+
     static const double maxExponent = 11;
     double exponent = self.number ? log2(self.number.integerValue) : 1;
     double goldPercent = (exponent - 1) / (maxExponent - 1);
