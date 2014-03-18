@@ -1,4 +1,21 @@
 PODS:
+  - BlocksKit (2.2.0):
+    - BlocksKit/All
+  - BlocksKit/All (2.2.0):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+    - BlocksKit/MessageUI
+    - BlocksKit/UIKit
+  - BlocksKit/Core (2.2.0)
+  - BlocksKit/DynamicDelegate (2.2.0):
+    - BlocksKit/MiniFFI
+  - BlocksKit/MessageUI (2.2.0):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - BlocksKit/MiniFFI (2.2.0)
+  - BlocksKit/UIKit (2.2.0):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
   - CocoaLumberjack (1.8.1):
     - CocoaLumberjack/Extensions
   - CocoaLumberjack/Core (1.8.1)
@@ -13,6 +30,7 @@ PODS:
   - UIColor+Additions (1.0.1)
 
 DEPENDENCIES:
+  - BlocksKit (~> 2.2)
   - CocoaLumberjack (~> 1.8)
   - Facebook-iOS-SDK (~> 3.13)
   - FlurrySDK (~> 4.3)
@@ -21,6 +39,7 @@ DEPENDENCIES:
   - UIColor+Additions (~> 1.0)
 
 SPEC CHECKSUMS:
+  BlocksKit: 1b106f407a11997fd79e1da31453758e51277613
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
   Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
   FlurrySDK: 0ba42379fd272d69246ae06386a2c5688516ffd8

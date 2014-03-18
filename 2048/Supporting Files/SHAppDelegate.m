@@ -8,6 +8,7 @@
 
 #import "SHAppDelegate.h"
 #import "Flurry.h"
+#import "FBAppCall.h"
 
 @implementation SHAppDelegate
 
@@ -30,6 +31,9 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+    // Handle the user leaving the app while the Facebook login dialog is being shown
+    [FBAppCall handleDidBecomeActive];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -40,6 +44,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Setup
 - (void)setupAnalytics {
     [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"R2MWC8V6XV5JZ3GDT9JN"];
@@ -62,6 +67,12 @@
 
     [[DDTTYLogger sharedInstance] setForegroundColor:pink backgroundColor:nil forFlag:LOG_FLAG_INFO];
     [[DDTTYLogger sharedInstance] setForegroundColor:green backgroundColor:nil forFlag:LOG_FLAG_VERBOSE];
+}
+
+#pragma mark - Facebook
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // After Facebook authentication, app will be called back with the session information.
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
 @end

@@ -30,4 +30,5 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 @property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;
 @property (strong, nonatomic) IBOutlet UIView *gameWonView;
+@property (strong, nonatomic) IBOutlet UIButton *connectFacebookButton;
 @end

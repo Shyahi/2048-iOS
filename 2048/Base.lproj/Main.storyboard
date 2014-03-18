@@ -322,14 +322,26 @@
                                     <constraint firstItem="DhN-Z5-fhc" firstAttribute="bottom" secondItem="6ft-BN-mNd" secondAttribute="bottom" id="vsv-jP-Icm"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iuc-56-zxa">
+                                <rect key="frame" x="11" y="538" width="163" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Connect with Facebook">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="connectWithFacebookClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="IbB-rd-gcy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="iuc-56-zxa" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" constant="11" id="9ka-Sm-nkK"/>
                             <constraint firstItem="IOv-dE-leu" firstAttribute="top" secondItem="ZdA-eO-Sgx" secondAttribute="bottom" id="Fh6-TJ-jYN"/>
                             <constraint firstItem="ZdA-eO-Sgx" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="GW1-NE-HjA"/>
                             <constraint firstAttribute="trailing" secondItem="ZdA-eO-Sgx" secondAttribute="trailing" id="KfO-vg-ZfE"/>
                             <constraint firstAttribute="trailing" secondItem="IOv-dE-leu" secondAttribute="trailing" constant="8" id="ShW-QI-KZz"/>
+                            <constraint firstItem="1hS-Q5-Imc" firstAttribute="top" secondItem="iuc-56-zxa" secondAttribute="bottom" id="Vx8-pj-Bne"/>
                             <constraint firstItem="ZdA-eO-Sgx" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" id="awW-nJ-qF6"/>
                             <constraint firstItem="IOv-dE-leu" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" constant="8" id="lt2-6n-gSb"/>
                             <constraint firstItem="1hS-Q5-Imc" firstAttribute="top" secondItem="IOv-dE-leu" secondAttribute="bottom" id="yfn-QJ-c3t"/>
@@ -345,6 +357,7 @@
                         <outlet property="bestScoreLabel" destination="Ymf-g8-0IJ" id="foe-js-T3K"/>
                         <outlet property="bestScoreView" destination="aLp-9g-noF" id="JAV-5m-kOh"/>
                         <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
+                        <outlet property="connectFacebookButton" destination="iuc-56-zxa" id="K1V-Tl-it8"/>
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
                         <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
