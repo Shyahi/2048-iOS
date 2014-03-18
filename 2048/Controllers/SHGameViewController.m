@@ -372,7 +372,11 @@
 }
 
 - (IBAction)connectWithFacebookClick:(id)sender {
-    [self connectWithFacebook];
+    if ([self isFbConnected]) {
+        // TODO Disconnect?
+    } else {
+        [self connectWithFacebook];
+    }
 }
 
 #pragma mark - Setters
@@ -519,11 +523,15 @@
 - (void)setFacebookSessionState:(FBSessionState)facebookSessionState {
     _facebookSessionState = facebookSessionState;
 
-    if (facebookSessionState == FBSessionStateOpen || facebookSessionState == FBSessionStateOpenTokenExtended) {
+    if ([self isFbConnected]) {
         self.connectFacebookButton.titleLabel.text = @"Disconnect Facebook";
     } else {
         self.connectFacebookButton.titleLabel.text = @"Connect with Facebook";
     }
+}
+
+- (BOOL)isFbConnected {
+    return self.facebookSessionState == FBSessionStateOpen || self.facebookSessionState == FBSessionStateOpenTokenExtended;
 }
 
 - (void)updateScoreOnFacebook:(int)score {
