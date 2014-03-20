@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <EAIntroView/EAIntroView.h>
 
-@interface SHViewController : UIViewController
+@interface SHViewController : UIViewController <EAIntroDelegate>
 
 @end

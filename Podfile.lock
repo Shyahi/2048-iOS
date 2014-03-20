@@ -21,6 +21,7 @@ PODS:
   - CocoaLumberjack/Core (1.8.1)
   - CocoaLumberjack/Extensions (1.8.1):
     - CocoaLumberjack/Core
+  - EAIntroView (2.3.1)
   - Facebook-iOS-SDK (3.13.0)
   - FlurrySDK (4.3.2):
     - FlurrySDK/FlurrySDK
@@ -28,23 +29,28 @@ PODS:
   - HexColors (2.2.1)
   - iRate (1.9.3)
   - UIColor+Additions (1.0.1)
+  - UIImage-Helpers (0.0.2)
 
 DEPENDENCIES:
   - BlocksKit (~> 2.2)
   - CocoaLumberjack (~> 1.8)
+  - EAIntroView (~> 2.3)
   - Facebook-iOS-SDK (~> 3.13)
   - FlurrySDK (~> 4.3)
   - HexColors (~> 2.2)
   - iRate (~> 1.9)
   - UIColor+Additions (~> 1.0)
+  - UIImage-Helpers (~> 0.0)
 
 SPEC CHECKSUMS:
   BlocksKit: 1b106f407a11997fd79e1da31453758e51277613
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
+  EAIntroView: 44482e1dfb11cdcb2fca0b4abcffc8a16a9c9a99
   Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
   FlurrySDK: 0ba42379fd272d69246ae06386a2c5688516ffd8
   HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
   iRate: 99aef520b335a1eb4a14a8d9ba5e8db4e1d95bbe
   UIColor+Additions: 70c89ff5bc2d00ac38662d5c02ed7c3bf69e26c4
+  UIImage-Helpers: 085a931740604e2e3256a70217bef6436d1a2ca8
 
 COCOAPODS: 0.29.0
