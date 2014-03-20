@@ -15,7 +15,6 @@
 #import "FBRequestConnection.h"
 #import "UIAlertView+BlocksKit.h"
 #import "SHFacebookController.h"
-#import "LVDebounce.h"
 #import <CoreMotion/CoreMotion.h>
 #import <objc/runtime.h>
 
@@ -111,7 +110,7 @@
             // Right
             [self rightSwipePerformed:nil];
             self.lastTiltActionTimestamp = timeStamp;
-        } else if (pitch < 0) {
+        } else if (pitch < -0.05) {
             // Up
             [self upSwipePerformed:nil];
             self.lastTiltActionTimestamp = timeStamp;
@@ -173,6 +172,9 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
+    if (self.gameTerminated || self.gameWon) {
+        return;
+    }
     [self prepareCells];
 
     CGPoint vector = [self getVectorInDirection:direction];
@@ -545,8 +547,6 @@
             pitch = deviceMotion.attitude.roll;
             break;
     }
-
-    DDLogVerbose(@"Roll %f Pitch %f", roll, pitch);
     // Update the image with the calculated values.
     [self moveBoardForRoll:roll pitch:pitch];
 }
