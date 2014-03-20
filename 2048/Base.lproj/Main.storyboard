@@ -17,6 +17,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <segue destination="cRF-iO-OYJ" kind="modal" identifier="SH_GAME_SEGUE" animates="NO" id="JTj-iV-5rb"/>
                     </connections>
@@ -339,12 +340,24 @@
                                     <constraint firstAttribute="bottom" secondItem="IOv-dE-leu" secondAttribute="bottom" id="rhi-2l-Hwl"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uZ5-sY-TqC">
+                                <rect key="frame" x="282" y="2" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="th-menu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="menuButtonClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="5bP-HU-nXW"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="E3i-iW-M62" secondAttribute="centerY" id="4wN-k9-dyE"/>
                             <constraint firstItem="E3i-iW-M62" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="HiA-qQ-h0B"/>
+                            <constraint firstItem="uZ5-sY-TqC" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" constant="2" id="oVL-FO-xjW"/>
+                            <constraint firstAttribute="trailing" secondItem="uZ5-sY-TqC" secondAttribute="trailing" constant="8" id="sLq-B2-mKs"/>
                             <constraint firstAttribute="trailing" secondItem="E3i-iW-M62" secondAttribute="trailing" id="z9O-Hf-1Qp"/>
                         </constraints>
                         <connections>
@@ -361,6 +374,7 @@
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
                         <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
+                        <outlet property="menuButton" destination="uZ5-sY-TqC" id="bE4-kI-1BR"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
                         <outlet property="scoreView" destination="Gzk-an-zjd" id="wcI-xI-8nc"/>
                     </connections>
@@ -390,6 +404,9 @@
             <point key="canvasLocation" x="526" y="69"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="th-menu" width="30" height="30"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

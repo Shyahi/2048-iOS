@@ -28,9 +28,15 @@
 		0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFED18D46B780096EA5E /* SHGameViewController.m */; };
 		0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF118D478B30096EA5E /* SHGameCell.m */; };
 		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
+		02E8093718DB7DF300E7C02E /* SHMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02E8093618DB7DF300E7C02E /* SHMenuView.xib */; };
+		02E8093A18DB7E1A00E7C02E /* SHMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02E8093918DB7E1A00E7C02E /* SHMenuViewController.m */; };
+		02E8093E18DB82CD00E7C02E /* SHMenuTiltModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02E8093C18DB82CD00E7C02E /* SHMenuTiltModeViewController.m */; };
+		02E8093F18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */; };
 		85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BE56919F734A13B42841F2 /* libPods.a */; };
 		C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FE87225297F8D9E9E15680 /* SHFacebookController.m */; };
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
+		C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */; };
+		C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */; };
 		ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */; };
 		ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */; };
 		ED17BF3218DB49B000A0AF40 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */; };
@@ -78,11 +84,21 @@
 		0285BFF118D478B30096EA5E /* SHGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCell.m; sourceTree = "<group>"; };
 		0285BFF418D47A450096EA5E /* SHGameCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCellData.h; sourceTree = "<group>"; };
 		0285BFF518D47A450096EA5E /* SHGameCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellData.m; sourceTree = "<group>"; };
+		02E8093618DB7DF300E7C02E /* SHMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SHMenuView.xib; path = ../Views/SHMenuView.xib; sourceTree = "<group>"; };
+		02E8093818DB7E1A00E7C02E /* SHMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMenuViewController.h; sourceTree = "<group>"; };
+		02E8093918DB7E1A00E7C02E /* SHMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMenuViewController.m; sourceTree = "<group>"; };
+		02E8093B18DB82CD00E7C02E /* SHMenuTiltModeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMenuTiltModeViewController.h; sourceTree = "<group>"; };
+		02E8093C18DB82CD00E7C02E /* SHMenuTiltModeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMenuTiltModeViewController.m; sourceTree = "<group>"; };
+		02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHMenuTiltModeViewController.xib; sourceTree = "<group>"; };
 		69BE56919F734A13B42841F2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A72807A03D94D5388ECAB10 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		C4FE87225297F8D9E9E15680 /* SHFacebookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookController.m; sourceTree = "<group>"; };
 		C4FE8896C0649A0308191D3D /* SHFacebookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookController.h; sourceTree = "<group>"; };
+		C5C23523DBA5C5D8C688171F /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
+		C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
+		C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
 		C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SHAdditions.m"; sourceTree = "<group>"; };
+		C5C23D2F0D3B7E36535E6031 /* UIViewController+MJPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MJPopupViewController.h"; sourceTree = "<group>"; };
 		C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SHAdditions.h"; sourceTree = "<group>"; };
 		ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHFacebookIntroView.xib; sourceTree = "<group>"; };
 		ED17BF2E18DB353800A0AF40 /* SHFacebookIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookIntroView.h; sourceTree = "<group>"; };
@@ -159,6 +175,7 @@
 				026E28E518D4617A00369891 /* Main.storyboard */,
 				026E28EB18D4617A00369891 /* Images.xcassets */,
 				026E28DA18D4617A00369891 /* Supporting Files */,
+				C5C234E758F6EA3900F04960 /* Library */,
 			);
 			path = 2048;
 			sourceTree = "<group>";
@@ -216,6 +233,12 @@
 				0285BFEA18D465800096EA5E /* SHViewController.m */,
 				0285BFEC18D46B780096EA5E /* SHGameViewController.h */,
 				0285BFED18D46B780096EA5E /* SHGameViewController.m */,
+				02E8093818DB7E1A00E7C02E /* SHMenuViewController.h */,
+				02E8093918DB7E1A00E7C02E /* SHMenuViewController.m */,
+				02E8093618DB7DF300E7C02E /* SHMenuView.xib */,
+				02E8093B18DB82CD00E7C02E /* SHMenuTiltModeViewController.h */,
+				02E8093C18DB82CD00E7C02E /* SHMenuTiltModeViewController.m */,
+				02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -241,6 +264,25 @@
 				0285BFF518D47A450096EA5E /* SHGameCellData.m */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		C5C23090F4A869D7CBFB2A23 /* MJPopupViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C5C23523DBA5C5D8C688171F /* MJPopupBackgroundView.h */,
+				C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */,
+				C5C23D2F0D3B7E36535E6031 /* UIViewController+MJPopupViewController.h */,
+				C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */,
+			);
+			path = MJPopupViewController;
+			sourceTree = "<group>";
+		};
+		C5C234E758F6EA3900F04960 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				C5C23090F4A869D7CBFB2A23 /* MJPopupViewController */,
+			);
+			path = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,7 +368,9 @@
 				026E28EC18D4617A00369891 /* Images.xcassets in Resources */,
 				026E28DE18D4617A00369891 /* InfoPlist.strings in Resources */,
 				ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */,
+				02E8093718DB7DF300E7C02E /* SHMenuView.xib in Resources */,
 				026E28E718D4617A00369891 /* Main.storyboard in Resources */,
+				02E8093F18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +427,8 @@
 				0285BFE718D4656D0096EA5E /* main.m in Sources */,
 				0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */,
 				ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */,
+				02E8093A18DB7E1A00E7C02E /* SHMenuViewController.m in Sources */,
+				02E8093E18DB82CD00E7C02E /* SHMenuTiltModeViewController.m in Sources */,
 				0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */,
 				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 				0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */,
@@ -390,6 +436,8 @@
 				0278093E18D6111E00FED688 /* Constants.m in Sources */,
 				C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */,
 				C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */,
+				C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */,
+				C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

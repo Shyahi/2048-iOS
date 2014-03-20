@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SHMenuViewController.h"
+#import "SHMenuTiltModeViewController.h"
 
 @class SHFacebookController;
 
@@ -15,6 +17,7 @@ static const int kSHGameBoardSize = 4;
 static const float kSHCellAnimationsDuration = 0.15;
 static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
 static const int kSHGameMaxScore = 2048;
+static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
 typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionLeft,
     kSHMoveDirectionRight,
@@ -22,7 +25,7 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionDown
 };
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource>
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate>
 @property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIView *gameContainerView;
 
@@ -32,5 +35,5 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 @property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;
 @property (strong, nonatomic) IBOutlet UIView *gameWonView;
-@property (strong, nonatomic) IBOutlet UIButton *connectFacebookButton;
+@property (strong, nonatomic) IBOutlet UIButton *menuButton;
 @end

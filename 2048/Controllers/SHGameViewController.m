@@ -12,11 +12,9 @@
 #import "SHGameCellView.h"
 #import "Flurry.h"
 #import "UIView+SHAdditions.h"
-#import "FBRequestConnection.h"
-#import "UIAlertView+BlocksKit.h"
 #import "SHFacebookController.h"
+#import "UIViewController+MJPopupViewController.h"
 #import <CoreMotion/CoreMotion.h>
-#import <objc/runtime.h>
 
 @interface SHGameViewController ()
 
@@ -26,9 +24,13 @@
 @property(nonatomic) BOOL gameTerminated;
 @property(nonatomic) BOOL gameWon;
 @property(nonatomic, strong) SHFacebookController *facebookController;
-@property (nonatomic, strong) CMMotionManager *motionManager;
+@property(nonatomic, strong) CMMotionManager *motionManager;
 @property(nonatomic) BOOL tiltEnabled;
 @property(nonatomic) NSTimeInterval lastTiltActionTimestamp;
+@property(nonatomic, strong) SHMenuViewController *menuViewController;
+@property(nonatomic, strong) SHMenuTiltModeViewController *menuTiltViewController;
+@property(nonatomic) BOOL gamePaused;
+
 @end
 
 @implementation SHGameViewController
@@ -44,15 +46,32 @@
 #pragma mark - UI
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setup];
     [self setupViews];
     [self setupFacebook];
     [self initGame];
-    [self setupMotionDetection];
+}
+
+- (void)setup {
+    self.tiltEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kSHUserDefaultsGameOptionTiltEnabled];
 }
 
 - (void)setupViews {
     [self setupCollectionView];
     [self setupScoreViews];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self setupMenu];
+}
+
+- (void)setupMenu {
+    if (IS_IPHONE_5) {
+        CGRect frame = self.menuButton.frame;
+        frame.origin.y = self.topLayoutGuide.length + 8;
+        self.menuButton.frame = frame;
+    }
 }
 
 - (void)setupScoreViews {
@@ -67,29 +86,24 @@
 #pragma mark - Motion
 // Creates the device motion manager and starts it updating
 // Make sure to only call once.
--(void)setupMotionDetection
-{
-    NSAssert(self.motionManager == nil, @"Motion manager being set up more than once.");
-
-    self.lastTiltActionTimestamp = [[NSDate date] timeIntervalSince1970];
-    // Since tilt is enabled by default, we need to set this ivar explicitly
-    self.tiltEnabled = YES;
-
+- (void)setupMotionDetection {
     // Set up a motion manager and start motion updates, calling deviceMotionDidUpdate: when updated.
-    self.motionManager = [[CMMotionManager alloc] init];
-
+    if (self.motionManager == nil) {
+        self.motionManager = [[CMMotionManager alloc] init];
+    }
+    self.lastTiltActionTimestamp = [[NSDate date] timeIntervalSince1970];
     [self startDeviceMotionUpdates];
+}
 
-    // Need to call once for the initial load
+- (void)stopMotionDetection {
+    [self.motionManager stopDeviceMotionUpdates];
 }
 
 // Starts the motionManager updating device motions.
--(void)startDeviceMotionUpdates
-{
-    __weak __typeof(self) weakSelf = self;
+- (void)startDeviceMotionUpdates {
+    __weak __typeof (self) weakSelf = self;
     [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
-        if (error)
-        {
+        if (error) {
             [weakSelf.motionManager stopDeviceMotionUpdates];
             return;
         }
@@ -101,7 +115,7 @@
 - (void)moveBoardForRoll:(CGFloat)roll pitch:(CGFloat)pitch {
     NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
 
-    if (timeStamp - self.lastTiltActionTimestamp> 0.5) {
+    if (timeStamp - self.lastTiltActionTimestamp > 0.5) {
         if (roll < -0.25) {
             // Left
             [self leftSwipePerformed:nil];
@@ -129,6 +143,7 @@
     self.score = 0;
     self.gameTerminated = NO;
     self.gameWon = NO;
+    self.gamePaused = NO;
     self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
     [self initBoard];
     [self.collectionView reloadData];
@@ -172,7 +187,7 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
-    if (self.gameTerminated || self.gameWon) {
+    if (self.gameTerminated || self.gameWon || self.gamePaused) {
         return;
     }
     [self prepareCells];
@@ -437,6 +452,17 @@
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
+- (IBAction)menuButtonClick:(id)sender {
+    if (self.menuViewController == nil) {
+        self.menuViewController = [[SHMenuViewController alloc] initWithNibName:@"SHMenuView" bundle:nil];;
+        self.menuViewController.delegate = self;
+    }
+    self.gamePaused = YES;
+    [self presentPopupViewController:self.menuViewController animationType:MJPopupViewAnimationSlideTopBottom dismissed:^{
+        self.gamePaused = NO;
+    }];
+}
+
 #pragma mark - Setters
 - (void)setScore:(int)score {
     _score = score;
@@ -504,6 +530,16 @@
     }
 }
 
+- (void)setTiltEnabled:(BOOL)tiltEnabled {
+    _tiltEnabled = tiltEnabled;
+    if (tiltEnabled) {
+        [self setupMotionDetection];
+    } else {
+        [self stopMotionDetection];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:tiltEnabled forKey:kSHUserDefaultsGameOptionTiltEnabled];
+}
+
 #pragma mark - Facebook
 - (void)setupFacebook {
     self.facebookController = [[SHFacebookController alloc] init];
@@ -521,8 +557,7 @@
 
 #pragma mark - Core Motion Methods
 
--(void)deviceMotionDidUpdate:(CMDeviceMotion *)deviceMotion
-{
+- (void)deviceMotionDidUpdate:(CMDeviceMotion *)deviceMotion {
     // Called when the deviceMotion property of our CMMotionManger updates.
     // Recalculates the gradient locations.
 
@@ -549,6 +584,44 @@
     }
     // Update the image with the calculated values.
     [self moveBoardForRoll:roll pitch:pitch];
+}
+
+#pragma mark - Menu Delegate
+- (void)tiltModeClick {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
+    if (self.menuTiltViewController == nil) {
+        self.menuTiltViewController = [[SHMenuTiltModeViewController alloc] initWithNibName:@"SHMenuTiltModeViewController" bundle:nil];;
+        self.menuTiltViewController.delegate = self;
+    }
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.gamePaused = YES;
+        [self presentPopupViewController:self.menuTiltViewController animationType:MJPopupViewAnimationSlideTopBottom dismissed:^{
+            self.gamePaused = NO;
+        }];
+    });
+
+}
+
+- (void)startNewGameClick {
+    [self saveScore];
+    [self initGame];
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
+}
+
+- (void)closeClick {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
+}
+
+#pragma mark - Menu Tilt Mode Delegate
+- (void)enableTiltClick {
+    self.tiltEnabled = YES;
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
+}
+
+- (void)disableTiltClick {
+    self.tiltEnabled = NO;
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
 #pragma mark - Memory Warning
