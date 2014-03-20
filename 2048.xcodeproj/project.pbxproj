@@ -33,6 +33,7 @@
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
 		ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */; };
 		ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */; };
+		ED17BF3218DB49B000A0AF40 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +87,7 @@
 		ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHFacebookIntroView.xib; sourceTree = "<group>"; };
 		ED17BF2E18DB353800A0AF40 /* SHFacebookIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookIntroView.h; sourceTree = "<group>"; };
 		ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookIntroView.m; sourceTree = "<group>"; };
+		ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED17BF3218DB49B000A0AF40 /* CoreMotion.framework in Frameworks */,
 				026E28D618D4617A00369891 /* CoreGraphics.framework in Frameworks */,
 				026E28D818D4617A00369891 /* UIKit.framework in Frameworks */,
 				026E28D418D4617A00369891 /* Foundation.framework in Frameworks */,
@@ -136,6 +139,7 @@
 		026E28D218D4617A00369891 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */,
 				026E28D318D4617A00369891 /* Foundation.framework */,
 				026E28D518D4617A00369891 /* CoreGraphics.framework */,
 				026E28D718D4617A00369891 /* UIKit.framework */,

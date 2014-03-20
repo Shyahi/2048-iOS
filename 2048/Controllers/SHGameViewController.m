@@ -15,6 +15,9 @@
 #import "FBRequestConnection.h"
 #import "UIAlertView+BlocksKit.h"
 #import "SHFacebookController.h"
+#import "LVDebounce.h"
+#import <CoreMotion/CoreMotion.h>
+#import <objc/runtime.h>
 
 @interface SHGameViewController ()
 
@@ -24,6 +27,9 @@
 @property(nonatomic) BOOL gameTerminated;
 @property(nonatomic) BOOL gameWon;
 @property(nonatomic, strong) SHFacebookController *facebookController;
+@property (nonatomic, strong) CMMotionManager *motionManager;
+@property(nonatomic) BOOL tiltEnabled;
+@property(nonatomic) NSTimeInterval lastTiltActionTimestamp;
 @end
 
 @implementation SHGameViewController
@@ -36,11 +42,13 @@
     return self;
 }
 
+#pragma mark - UI
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupViews];
     [self setupFacebook];
     [self initGame];
+    [self setupMotionDetection];
 }
 
 - (void)setupViews {
@@ -57,6 +65,65 @@
     [self.collectionView sh_addCornerRadius:5];
 }
 
+#pragma mark - Motion
+// Creates the device motion manager and starts it updating
+// Make sure to only call once.
+-(void)setupMotionDetection
+{
+    NSAssert(self.motionManager == nil, @"Motion manager being set up more than once.");
+
+    self.lastTiltActionTimestamp = [[NSDate date] timeIntervalSince1970];
+    // Since tilt is enabled by default, we need to set this ivar explicitly
+    self.tiltEnabled = YES;
+
+    // Set up a motion manager and start motion updates, calling deviceMotionDidUpdate: when updated.
+    self.motionManager = [[CMMotionManager alloc] init];
+
+    [self startDeviceMotionUpdates];
+
+    // Need to call once for the initial load
+}
+
+// Starts the motionManager updating device motions.
+-(void)startDeviceMotionUpdates
+{
+    __weak __typeof(self) weakSelf = self;
+    [self.motionManager startDeviceMotionUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMDeviceMotion *motion, NSError *error) {
+        if (error)
+        {
+            [weakSelf.motionManager stopDeviceMotionUpdates];
+            return;
+        }
+
+        [weakSelf deviceMotionDidUpdate:motion];
+    }];
+}
+
+- (void)moveBoardForRoll:(CGFloat)roll pitch:(CGFloat)pitch {
+    NSTimeInterval timeStamp = [[NSDate date] timeIntervalSince1970];
+
+    if (timeStamp - self.lastTiltActionTimestamp> 0.5) {
+        if (roll < -0.25) {
+            // Left
+            [self leftSwipePerformed:nil];
+            self.lastTiltActionTimestamp = timeStamp;
+        } else if (roll > 0.25) {
+            // Right
+            [self rightSwipePerformed:nil];
+            self.lastTiltActionTimestamp = timeStamp;
+        } else if (pitch < 0) {
+            // Up
+            [self upSwipePerformed:nil];
+            self.lastTiltActionTimestamp = timeStamp;
+        } else if (pitch > 0.75) {
+            // Down
+            [self downSwipePerformed:nil];
+            self.lastTiltActionTimestamp = timeStamp;
+        }
+    }
+}
+
+#pragma mark - Game
 - (void)initGame {
     [Flurry logEvent:@"Game_Start"];
 
@@ -450,6 +517,39 @@
     return formatter;
 }
 
+#pragma mark - Core Motion Methods
+
+-(void)deviceMotionDidUpdate:(CMDeviceMotion *)deviceMotion
+{
+    // Called when the deviceMotion property of our CMMotionManger updates.
+    // Recalculates the gradient locations.
+
+    // We need to account for the interface's orientation when calculating the relative roll.
+    CGFloat roll = 0.0f;
+    CGFloat pitch = 0.0f;
+    switch ([[UIApplication sharedApplication] statusBarOrientation]) {
+        case UIInterfaceOrientationPortrait:
+            roll = deviceMotion.attitude.roll;
+            pitch = deviceMotion.attitude.pitch;
+            break;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            roll = -deviceMotion.attitude.roll;
+            pitch = -deviceMotion.attitude.pitch;
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+            roll = -deviceMotion.attitude.pitch;
+            pitch = -deviceMotion.attitude.roll;
+            break;
+        case UIInterfaceOrientationLandscapeRight:
+            roll = deviceMotion.attitude.pitch;
+            pitch = deviceMotion.attitude.roll;
+            break;
+    }
+
+    DDLogVerbose(@"Roll %f Pitch %f", roll, pitch);
+    // Update the image with the calculated values.
+    [self moveBoardForRoll:roll pitch:pitch];
+}
 
 #pragma mark - Memory Warning
 - (void)didReceiveMemoryWarning {
