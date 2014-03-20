@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import <EAIntroView/EAIntroView.h>
+#import "SHFacebookIntroView.h"
+#import "SHFacebookController.h"
 
-@interface SHViewController : UIViewController <EAIntroDelegate>
+@class SHFacebookController;
+
+@interface SHViewController : UIViewController <EAIntroDelegate, SHFacebookIntroDelegate>
 
 @end

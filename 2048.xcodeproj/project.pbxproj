@@ -29,7 +29,10 @@
 		0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF118D478B30096EA5E /* SHGameCell.m */; };
 		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
 		85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BE56919F734A13B42841F2 /* libPods.a */; };
+		C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FE87225297F8D9E9E15680 /* SHFacebookController.m */; };
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
+		ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */; };
+		ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,8 +79,13 @@
 		0285BFF518D47A450096EA5E /* SHGameCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellData.m; sourceTree = "<group>"; };
 		69BE56919F734A13B42841F2 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A72807A03D94D5388ECAB10 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		C4FE87225297F8D9E9E15680 /* SHFacebookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookController.m; sourceTree = "<group>"; };
+		C4FE8896C0649A0308191D3D /* SHFacebookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookController.h; sourceTree = "<group>"; };
 		C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SHAdditions.m"; sourceTree = "<group>"; };
 		C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SHAdditions.h"; sourceTree = "<group>"; };
+		ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHFacebookIntroView.xib; sourceTree = "<group>"; };
+		ED17BF2E18DB353800A0AF40 /* SHFacebookIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookIntroView.h; sourceTree = "<group>"; };
+		ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookIntroView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +199,8 @@
 				0278093718D5C6F400FED688 /* SHColorMixer.m */,
 				C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */,
 				C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */,
+				C4FE87225297F8D9E9E15680 /* SHFacebookController.m */,
+				C4FE8896C0649A0308191D3D /* SHFacebookController.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -213,6 +223,9 @@
 				0285BFF118D478B30096EA5E /* SHGameCell.m */,
 				0278092718D5B4CC00FED688 /* SHGameCellView.h */,
 				0278092818D5B4CC00FED688 /* SHGameCellView.m */,
+				ED17BF2E18DB353800A0AF40 /* SHFacebookIntroView.h */,
+				ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */,
+				ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -308,6 +321,7 @@
 				0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */,
 				026E28EC18D4617A00369891 /* Images.xcassets in Resources */,
 				026E28DE18D4617A00369891 /* InfoPlist.strings in Resources */,
+				ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */,
 				026E28E718D4617A00369891 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,12 +378,14 @@
 				0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */,
 				0285BFE718D4656D0096EA5E /* main.m in Sources */,
 				0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */,
+				ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */,
 				0285BFE218D465640096EA5E /* SHAppDelegate.m in Sources */,
 				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 				0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */,
 				0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */,
 				0278093E18D6111E00FED688 /* Constants.m in Sources */,
 				C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */,
+				C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

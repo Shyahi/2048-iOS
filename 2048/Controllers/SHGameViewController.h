@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class SHFacebookController;
+
 static const int kSHGameBoardSize = 4;
 
 static const float kSHCellAnimationsDuration = 0.15;

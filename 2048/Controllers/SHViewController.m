@@ -12,6 +12,7 @@
 
 @interface SHViewController ()
 
+@property(nonatomic, strong) SHFacebookController *facebookController;
 @end
 
 @implementation SHViewController
@@ -24,12 +25,18 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-//    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"INTRO_VIEW_SHOWN"]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"INTRO_VIEW_SHOWN"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"INTRO_VIEW_SHOWN"];
+        [self setupFacebook];
         [self showIntroView];
-//    } else {
-//        [self startGame];
-//    }
+    } else {
+        [self startGame];
+    }
+}
+
+- (void)setupFacebook {
+    self.facebookController = [[SHFacebookController alloc] init];
+    [self.facebookController setup];
 }
 
 - (void)startGame {
@@ -50,27 +57,42 @@
     page2.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"2048-2"]];
     [self styleIntroPage:page2];
 
-    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2]];
+    EAIntroPage *page3 = [EAIntroPage pageWithCustomViewFromNibNamed:@"SHFacebookIntroView"];
+    SHFacebookIntroView *view = (SHFacebookIntroView *) page3.customView;
+    view.delegate = self;
+    [self styleIntroPage:page3];
+
+    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3]];
     intro.delegate = self;
     intro.pageControl.currentPageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.8];
     intro.pageControl.pageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.1];
+    intro.skipButton = nil;
+    intro.swipeToExit = NO;
     [intro showInView:self.view animateDuration:0.0];
 }
 
 - (void)styleIntroPage:(EAIntroPage *)page {
     page.bgImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"#faf8ef"]];
-    page.titlePositionY = 130.0f;
+    page.titlePositionY = 135.0f;
     page.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:20];
     page.titleColor = [UIColor colorWithHexString:@"#776e65"];
     page.descColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.9];
     page.descFont = [UIFont fontWithName:@"Avenir-Light" size:17];
-    page.descPositionY = 110.0f;
+    page.descPositionY = 115.0f;
 }
 
 #pragma mark - Intro View Delegate
 - (void)introDidFinish:(EAIntroView *)introView {
-    // Start game
     [self startGame];
+}
+
+#pragma mark - Facebook Intro Delegate
+- (void)playButtonClick {
+    [self startGame];
+}
+
+- (void)didConnectWithFacebook {
+    // Do nothing.
 }
 
 - (void)didReceiveMemoryWarning {
