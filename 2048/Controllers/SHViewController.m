@@ -57,12 +57,18 @@
     page2.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"2048-2"]];
     [self styleIntroPage:page2];
 
-    EAIntroPage *page3 = [EAIntroPage pageWithCustomViewFromNibNamed:@"SHFacebookIntroView"];
-    SHFacebookIntroView *view = (SHFacebookIntroView *) page3.customView;
-    view.delegate = self;
+    EAIntroPage *page3 = [EAIntroPage page];
+    page3.title = @"Also works with tilt";
+    page3.desc = @"Enable tilt mode to move the tiles with simple tilt gestures";
+    page3.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TiltGestureLeft"]];
     [self styleIntroPage:page3];
 
-    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3]];
+    EAIntroPage *page4 = [EAIntroPage pageWithCustomViewFromNibNamed:@"SHFacebookIntroView"];
+    SHFacebookIntroView *view = (SHFacebookIntroView *) page4.customView;
+    view.delegate = self;
+    [self styleIntroPage:page4];
+
+    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3, page4]];
     intro.delegate = self;
     intro.pageControl.currentPageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.8];
     intro.pageControl.pageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.1];
@@ -72,13 +78,14 @@
 }
 
 - (void)styleIntroPage:(EAIntroPage *)page {
+    page.titleIconPositionY = 0.104166667f * self.view.bounds.size.height;
     page.bgImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"#faf8ef"]];
-    page.titlePositionY = 135.0f;
+    page.titlePositionY = 0.28125f * self.view.bounds.size.height;
     page.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:20];
     page.titleColor = [UIColor colorWithHexString:@"#776e65"];
     page.descColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.9];
     page.descFont = [UIFont fontWithName:@"Avenir-Light" size:17];
-    page.descPositionY = 115.0f;
+    page.descPositionY = 0.239583333f * self.view.bounds.size.height;
 }
 
 #pragma mark - Intro View Delegate
