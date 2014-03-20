@@ -35,6 +35,10 @@
 	<string>744212158935833</string>
 	<key>FacebookDisplayName</key>
 	<string>2048</string>
+	<key>UIStatusBarHidden</key>
+	<true/>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIMainStoryboardFile</key>

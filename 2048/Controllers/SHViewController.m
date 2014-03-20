@@ -78,7 +78,7 @@
 }
 
 - (void)styleIntroPage:(EAIntroPage *)page {
-    page.titleIconPositionY = 0.104166667f * self.view.bounds.size.height;
+    page.titleIconPositionY = ((IS_IPHONE_5) ? 0.124166667f : 0.08f) * self.view.bounds.size.height;
     page.bgImage = [UIImage imageWithColor:[UIColor colorWithHexString:@"#faf8ef"]];
     page.titlePositionY = 0.28125f * self.view.bounds.size.height;
     page.titleFont = [UIFont fontWithName:@"AvenirNext-Bold" size:20];
