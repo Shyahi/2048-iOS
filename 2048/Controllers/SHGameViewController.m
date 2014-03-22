@@ -15,6 +15,7 @@
 #import "SHFacebookController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import <CoreMotion/CoreMotion.h>
+#import <GameCenterManager/GameCenterManager.h>
 
 @interface SHGameViewController ()
 
@@ -31,6 +32,7 @@
 @property(nonatomic, strong) SHMenuTiltModeViewController *menuTiltViewController;
 @property(nonatomic) BOOL gamePaused;
 
+@property(nonatomic, strong) UIViewController *gameCenterLoginController;
 @end
 
 @implementation SHGameViewController
@@ -50,6 +52,11 @@
     [self setupViews];
     [self setupFacebook];
     [self initGame];
+    [self setupGameCenter];
+}
+
+- (void)setupGameCenter {
+    [[GameCenterManager sharedManager] setDelegate:self];
 }
 
 - (void)setup {
@@ -594,7 +601,7 @@
         self.menuTiltViewController.delegate = self;
     }
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.gamePaused = YES;
         [self presentPopupViewController:self.menuTiltViewController animationType:MJPopupViewAnimationSlideTopBottom dismissed:^{
             self.gamePaused = NO;
@@ -613,6 +620,14 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
+- (void)gameCenterLoginClick {
+    if ([[[GameCenterManager sharedManager] localPlayerId] isEqualToString:kSHGameCenterManagerUnknownPlayer]) {
+        if (self.gameCenterLoginController) {
+            [self presentViewController:self.gameCenterLoginController animated:YES completion:nil];
+        }
+    }
+}
+
 #pragma mark - Menu Tilt Mode Delegate
 - (void)enableTiltClick {
     self.tiltEnabled = YES;
@@ -628,6 +643,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Game Center Manager Delegate
+- (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
+    self.gameCenterLoginController = gameCenterLoginController;
 }
 
 /*

@@ -9,6 +9,7 @@
 #import "SHAppDelegate.h"
 #import "Flurry.h"
 #import "FBAppCall.h"
+#import "GameCenterManager.h"
 
 @implementation SHAppDelegate
 
@@ -16,6 +17,7 @@
     // Override point for customization after application launch.
     [self setupLogging];
     [self setupAnalytics];
+    [self setupGameCenter];
     return YES;
 }
 
@@ -74,6 +76,11 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     // After Facebook authentication, app will be called back with the session information.
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+}
+
+#pragma mark - Game Center
+- (void)setupGameCenter {
+    [[GameCenterManager sharedManager] setupManager];
 }
 
 @end

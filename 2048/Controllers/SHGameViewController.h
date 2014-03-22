@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <GameCenterManager/GameCenterManager.h>
 #import "SHMenuViewController.h"
 #import "SHMenuTiltModeViewController.h"
 
@@ -18,6 +19,7 @@ static const float kSHCellAnimationsDuration = 0.15;
 static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
 static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
+static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
 typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionLeft,
     kSHMoveDirectionRight,
@@ -25,7 +27,7 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionDown
 };
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate>
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, GameCenterManagerDelegate>
 @property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIView *gameContainerView;
 

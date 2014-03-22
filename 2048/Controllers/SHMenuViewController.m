@@ -26,6 +26,7 @@
 - (void)setupViews {
     [self styleButton:self.tiltModeButton];
     [self styleButton:self.theNewGameButton];
+    [self styleButton:self.gameCenterButton];
     [self styleButton:self.closeButton];
     self.closeButton.layer.borderWidth = 1;
 }
@@ -43,6 +44,9 @@
 }
 - (IBAction)closeClick:(id)sender {
     [self.delegate closeClick];
+}
+- (IBAction)gameCenterClick:(id)sender {
+    [self.delegate gameCenterLoginClick];
 }
 
 - (void)didReceiveMemoryWarning
