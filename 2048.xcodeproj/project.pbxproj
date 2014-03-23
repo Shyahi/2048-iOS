@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0228166B18DEF29F000A535D /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0228166A18DEF29F000A535D /* GameKit.framework */; };
 		026E28D418D4617A00369891 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D318D4617A00369891 /* Foundation.framework */; };
 		026E28D618D4617A00369891 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D518D4617A00369891 /* CoreGraphics.framework */; };
 		026E28D818D4617A00369891 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D718D4617A00369891 /* UIKit.framework */; };
@@ -34,6 +35,7 @@
 		02E8093F18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */; };
 		85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BE56919F734A13B42841F2 /* libPods.a */; };
 		C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FE87225297F8D9E9E15680 /* SHFacebookController.m */; };
+		C5C2333691B5D903A9AAC70E /* SHGameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */; };
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
 		C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */; };
 		C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */; };
@@ -53,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0228166A18DEF29F000A535D /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		026E28D018D4617A00369891 /* 2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		026E28D318D4617A00369891 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		026E28D518D4617A00369891 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -94,9 +97,11 @@
 		9A72807A03D94D5388ECAB10 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		C4FE87225297F8D9E9E15680 /* SHFacebookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookController.m; sourceTree = "<group>"; };
 		C4FE8896C0649A0308191D3D /* SHFacebookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookController.h; sourceTree = "<group>"; };
+		C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCenterManager.m; sourceTree = "<group>"; };
 		C5C23523DBA5C5D8C688171F /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
 		C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
 		C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
+		C5C2383EE22A1D62B6D95B98 /* SHGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCenterManager.h; sourceTree = "<group>"; };
 		C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SHAdditions.m"; sourceTree = "<group>"; };
 		C5C23D2F0D3B7E36535E6031 /* UIViewController+MJPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MJPopupViewController.h"; sourceTree = "<group>"; };
 		C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SHAdditions.h"; sourceTree = "<group>"; };
@@ -114,6 +119,7 @@
 				ED17BF3218DB49B000A0AF40 /* CoreMotion.framework in Frameworks */,
 				026E28D618D4617A00369891 /* CoreGraphics.framework in Frameworks */,
 				026E28D818D4617A00369891 /* UIKit.framework in Frameworks */,
+				0228166B18DEF29F000A535D /* GameKit.framework in Frameworks */,
 				026E28D418D4617A00369891 /* Foundation.framework in Frameworks */,
 				85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */,
 			);
@@ -155,6 +161,7 @@
 		026E28D218D4617A00369891 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0228166A18DEF29F000A535D /* GameKit.framework */,
 				ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */,
 				026E28D318D4617A00369891 /* Foundation.framework */,
 				026E28D518D4617A00369891 /* CoreGraphics.framework */,
@@ -222,6 +229,8 @@
 				C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */,
 				C4FE87225297F8D9E9E15680 /* SHFacebookController.m */,
 				C4FE8896C0649A0308191D3D /* SHFacebookController.h */,
+				C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */,
+				C5C2383EE22A1D62B6D95B98 /* SHGameCenterManager.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -335,6 +344,14 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Shyahi;
 				TargetAttributes = {
+					026E28CF18D4617A00369891 = {
+						DevelopmentTeam = AJ6W7M3KM9;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
+					};
 					026E28F018D4617A00369891 = {
 						TestTargetID = 026E28CF18D4617A00369891;
 					};
@@ -438,6 +455,7 @@
 				C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */,
 				C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */,
 				C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */,
+				C5C2333691B5D903A9AAC70E /* SHGameCenterManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,10 +581,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
 				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -578,10 +599,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
 				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/Pods\"/**";
 				WRAPPER_EXTENSION = app;
 			};

@@ -1,0 +1,97 @@
+//
+// Created on 22/03/14.
+// Copyright (c) 2014 Shyahi. All rights reserved.
+//
+//
+
+
+#import "SHGameCenterManager.h"
+#import "UIAlertView+BlocksKit.h"
+
+@interface SHGameCenterManager ()
+@property(nonatomic, strong) UIViewController *presentingViewController;
+@end
+
+@implementation SHGameCenterManager {
+
+}
+
+- (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController {
+    self.presentingViewController = viewController;
+
+    GKMatchRequest *request = [[GKMatchRequest alloc] init];
+    request.minPlayers = minPlayers;
+    request.maxPlayers = maxPlayers;
+
+    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
+    mmvc.turnBasedMatchmakerDelegate = self;
+    mmvc.showExistingMatches = YES;
+
+    [self.presentingViewController presentViewController:mmvc animated:YES completion:^{
+
+    }];
+}
+
+#pragma mark - Turn Based Matchmaker View Controller Delegate
+- (void)turnBasedMatchmakerViewControllerWasCancelled:(GKTurnBasedMatchmakerViewController *)viewController {
+    DDLogVerbose(@"Turn based match cancelled");
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFailWithError:(NSError *)error {
+    DDLogVerbose(@"Turn based error %@", error);
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFindMatch:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Turn based found match %@", match);
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    self.currentMatch = match;
+
+    // Check if this is a new match or an existing one.
+    GKTurnBasedParticipant *firstParticipant = [match.participants objectAtIndex:0];
+    if (firstParticipant.lastTurnDate == NULL) {
+        // It's a new game!
+        [self.delegate enterNewGame:match];
+    } else {
+        [self.delegate layoutMatch:match];
+    }
+}
+
+- (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController playerQuitForMatch:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Turn based player quit for match");
+}
+
+#pragma mark Turn Based Event Handler Delegate
+- (void)player:(GKPlayer *)player receivedTurnEventForMatch:(GKTurnBasedMatch *)match didBecomeActive:(BOOL)didBecomeActive {
+
+    DDLogVerbose(@"Player received turn.");
+    if (didBecomeActive) {
+        // Application was started by clicking on this notification. Switch to this match.
+        self.currentMatch = match;
+        [self.delegate layoutMatch:match];
+    } else {
+        if ([self.currentMatch isEqual:match]) {
+            // This is the current match. Update UI for this turn.
+            self.currentMatch = match;
+            [self.delegate layoutMatch:match];
+        } else if ([match.currentParticipant.playerID isEqual:player.playerID]) {
+            // Its our player's turn in another match. Notify him.
+            [UIAlertView bk_showAlertViewWithTitle:@"Its your turn" message:@"Its your turn in another match. Switch now?" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Take turn"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                self.currentMatch = match;
+                [self.delegate layoutMatch:match];
+            }];
+        }
+    }
+}
+
+- (void)player:(GKPlayer *)player matchEnded:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Match %@ ended", match);
+    if ([self.currentMatch isEqual:match]) {
+        // Inform the user that match is over.
+        self.currentMatch = match;
+        [self.delegate layoutMatch:match];
+    }
+}
+
+@end

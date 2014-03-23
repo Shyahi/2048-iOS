@@ -33,6 +33,7 @@
 @property(nonatomic) BOOL gamePaused;
 
 @property(nonatomic, strong) UIViewController *gameCenterLoginController;
+@property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
 @end
 
 @implementation SHGameViewController
@@ -53,10 +54,6 @@
     [self setupFacebook];
     [self initGame];
     [self setupGameCenter];
-}
-
-- (void)setupGameCenter {
-    [[GameCenterManager sharedManager] setDelegate:self];
 }
 
 - (void)setup {
@@ -197,6 +194,12 @@
     if (self.gameTerminated || self.gameWon || self.gamePaused) {
         return;
     }
+
+    if ([GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.currentMatch && ![self.gameCenterManager.currentMatch.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+        DDLogVerbose(@"Local player id: %@, Player with turn: %@", [GKLocalPlayer localPlayer].playerID, self.gameCenterManager.currentMatch.currentParticipant.playerID);
+        return;
+    }
+
     [self prepareCells];
 
     CGPoint vector = [self getVectorInDirection:direction];
@@ -291,6 +294,9 @@
     if (![self movesAvailable]) {
         self.gameTerminated = YES;
     }
+
+    // Take turn for multiplayer game.
+    [self sendTurn];
 }
 
 - (void)reloadCollectionViewItemsAtIndexPaths:(NSArray *)indexPaths completion:(void (^)(BOOL))completion {
@@ -470,6 +476,10 @@
     }];
 }
 
+- (IBAction)multiplayerGameClick:(id)sender {
+    [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+}
+
 #pragma mark - Setters
 - (void)setScore:(int)score {
     _score = score;
@@ -621,10 +631,8 @@
 }
 
 - (void)gameCenterLoginClick {
-    if ([[[GameCenterManager sharedManager] localPlayerId] isEqualToString:kSHGameCenterManagerUnknownPlayer]) {
-        if (self.gameCenterLoginController) {
-            [self presentViewController:self.gameCenterLoginController animated:YES completion:nil];
-        }
+    if (![GKLocalPlayer localPlayer].authenticated && self.gameCenterLoginController != nil) {
+        [self presentViewController:self.gameCenterLoginController animated:YES completion:nil];
     }
 }
 
@@ -645,9 +653,73 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Game Center Manager Delegate
+#pragma mark - Multiplayer
+- (void)sendTurn {
+    GKTurnBasedMatch *currentMatch = self.gameCenterManager.currentMatch;
+    if ([currentMatch.currentParticipant.playerID isEqual:[GKLocalPlayer localPlayer].playerID]) {
+        // Create the game data to send.
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.board];
+        // Find the next participant
+        NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+        GKTurnBasedParticipant *nextParticipant;
+        nextParticipant = [currentMatch.participants objectAtIndex:((currentIndex + 1) % [currentMatch.participants count])];
+        // End current turn with next participant.
+        [currentMatch endTurnWithNextParticipants:@[nextParticipant, currentMatch.currentParticipant] turnTimeout:60 * 60 * 2 matchData:data completionHandler:^(NSError *error) {
+            if (error) {
+                DDLogWarn(@"Error in ending current turn %@", error);
+            } else {
+                self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", [currentMatch.participants indexOfObject:nextParticipant]];
+            }
+        }];
+        DDLogVerbose(@"Send Turn %@", nextParticipant);
+    } else {
+        DDLogWarn(@"Trying to send turn when not the current participant.");
+    }
+}
+
+- (void)setupGameCenter {
+    [[GameCenterManager sharedManager] setDelegate:self];
+    self.gameCenterManager = [SHGameCenterManager new];
+    self.gameCenterManager.delegate = self;
+    [[GKLocalPlayer localPlayer] registerListener:self.gameCenterManager];
+}
+#pragma mark Game Center Manager Delegate
 - (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
     self.gameCenterLoginController = gameCenterLoginController;
+}
+
+#pragma mark SH Game Center Manager Delegate
+- (void)enterNewGame:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Entering new multiplayer game...");
+    [self initGame];
+}
+
+- (void)layoutMatch:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Update match layout.");
+
+    if (match.status == GKTurnBasedMatchStatusEnded) {
+        self.statusLabel.text = @"Match Ended";
+    } else if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+        self.statusLabel.text = @"Your turn";
+    } else {
+        int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
+        self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
+    }
+
+    // Update board layout.
+    if ([match.matchData bytes]) {
+        NSArray *board = [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
+        self.board = [board mutableCopy];
+        [self.collectionView reloadData];
+    }
+}
+
+- (void)recieveEndGame:(GKTurnBasedMatch *)match {
+
+}
+
+- (void)sendNotice:(NSString *)notice forMatch:(GKTurnBasedMatch *)match {
+
 }
 
 /*

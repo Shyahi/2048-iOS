@@ -350,13 +350,34 @@
                                     <action selector="menuButtonClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="5bP-HU-nXW"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WmZ-b4-HLh">
+                                <rect key="frame" x="232" y="2" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="th-menu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="multiplayerGameClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="VcL-sr-dhR"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Multiplayer match" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t4J-jr-b1m">
+                                <rect key="frame" x="78" y="520" width="164" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="t4J-jr-b1m" secondAttribute="centerX" id="0eW-h1-CDj"/>
                             <constraint firstAttribute="centerY" secondItem="E3i-iW-M62" secondAttribute="centerY" id="4wN-k9-dyE"/>
+                            <constraint firstItem="1hS-Q5-Imc" firstAttribute="top" secondItem="t4J-jr-b1m" secondAttribute="bottom" constant="20" id="FqL-o5-2z6"/>
                             <constraint firstItem="E3i-iW-M62" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="HiA-qQ-h0B"/>
+                            <constraint firstItem="uZ5-sY-TqC" firstAttribute="centerY" secondItem="WmZ-b4-HLh" secondAttribute="centerY" id="QO9-5F-lB9"/>
                             <constraint firstItem="uZ5-sY-TqC" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" constant="2" id="oVL-FO-xjW"/>
+                            <constraint firstItem="uZ5-sY-TqC" firstAttribute="leading" secondItem="WmZ-b4-HLh" secondAttribute="trailing" constant="20" id="p2h-Zu-IpD"/>
                             <constraint firstAttribute="trailing" secondItem="uZ5-sY-TqC" secondAttribute="trailing" constant="8" id="sLq-B2-mKs"/>
                             <constraint firstAttribute="trailing" secondItem="E3i-iW-M62" secondAttribute="trailing" id="z9O-Hf-1Qp"/>
                         </constraints>
@@ -377,6 +398,7 @@
                         <outlet property="menuButton" destination="uZ5-sY-TqC" id="bE4-kI-1BR"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
                         <outlet property="scoreView" destination="Gzk-an-zjd" id="wcI-xI-8nc"/>
+                        <outlet property="statusLabel" destination="t4J-jr-b1m" id="c8R-w1-s9H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RA6-Fr-3Je" userLabel="First Responder" sceneMemberID="firstResponder"/>

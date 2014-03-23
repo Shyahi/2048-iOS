@@ -10,8 +10,10 @@
 #import <GameCenterManager/GameCenterManager.h>
 #import "SHMenuViewController.h"
 #import "SHMenuTiltModeViewController.h"
+#import "SHGameCenterManager.h"
 
 @class SHFacebookController;
+@class SHGameCenterManager;
 
 static const int kSHGameBoardSize = 4;
 
@@ -27,7 +29,7 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
     kSHMoveDirectionDown
 };
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, GameCenterManagerDelegate>
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, GameCenterManagerDelegate, SHGameCenterManagerDelegate>
 @property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) IBOutlet UIView *gameContainerView;
 
@@ -38,4 +40,5 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 @property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;
 @property (strong, nonatomic) IBOutlet UIView *gameWonView;
 @property (strong, nonatomic) IBOutlet UIButton *menuButton;
+@property (strong, nonatomic) IBOutlet UILabel *statusLabel;
 @end
