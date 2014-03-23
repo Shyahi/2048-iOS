@@ -34,6 +34,7 @@
 
 @property(nonatomic, strong) UIViewController *gameCenterLoginController;
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
+@property(nonatomic, strong) NSMutableDictionary *turnsForMatch;
 @end
 
 @implementation SHGameViewController
@@ -215,20 +216,24 @@
     [self prepareCells];
 
     NSArray *currentBoard = [self copyBoard];
-    BOOL moved = [self animateBoardMoveInDirection:direction];
 
-    if (moved) {
+    // Move the board and update score.
+    SHBoardMoveResult *boardMoveResult = [self animateBoardMoveInDirection:direction];
+    self.score += boardMoveResult.score;
+
+    if (boardMoveResult.moved) {
+        // Board was moved.
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kSHCellAnimationsDuration * 1.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self didMoveBoard:currentBoard inDirection:direction];
         });
     }
 }
 
-- (BOOL)animateBoardMoveInDirection:(SHMoveDirection)direction {
+- (SHBoardMoveResult *)animateBoardMoveInDirection:(SHMoveDirection)direction {
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
     BOOL moved = NO;
-
+    int score = 0;
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
@@ -245,7 +250,7 @@
                 if (!cellData.merged && !nextCellData.merged && nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
                     // Merge cell and update score.
                     nextCellData = [self mergeCell:cell forPositions:positions];
-                    self.score += nextCellData.number.integerValue;
+                    score += nextCellData.number.integerValue;
                     // Board was moved;
                     moved = YES;
 
@@ -261,7 +266,7 @@
             }
         }
     }
-    return moved;
+    return [SHBoardMoveResult resultWithScore:score moved:moved];
 }
 
 - (void)moveCell:(CGPoint)cell toFarthestPosition:(NSDictionary *)positions {
@@ -701,6 +706,13 @@
 - (void)sendTurn:(SHGameTurn *)turn {
     GKTurnBasedMatch *currentMatch = self.gameCenterManager.currentMatch;
     if ([currentMatch.currentParticipant.playerID isEqual:[GKLocalPlayer localPlayer].playerID]) {
+        // Update the scores in turn.
+        if ([self.turnsForMatch objectForKey:currentMatch.matchID]) {
+            SHGameTurn *lastTurn = [self.turnsForMatch objectForKey:currentMatch.matchID];
+            turn.scores = lastTurn.scores;
+        }
+        [turn.scores setObject:@(self.score) forKey:[GKLocalPlayer localPlayer].playerID];
+
         // Create the game data to send.
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:turn];
         // Find the next participant
@@ -713,7 +725,6 @@
                 DDLogWarn(@"Error in ending current turn %@", error);
             } else {
                 [self updateStatusLabelForMatch:currentMatch participant:nextParticipant];
-
             }
         }];
         DDLogVerbose(@"Send Turn %@", nextParticipant);
@@ -732,6 +743,8 @@
 }
 
 - (void)setupGameCenter {
+    self.turnsForMatch = [[NSMutableDictionary alloc] init];
+
     [[GameCenterManager sharedManager] setDelegate:self];
     self.gameCenterManager = [SHGameCenterManager new];
     self.gameCenterManager.delegate = self;
@@ -760,10 +773,18 @@
     // Update board layout.
     if ([match.matchData bytes]) {
         SHGameTurn *turn = [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
+        [self.turnsForMatch setObject:turn forKey:match.matchID];
+        // Update the current score for this player.
+        if ([turn.scores objectForKey:[GKLocalPlayer localPlayer].playerID]) {
+            self.score = ((NSNumber *) [turn.scores objectForKey:[GKLocalPlayer localPlayer].playerID]).integerValue;
+        }
+        // Update the current state of board.
         self.board = [turn.board mutableCopy];
         [self.collectionView reloadData];
         [self.collectionView layoutIfNeeded];
+        // Move the board.
         [self animateBoardMoveInDirection:turn.boardMoveDirection];
+        // Add the new tile.
         [self addTile:turn.theNewCell];
     }
 }
@@ -787,4 +808,20 @@
 }
 */
 
+@end
+
+@implementation SHBoardMoveResult
+- (instancetype)initWithScore:(int)score moved:(BOOL)moved {
+    self = [super init];
+    if (self) {
+        self.score = score;
+        self.moved = moved;
+    }
+
+    return self;
+}
+
++ (instancetype)resultWithScore:(int)score moved:(BOOL)moved {
+    return [[self alloc] initWithScore:score moved:moved];
+}
 @end

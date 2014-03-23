@@ -36,3 +36,13 @@ static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
 @property(strong, nonatomic) IBOutlet UIButton *menuButton;
 @property(strong, nonatomic) IBOutlet UILabel *statusLabel;
 @end
+
+@interface SHBoardMoveResult : NSObject
+@property (nonatomic) int score;
+@property (nonatomic) BOOL moved;
+
+- (instancetype)initWithScore:(int)score moved:(BOOL)moved;
+
++ (instancetype)resultWithScore:(int)score moved:(BOOL)moved;
+
+@end

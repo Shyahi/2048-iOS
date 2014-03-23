@@ -18,6 +18,7 @@
         self.board = board;
         self.boardMoveDirection = boardMoveDirection;
         self.theNewCell = newCell;
+        self.scores = [[NSMutableDictionary alloc] initWithCapacity:2];
     }
 
     return self;
@@ -34,6 +35,7 @@
         self.board = [coder decodeObjectForKey:@"self.board"];
         self.boardMoveDirection = (SHMoveDirection) [coder decodeIntForKey:@"self.boardMoveDirection"];
         self.theNewCell = [coder decodeObjectForKey:@"self.theNewCell"];
+        self.scores = [coder decodeObjectForKey:@"self.scores"];
     }
 
     return self;
@@ -43,8 +45,8 @@
     [coder encodeObject:self.board forKey:@"self.board"];
     [coder encodeInt:self.boardMoveDirection forKey:@"self.boardMoveDirection"];
     [coder encodeObject:self.theNewCell forKey:@"self.theNewCell"];
+    [coder encodeObject:self.scores forKey:@"self.scores"];
 }
-
 
 @end
 

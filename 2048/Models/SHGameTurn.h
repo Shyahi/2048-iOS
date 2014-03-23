@@ -21,13 +21,12 @@ typedef NS_ENUM(NSUInteger, SHMoveDirection) {
 @property(nonatomic, strong) NSArray *board;
 @property(nonatomic) SHMoveDirection boardMoveDirection;
 @property(nonatomic, strong) SHGameTurnNewCell *theNewCell;
-
+@property (nonatomic, strong) NSMutableDictionary *scores;
 - (instancetype)initWithBoard:(NSArray *)board direction:(enum SHMoveDirection)boardMoveDirection newCell:(SHGameTurnNewCell *)newCell;
 
 - (id)initWithCoder:(NSCoder *)coder;
 
 - (void)encodeWithCoder:(NSCoder *)coder;
-
 + (instancetype)turnWithBoard:(NSArray *)board direction:(enum SHMoveDirection)boardMoveDirection newCell:(SHGameTurnNewCell *)newCell;
 
 @end
