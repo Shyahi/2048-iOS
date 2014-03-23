@@ -39,6 +39,7 @@
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
 		C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */; };
 		C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */; };
+		C5C23EA62536577B829FBDD1 /* SHGameTurn.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C233C27E26916FEE1DDF86 /* SHGameTurn.m */; };
 		ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */; };
 		ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */; };
 		ED17BF3218DB49B000A0AF40 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */; };
@@ -98,8 +99,10 @@
 		C4FE87225297F8D9E9E15680 /* SHFacebookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookController.m; sourceTree = "<group>"; };
 		C4FE8896C0649A0308191D3D /* SHFacebookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookController.h; sourceTree = "<group>"; };
 		C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCenterManager.m; sourceTree = "<group>"; };
+		C5C233C27E26916FEE1DDF86 /* SHGameTurn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameTurn.m; sourceTree = "<group>"; };
 		C5C23523DBA5C5D8C688171F /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
 		C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
+		C5C23576901F37CC1A472B0C /* SHGameTurn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameTurn.h; sourceTree = "<group>"; };
 		C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
 		C5C2383EE22A1D62B6D95B98 /* SHGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCenterManager.h; sourceTree = "<group>"; };
 		C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SHAdditions.m"; sourceTree = "<group>"; };
@@ -271,6 +274,8 @@
 			children = (
 				0285BFF418D47A450096EA5E /* SHGameCellData.h */,
 				0285BFF518D47A450096EA5E /* SHGameCellData.m */,
+				C5C233C27E26916FEE1DDF86 /* SHGameTurn.m */,
+				C5C23576901F37CC1A472B0C /* SHGameTurn.h */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -456,6 +461,7 @@
 				C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */,
 				C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */,
 				C5C2333691B5D903A9AAC70E /* SHGameCenterManager.m in Sources */,
+				C5C23EA62536577B829FBDD1 /* SHGameTurn.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

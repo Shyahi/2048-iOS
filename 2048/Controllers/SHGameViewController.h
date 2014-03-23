@@ -22,23 +22,17 @@ static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
 static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
 static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
-typedef NS_ENUM(NSUInteger, SHMoveDirection) {
-    kSHMoveDirectionLeft,
-    kSHMoveDirectionRight,
-    kSHMoveDirectionUp,
-    kSHMoveDirectionDown
-};
 
 @interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, GameCenterManagerDelegate, SHGameCenterManagerDelegate>
 @property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) IBOutlet UIView *gameContainerView;
+@property(strong, nonatomic) IBOutlet UIView *gameContainerView;
 
-@property (strong, nonatomic) IBOutlet UIView *scoreView;
-@property (strong, nonatomic) IBOutlet UIView *bestScoreView;
-@property (strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
-@property (strong, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (strong, nonatomic) IBOutlet UIView *gameTerminatedView;
-@property (strong, nonatomic) IBOutlet UIView *gameWonView;
-@property (strong, nonatomic) IBOutlet UIButton *menuButton;
-@property (strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property(strong, nonatomic) IBOutlet UIView *scoreView;
+@property(strong, nonatomic) IBOutlet UIView *bestScoreView;
+@property(strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
+@property(strong, nonatomic) IBOutlet UILabel *scoreLabel;
+@property(strong, nonatomic) IBOutlet UIView *gameTerminatedView;
+@property(strong, nonatomic) IBOutlet UIView *gameWonView;
+@property(strong, nonatomic) IBOutlet UIButton *menuButton;
+@property(strong, nonatomic) IBOutlet UILabel *statusLabel;
 @end

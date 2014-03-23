@@ -14,8 +14,8 @@
 #import "UIView+SHAdditions.h"
 #import "SHFacebookController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHGameTurn.h"
 #import <CoreMotion/CoreMotion.h>
-#import <GameCenterManager/GameCenterManager.h>
 
 @interface SHGameViewController ()
 
@@ -166,14 +166,26 @@
     }
 }
 
-- (void)addRandomTile {
+- (SHGameTurnNewCell *)addRandomTile {
+    // Find a random empty cell index.
     NSArray *emptyCellIndices = [self findEmptyCells];
     NSUInteger itemIndex = arc4random_uniform(emptyCellIndices.count);
     NSNumber *cellIndex = emptyCellIndices[itemIndex];
+    // Create a new random number.
     NSUInteger row = (NSUInteger) (cellIndex.integerValue / kSHGameBoardSize);
     NSUInteger column = (NSUInteger) (cellIndex.integerValue % kSHGameBoardSize);
-    ((SHGameCellData *) self.board[row][column]).number = (drand48() > 0.9) ? @4 : @2;
-    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cellIndex.integerValue inSection:0]]];
+    NSNumber *number = (drand48() > 0.9) ? @4 : @2;
+    // Add the new tile
+    SHGameTurnNewCell *newTile = [SHGameTurnNewCell cellWithPosition:CGPointMake(column, row) number:number];
+    [self addTile:newTile];
+
+    return newTile;
+}
+
+- (void)addTile:(SHGameTurnNewCell *)cell {
+    NSUInteger cellIndex = (NSUInteger) (cell.position.y * kSHGameBoardSize + cell.position.x);
+    ((SHGameCellData *) self.board[(NSUInteger) cell.position.y][(NSUInteger) cell.position.x]).number = cell.number;
+    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cellIndex inSection:0]]];
 }
 
 - (NSArray *)findEmptyCells {
@@ -202,9 +214,21 @@
 
     [self prepareCells];
 
+    NSArray *currentBoard = [self copyBoard];
+    BOOL moved = [self animateBoardMoveInDirection:direction];
+
+    if (moved) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kSHCellAnimationsDuration * 1.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self didMoveBoard:currentBoard inDirection:direction];
+        });
+    }
+}
+
+- (BOOL)animateBoardMoveInDirection:(SHMoveDirection)direction {
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
     BOOL moved = NO;
+
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
@@ -217,38 +241,11 @@
                 CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
                 SHGameCellData *nextCellData = [self dataForCellAtPosition:nextCellPosition];
 
-                // Find index paths and frame of items.
-                NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
-                NSIndexPath *nextCellIndexPath = [self indexPathForPosition:nextCellPosition];
-                NSIndexPath *farthestCellIndexPath = [self indexPathForPosition:farthestAvailablePosition];
-                CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
-                CGRect nextCellRect = [self checkBoundsForCell:nextCellPosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame : CGRectZero;
-                CGRect farthestCellRect = [self checkBoundsForCell:farthestAvailablePosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame : CGRectZero;
-
                 // Can cells be merged?
                 if (!cellData.merged && !nextCellData.merged && nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
-                    // Create a new view and animate it.
-                    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
-                    cellView.number = cellData.number;
-                    [self.gameContainerView addSubview:cellView];
-                    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
-                        cellView.frame = nextCellRect;
-                    }                completion:^(BOOL finished) {
-                        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL finished) {
-                            [cellView removeFromSuperview];
-                        }];
-                    }];
-
-                    // Merge cells.
-                    nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
-                    nextCellData.merged = YES;
-                    cellData.number = nil;
-                    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
-                    }];
-
-                    // Update score.
+                    // Merge cell and update score.
+                    nextCellData = [self mergeCell:cell forPositions:positions];
                     self.score += nextCellData.number.integerValue;
-
                     // Board was moved;
                     moved = YES;
 
@@ -257,46 +254,93 @@
                         self.gameWon = YES;
                     }
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
-                    // Move current cell to farthest available position.
-                    SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
-                    farthestCellData.number = cellData.number;
-                    cellData.number = nil;
-                    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
-                    }];
-
-                    // Create view and animate.
-                    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
-                    cellView.number = farthestCellData.number;
-                    [self.gameContainerView addSubview:cellView];
-
-                    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
-                        cellView.frame = farthestCellRect;
-                    }                completion:^(BOOL finished) {
-                        [self reloadCollectionViewItemsAtIndexPaths:@[farthestCellIndexPath] completion:^(BOOL b) {
-                            [cellView removeFromSuperview];
-                        }];
-                    }];
-
+                    [self moveCell:cell toFarthestPosition:positions];
                     // Board was moved;
                     moved = YES;
                 }
             }
         }
     }
-
-    if (moved) {
-        [self performSelector:@selector(didMoveBoard) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
-    }
+    return moved;
 }
 
-- (void)didMoveBoard {
-    [self addRandomTile];
+- (void)moveCell:(CGPoint)cell toFarthestPosition:(NSDictionary *)positions {
+    // Find positions of farthest available and next cells.
+    CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
+    SHGameCellData *cellData = [self dataForCellAtPosition:cell];
+
+    // Find index paths and frame of items.
+    NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
+    NSIndexPath *farthestCellIndexPath = [self indexPathForPosition:farthestAvailablePosition];
+    CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
+    CGRect farthestCellRect = [self checkBoundsForCell:farthestAvailablePosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame : CGRectZero;
+
+    // Move current cell to farthest available position.
+    SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
+    farthestCellData.number = cellData.number;
+    cellData.number = nil;
+    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
+    }];
+
+    // Create view and animate.
+    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
+    cellView.number = farthestCellData.number;
+    [self.gameContainerView addSubview:cellView];
+
+    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
+        cellView.frame = farthestCellRect;
+    }                completion:^(BOOL finished) {
+        [self reloadCollectionViewItemsAtIndexPaths:@[farthestCellIndexPath] completion:^(BOOL b) {
+            [cellView removeFromSuperview];
+        }];
+    }];
+
+}
+
+- (SHGameCellData *)mergeCell:(CGPoint)cell forPositions:(NSDictionary *)positions {
+    CGPoint nextCellPosition = [((NSValue *) positions[@"next"]) CGPointValue];
+    SHGameCellData *nextCellData = [self dataForCellAtPosition:nextCellPosition];
+    SHGameCellData *cellData = [self dataForCellAtPosition:cell];
+
+    // Find index paths and frame of items.
+    NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
+    NSIndexPath *nextCellIndexPath = [self indexPathForPosition:nextCellPosition];
+    CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
+    CGRect nextCellRect = [self checkBoundsForCell:nextCellPosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame : CGRectZero;
+
+    // Create a new view and animate it.
+    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
+    cellView.number = cellData.number;
+    [self.gameContainerView addSubview:cellView];
+    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
+        cellView.frame = nextCellRect;
+    }                completion:^(BOOL finished) {
+        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL finished) {
+            [cellView removeFromSuperview];
+        }];
+    }];
+
+    // Merge cells.
+    nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
+    nextCellData.merged = YES;
+    cellData.number = nil;
+    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
+    }];
+    return nextCellData;
+}
+
+- (NSArray *)copyBoard {
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.board]];
+}
+
+- (void)didMoveBoard:(NSArray *)board inDirection:(SHMoveDirection)direction {
+    SHGameTurnNewCell *newCell = [self addRandomTile];
     if (![self movesAvailable]) {
         self.gameTerminated = YES;
     }
 
     // Take turn for multiplayer game.
-    [self sendTurn];
+    [self sendTurn:[SHGameTurn turnWithBoard:board direction:direction newCell:newCell]];
 }
 
 - (void)reloadCollectionViewItemsAtIndexPaths:(NSArray *)indexPaths completion:(void (^)(BOOL))completion {
@@ -654,11 +698,11 @@
 }
 
 #pragma mark - Multiplayer
-- (void)sendTurn {
+- (void)sendTurn:(SHGameTurn *)turn {
     GKTurnBasedMatch *currentMatch = self.gameCenterManager.currentMatch;
     if ([currentMatch.currentParticipant.playerID isEqual:[GKLocalPlayer localPlayer].playerID]) {
         // Create the game data to send.
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.board];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:turn];
         // Find the next participant
         NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
         GKTurnBasedParticipant *nextParticipant;
@@ -668,12 +712,22 @@
             if (error) {
                 DDLogWarn(@"Error in ending current turn %@", error);
             } else {
-                self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", [currentMatch.participants indexOfObject:nextParticipant]];
+                [self updateStatusLabelForMatch:currentMatch participant:nextParticipant];
+
             }
         }];
         DDLogVerbose(@"Send Turn %@", nextParticipant);
     } else {
         DDLogWarn(@"Trying to send turn when not the current participant.");
+    }
+}
+
+- (void)updateStatusLabelForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant {
+    if ([participant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+        self.statusLabel.text = @"Your turn";
+    } else {
+        int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
+        self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
     }
 }
 
@@ -699,18 +753,18 @@
 
     if (match.status == GKTurnBasedMatchStatusEnded) {
         self.statusLabel.text = @"Match Ended";
-    } else if ([match.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-        self.statusLabel.text = @"Your turn";
     } else {
-        int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
-        self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
+        [self updateStatusLabelForMatch:match participant:match.currentParticipant];
     }
 
     // Update board layout.
     if ([match.matchData bytes]) {
-        NSArray *board = [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
-        self.board = [board mutableCopy];
+        SHGameTurn *turn = [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
+        self.board = [turn.board mutableCopy];
         [self.collectionView reloadData];
+        [self.collectionView layoutIfNeeded];
+        [self animateBoardMoveInDirection:turn.boardMoveDirection];
+        [self addTile:turn.theNewCell];
     }
 }
 
