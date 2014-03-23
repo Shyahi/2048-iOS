@@ -16,6 +16,7 @@
 #import "UIViewController+MJPopupViewController.h"
 #import "SHGameTurn.h"
 #import <CoreMotion/CoreMotion.h>
+#import "UIAlertView+BlocksKit.h"
 
 @interface SHGameViewController ()
 
@@ -706,39 +707,127 @@
 - (void)sendTurn:(SHGameTurn *)turn {
     GKTurnBasedMatch *currentMatch = self.gameCenterManager.currentMatch;
     if ([currentMatch.currentParticipant.playerID isEqual:[GKLocalPlayer localPlayer].playerID]) {
-        // Update the scores in turn.
-        if ([self.turnsForMatch objectForKey:currentMatch.matchID]) {
-            SHGameTurn *lastTurn = [self.turnsForMatch objectForKey:currentMatch.matchID];
-            turn.scores = lastTurn.scores;
-        }
-        [turn.scores setObject:@(self.score) forKey:[GKLocalPlayer localPlayer].playerID];
+        // Update scores
+        [self updateScoresForMatch:currentMatch turn:turn];
 
         // Create the game data to send.
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:turn];
-        // Find the next participant
-        NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
-        GKTurnBasedParticipant *nextParticipant;
-        nextParticipant = [currentMatch.participants objectAtIndex:((currentIndex + 1) % [currentMatch.participants count])];
-        // End current turn with next participant.
-        [currentMatch endTurnWithNextParticipants:@[nextParticipant, currentMatch.currentParticipant] turnTimeout:60 * 60 * 2 matchData:data completionHandler:^(NSError *error) {
-            if (error) {
-                DDLogWarn(@"Error in ending current turn %@", error);
-            } else {
-                [self updateStatusLabelForMatch:currentMatch participant:nextParticipant];
-            }
-        }];
-        DDLogVerbose(@"Send Turn %@", nextParticipant);
+
+        if (self.gameTerminated || self.gameWon) {
+            // End the match.
+            [self endMultiplayerMatch:currentMatch withTurn:turn data:data];
+        } else {
+            // Play turn
+            [self continueMultiplayerMatch:currentMatch withTurn:turn data:data];
+        }
     } else {
         DDLogWarn(@"Trying to send turn when not the current participant.");
     }
 }
 
+- (void)updateScoresForMatch:(GKTurnBasedMatch *)currentMatch turn:(SHGameTurn *)turn {
+    // Update the scores in turn.
+    if ([self.turnsForMatch objectForKey:currentMatch.matchID]) {
+        SHGameTurn *lastTurn = [self.turnsForMatch objectForKey:currentMatch.matchID];
+        turn.scores = lastTurn.scores;
+    }
+    [turn.scores setObject:@(self.score) forKey:[GKLocalPlayer localPlayer].playerID];
+}
+
+- (void)continueMultiplayerMatch:(GKTurnBasedMatch *)currentMatch withTurn:(SHGameTurn *)turn data:(NSData *)data {
+    // Find the next participant
+    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+    GKTurnBasedParticipant *nextParticipant;
+    nextParticipant = [currentMatch.participants objectAtIndex:((currentIndex + 1) % [currentMatch.participants count])];
+    // End current turn with next participant.
+    [currentMatch endTurnWithNextParticipants:@[nextParticipant, currentMatch.currentParticipant] turnTimeout:60 * 60 * 2 matchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            DDLogWarn(@"Error in ending current turn %@", error);
+            [UIAlertView bk_showAlertViewWithTitle:@"Error" message:@"There was an error playing your turn" cancelButtonTitle:@"End Game" otherButtonTitles:@[@"Try Again"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 0) {
+                    // Resign.
+                    [self endMultiplayerMatch:currentMatch withTurn:turn data:data];
+                } else if (buttonIndex == 1) {
+                    // Try again.
+                    [self continueMultiplayerMatch:currentMatch withTurn:turn data:data];
+                }
+            }];
+        } else {
+            [self updateStatusLabelForMatch:currentMatch participant:nextParticipant];
+        }
+    }];
+    DDLogVerbose(@"Send Turn %@", nextParticipant);
+}
+
+- (void)endMultiplayerMatch:(GKTurnBasedMatch *)currentMatch withTurn:(SHGameTurn *)turn data:(NSData *)data {
+    // Set the status and outcome for each active participant.
+    for (GKTurnBasedParticipant *participant in currentMatch.participants) {
+        if (participant.status == GKTurnBasedParticipantStatusActive) {
+            participant.matchOutcome = [self outcomeForParticipant:participant scores:turn.scores];
+        }
+    }
+
+    // Determine the scores and achievements earned for all players
+    NSArray *scores = [self multiplayerScoresForMatch:currentMatch turn:turn];
+    // End the match and report scores and achievements
+    [currentMatch endMatchInTurnWithMatchData:data scores:scores achievements:nil completionHandler:^(NSError *error) {
+        if (error) {
+            DDLogWarn(@"Cannot end multiplayer match. %@", error);
+            [UIAlertView bk_showAlertViewWithTitle:@"Error" message:error.localizedDescription cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Try Again"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 0) {
+                    // Cancel.
+                } else if (buttonIndex == 1) {
+                    // Try again.
+                    [self continueMultiplayerMatch:currentMatch withTurn:turn data:data];
+                }
+            }];
+        } else {
+            DDLogVerbose(@"Ended multiplayer match %@", currentMatch.matchID);
+        }
+    }];
+
+}
+
+- (GKTurnBasedMatchOutcome)outcomeForParticipant:(GKTurnBasedParticipant *)participant scores:(NSMutableDictionary *)scores {
+    // Find the max score
+    NSNumber *maxScore = [[scores allValues] valueForKeyPath:@"@max.integerValue"];
+
+    // Find if the participant won or lost.
+    if ([scores[participant.playerID] isEqual:maxScore]) {
+        return GKTurnBasedMatchOutcomeWon;
+    }
+    return GKTurnBasedMatchOutcomeLost;
+}
+
+- (NSArray *)multiplayerScoresForMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn {
+    NSMutableArray *scores = [[NSMutableArray alloc] initWithCapacity:turn.scores.count];
+    for (NSString *playerID in turn.scores) {
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.multiplayer" forPlayer:playerID];
+        score.value = ((NSNumber *) turn.scores[playerID]).integerValue;
+    }
+    return scores;
+}
+
 - (void)updateStatusLabelForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant {
-    if ([participant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-        self.statusLabel.text = @"Your turn";
+    if (match.status == GKTurnBasedMatchStatusEnded) {
+        // Find the winner.
+        for (GKTurnBasedParticipant *matchParticipant in match.participants) {
+            if (matchParticipant.matchOutcome == GKTurnBasedMatchOutcomeWon) {
+                if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+                    self.statusLabel.text = @"Match ended. You Won!";
+                } else {
+                    int playerNum = [match.participants indexOfObject:matchParticipant] + 1;
+                    self.statusLabel.text = [NSString stringWithFormat:@"Match ended. Player %d won!", playerNum];
+                }
+            }
+        }
     } else {
-        int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
-        self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
+        if ([participant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+            self.statusLabel.text = @"Your turn";
+        } else {
+            int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
+            self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
+        }
     }
 }
 
@@ -763,13 +852,11 @@
 
 - (void)layoutMatch:(GKTurnBasedMatch *)match {
     DDLogVerbose(@"Update match layout.");
+    [self updateGameStatus:match];
+    [self updateBoardForMatch:match];
+}
 
-    if (match.status == GKTurnBasedMatchStatusEnded) {
-        self.statusLabel.text = @"Match Ended";
-    } else {
-        [self updateStatusLabelForMatch:match participant:match.currentParticipant];
-    }
-
+- (void)updateBoardForMatch:(GKTurnBasedMatch *)match {
     // Update board layout.
     if ([match.matchData bytes]) {
         SHGameTurn *turn = [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
@@ -787,6 +874,14 @@
         // Add the new tile.
         [self addTile:turn.theNewCell];
     }
+}
+
+- (void)updateGameStatus:(GKTurnBasedMatch *)match {
+    if (match.status != GKTurnBasedMatchStatusEnded) {
+        self.gameTerminated = NO;
+        self.gameWon = NO;
+    }
+    [self updateStatusLabelForMatch:match participant:match.currentParticipant];
 }
 
 - (void)recieveEndGame:(GKTurnBasedMatch *)match {

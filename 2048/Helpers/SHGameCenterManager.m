@@ -44,7 +44,7 @@
 }
 
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController didFindMatch:(GKTurnBasedMatch *)match {
-    DDLogVerbose(@"Turn based found match %@", match);
+    DDLogVerbose(@"Turn based found match");
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     self.currentMatch = match;
 
@@ -60,6 +60,15 @@
 
 - (void)turnBasedMatchmakerViewController:(GKTurnBasedMatchmakerViewController *)viewController playerQuitForMatch:(GKTurnBasedMatch *)match {
     DDLogVerbose(@"Turn based player quit for match");
+    // Find the next player
+    NSUInteger currentIndex = [match.participants indexOfObject:match.currentParticipant];
+    GKTurnBasedParticipant *next = [match.participants objectAtIndex:(currentIndex + 1) % [match.participants count]];
+    // Pass the turn to next player with a winning outcome.
+    [match participantQuitInTurnWithOutcome:GKTurnBasedMatchOutcomeQuit nextParticipants:@[next] turnTimeout:MAXFLOAT matchData:match.matchData completionHandler:nil];
+    [next setMatchOutcome:GKTurnBasedMatchOutcomeWon];
+
+    // End match
+    [match endMatchInTurnWithMatchData:match.matchData completionHandler:nil];
 }
 
 #pragma mark Turn Based Event Handler Delegate
@@ -93,5 +102,6 @@
         [self.delegate layoutMatch:match];
     }
 }
+
 
 @end
