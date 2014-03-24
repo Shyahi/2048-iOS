@@ -30,9 +30,11 @@ PODS:
     - Reachability
   - HexColors (2.2.1)
   - iRate (1.9.3)
+  - KVOController (1.0.0)
   - Reachability (3.1.1)
   - UIColor+Additions (1.0.1)
   - UIImage-Helpers (0.0.2)
+  - UIView+AutoLayout (1.3.0)
 
 DEPENDENCIES:
   - BlocksKit (~> 2.2)
@@ -43,11 +45,13 @@ DEPENDENCIES:
   - GameCenterManager (~> 5.3)
   - HexColors (~> 2.2)
   - iRate (~> 1.9)
+  - KVOController (~> 1.0)
   - UIColor+Additions (~> 1.0)
   - UIImage-Helpers (~> 0.0)
+  - UIView+AutoLayout (~> 1.3)
 
 SPEC CHECKSUMS:
-  BlocksKit: 1b106f407a11997fd79e1da31453758e51277613
+  BlocksKit: c10ccd83f4027d6a0af928d55d20e03b9280f73d
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
   EAIntroView: 44482e1dfb11cdcb2fca0b4abcffc8a16a9c9a99
   Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
@@ -55,8 +59,10 @@ SPEC CHECKSUMS:
   GameCenterManager: a01ccfa425f831624bc2738f2fc7572ce5a40723
   HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
   iRate: 99aef520b335a1eb4a14a8d9ba5e8db4e1d95bbe
+  KVOController: ead0912769f4fae399ca2274a6755b788b773958
   Reachability: be4883bb93f31e38266ae3365e5600a317aae735
   UIColor+Additions: 70c89ff5bc2d00ac38662d5c02ed7c3bf69e26c4
   UIImage-Helpers: 085a931740604e2e3256a70217bef6436d1a2ca8
+  UIView+AutoLayout: 43373a18797954fd8ee3b1423af364f1b80a2af8
 
 COCOAPODS: 0.29.0
