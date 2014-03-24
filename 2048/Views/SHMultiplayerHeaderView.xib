@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SHMultiplayerHeaderView">
+            <connections>
+                <outlet property="player1ImageView" destination="Wbo-t5-OO2" id="kSv-vA-AP6"/>
+                <outlet property="player1ScoreLabel" destination="TK3-BO-b77" id="PJ3-p2-Qbu"/>
+                <outlet property="player1TurnIndicatorView" destination="ljU-NP-Ufu" id="JCS-qz-DpY"/>
+                <outlet property="player2ImageView" destination="D3q-AQ-Zzn" id="WnC-NS-UGw"/>
+                <outlet property="player2ScoreLabel" destination="nwZ-e0-b6y" id="g21-rm-wX8"/>
+                <outlet property="player2TurnIndicatorView" destination="qpl-z2-sbP" id="g1g-VF-Ogu"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="148"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cnl-vI-tDg">
+                    <rect key="frame" x="81" y="0.0" width="158" height="148"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wbo-t5-OO2">
+                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="75" id="6Nd-6h-NRR"/>
+                                <constraint firstAttribute="height" constant="75" id="TG2-4o-ELV"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D3q-AQ-Zzn">
+                            <rect key="frame" x="83" y="0.0" width="75" height="75"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="75" id="A8P-f5-FLt"/>
+                                <constraint firstAttribute="width" constant="75" id="F92-UT-EEm"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TK3-BO-b77">
+                            <rect key="frame" x="27" y="83" width="21" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <color key="textColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1000" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nwZ-e0-b6y">
+                            <rect key="frame" x="100" y="83" width="41" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                            <color key="textColor" red="0.49803921569999998" green="0.49803921569999998" blue="0.49803921569999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljU-NP-Ufu" customClass="SHTriangleView">
+                            <rect key="frame" x="28" y="112" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="20" id="HrE-mO-AEJ"/>
+                                <constraint firstAttribute="height" constant="20" id="OiE-JZ-yTP"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qpl-z2-sbP">
+                            <rect key="frame" x="110" y="112" width="20" height="20"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="USu-iC-Nka"/>
+                                <constraint firstAttribute="width" constant="20" id="oqn-hY-t7a"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="D3q-AQ-Zzn" secondAttribute="trailing" id="1ng-Ay-mcw"/>
+                        <constraint firstItem="qpl-z2-sbP" firstAttribute="centerY" secondItem="ljU-NP-Ufu" secondAttribute="centerY" id="Cbu-HI-v8Q"/>
+                        <constraint firstItem="qpl-z2-sbP" firstAttribute="centerX" secondItem="nwZ-e0-b6y" secondAttribute="centerX" id="INH-UU-sJn"/>
+                        <constraint firstItem="ljU-NP-Ufu" firstAttribute="top" secondItem="TK3-BO-b77" secondAttribute="bottom" constant="5" id="LhE-yN-pi8"/>
+                        <constraint firstItem="TK3-BO-b77" firstAttribute="top" secondItem="Wbo-t5-OO2" secondAttribute="bottom" constant="8" id="OqJ-Ef-ZIQ"/>
+                        <constraint firstItem="TK3-BO-b77" firstAttribute="centerX" secondItem="ljU-NP-Ufu" secondAttribute="centerX" id="T8o-zc-2ui"/>
+                        <constraint firstItem="Wbo-t5-OO2" firstAttribute="leading" secondItem="cnl-vI-tDg" secondAttribute="leading" id="X3b-U5-aEz"/>
+                        <constraint firstItem="Wbo-t5-OO2" firstAttribute="top" secondItem="cnl-vI-tDg" secondAttribute="top" id="a5r-Hk-mQo"/>
+                        <constraint firstItem="D3q-AQ-Zzn" firstAttribute="top" secondItem="cnl-vI-tDg" secondAttribute="top" id="qa7-JG-VNX"/>
+                        <constraint firstItem="D3q-AQ-Zzn" firstAttribute="leading" secondItem="Wbo-t5-OO2" secondAttribute="trailing" constant="8" id="rMu-No-pHA"/>
+                        <constraint firstItem="D3q-AQ-Zzn" firstAttribute="centerX" secondItem="nwZ-e0-b6y" secondAttribute="centerX" id="tr6-TG-CbK"/>
+                        <constraint firstItem="TK3-BO-b77" firstAttribute="centerX" secondItem="Wbo-t5-OO2" secondAttribute="centerX" id="vxL-Sm-3XH"/>
+                        <constraint firstItem="nwZ-e0-b6y" firstAttribute="top" secondItem="D3q-AQ-Zzn" secondAttribute="bottom" constant="8" id="xXe-S6-26G"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="cnl-vI-tDg" secondAttribute="bottom" id="2e3-jQ-EcR"/>
+                <constraint firstItem="cnl-vI-tDg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IPf-bO-AeV"/>
+                <constraint firstAttribute="centerX" secondItem="cnl-vI-tDg" secondAttribute="centerX" id="mK9-nf-6MB"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+</document>

@@ -393,15 +393,23 @@
                         <outlet property="bestScoreView" destination="aLp-9g-noF" id="JAV-5m-kOh"/>
                         <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
+                        <outlet property="gameContentView" destination="E3i-iW-M62" id="z3m-OC-MS2"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
                         <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
                         <outlet property="menuButton" destination="uZ5-sY-TqC" id="bE4-kI-1BR"/>
+                        <outlet property="multiplayerHeaderView" destination="Oa8-V8-CLx" id="7zb-l2-fpf"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
                         <outlet property="scoreView" destination="Gzk-an-zjd" id="wcI-xI-8nc"/>
+                        <outlet property="singleplayerHeaderView" destination="ZdA-eO-Sgx" id="au2-8n-3YC"/>
                         <outlet property="statusLabel" destination="t4J-jr-b1m" id="c8R-w1-s9H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RA6-Fr-3Je" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="Oa8-V8-CLx" customClass="SHMultiplayerHeaderView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
                 <swipeGestureRecognizer direction="right" id="qL9-Kr-iNP" userLabel="Right Swipe Gesture Recognizer">
                     <connections>
                         <action selector="rightSwipePerformed:" destination="cRF-iO-OYJ" id="Lhs-1l-9ri"/>

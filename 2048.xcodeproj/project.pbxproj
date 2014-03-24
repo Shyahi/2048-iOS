@@ -29,12 +29,16 @@
 		0285BFEE18D46B780096EA5E /* SHGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFED18D46B780096EA5E /* SHGameViewController.m */; };
 		0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF118D478B30096EA5E /* SHGameCell.m */; };
 		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
+		02C05F5B18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02C05F5A18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib */; };
+		02C05F5E18E0C8ED006DB4B8 /* SHTriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C05F5D18E0C8ED006DB4B8 /* SHTriangleView.m */; };
+		02C05F6118E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C05F6018E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m */; };
 		02E8093718DB7DF300E7C02E /* SHMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02E8093618DB7DF300E7C02E /* SHMenuView.xib */; };
 		02E8093A18DB7E1A00E7C02E /* SHMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02E8093918DB7E1A00E7C02E /* SHMenuViewController.m */; };
 		02E8093E18DB82CD00E7C02E /* SHMenuTiltModeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 02E8093C18DB82CD00E7C02E /* SHMenuTiltModeViewController.m */; };
 		02E8093F18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */; };
 		85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BE56919F734A13B42841F2 /* libPods.a */; };
 		C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FE87225297F8D9E9E15680 /* SHFacebookController.m */; };
+		C5C230BB742D7E547FA0DE7D /* SHHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2370DD82848043FF6571E /* SHHelpers.m */; };
 		C5C2333691B5D903A9AAC70E /* SHGameCenterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */; };
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
 		C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */; };
@@ -88,6 +92,11 @@
 		0285BFF118D478B30096EA5E /* SHGameCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCell.m; sourceTree = "<group>"; };
 		0285BFF418D47A450096EA5E /* SHGameCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCellData.h; sourceTree = "<group>"; };
 		0285BFF518D47A450096EA5E /* SHGameCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCellData.m; sourceTree = "<group>"; };
+		02C05F5A18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHMultiplayerHeaderView.xib; sourceTree = "<group>"; };
+		02C05F5C18E0C8ED006DB4B8 /* SHTriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTriangleView.h; sourceTree = "<group>"; };
+		02C05F5D18E0C8ED006DB4B8 /* SHTriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTriangleView.m; sourceTree = "<group>"; };
+		02C05F5F18E0CB8A006DB4B8 /* SHMultiplayerHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMultiplayerHeaderView.h; sourceTree = "<group>"; };
+		02C05F6018E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMultiplayerHeaderView.m; sourceTree = "<group>"; };
 		02E8093618DB7DF300E7C02E /* SHMenuView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SHMenuView.xib; path = ../Views/SHMenuView.xib; sourceTree = "<group>"; };
 		02E8093818DB7E1A00E7C02E /* SHMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMenuViewController.h; sourceTree = "<group>"; };
 		02E8093918DB7E1A00E7C02E /* SHMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMenuViewController.m; sourceTree = "<group>"; };
@@ -104,8 +113,10 @@
 		C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
 		C5C23576901F37CC1A472B0C /* SHGameTurn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameTurn.h; sourceTree = "<group>"; };
 		C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
+		C5C2370DD82848043FF6571E /* SHHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHelpers.m; sourceTree = "<group>"; };
 		C5C2383EE22A1D62B6D95B98 /* SHGameCenterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameCenterManager.h; sourceTree = "<group>"; };
 		C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SHAdditions.m"; sourceTree = "<group>"; };
+		C5C23D07B97F7460CA7513DC /* SHHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHelpers.h; sourceTree = "<group>"; };
 		C5C23D2F0D3B7E36535E6031 /* UIViewController+MJPopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+MJPopupViewController.h"; sourceTree = "<group>"; };
 		C5C23F82B8B4143E41D14F94 /* UIView+SHAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SHAdditions.h"; sourceTree = "<group>"; };
 		ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHFacebookIntroView.xib; sourceTree = "<group>"; };
@@ -234,6 +245,8 @@
 				C4FE8896C0649A0308191D3D /* SHFacebookController.h */,
 				C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */,
 				C5C2383EE22A1D62B6D95B98 /* SHGameCenterManager.h */,
+				C5C2370DD82848043FF6571E /* SHHelpers.m */,
+				C5C23D07B97F7460CA7513DC /* SHHelpers.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -265,6 +278,11 @@
 				ED17BF2E18DB353800A0AF40 /* SHFacebookIntroView.h */,
 				ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */,
 				ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */,
+				02C05F5C18E0C8ED006DB4B8 /* SHTriangleView.h */,
+				02C05F5D18E0C8ED006DB4B8 /* SHTriangleView.m */,
+				02C05F5F18E0CB8A006DB4B8 /* SHMultiplayerHeaderView.h */,
+				02C05F6018E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m */,
+				02C05F5A18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -389,6 +407,7 @@
 				0285BFE618D4656D0096EA5E /* 2048-Info.plist in Resources */,
 				026E28EC18D4617A00369891 /* Images.xcassets in Resources */,
 				026E28DE18D4617A00369891 /* InfoPlist.strings in Resources */,
+				02C05F5B18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib in Resources */,
 				ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */,
 				02E8093718DB7DF300E7C02E /* SHMenuView.xib in Resources */,
 				026E28E718D4617A00369891 /* Main.storyboard in Resources */,
@@ -455,13 +474,16 @@
 				0285BFEB18D465800096EA5E /* SHViewController.m in Sources */,
 				0285BFF218D478B30096EA5E /* SHGameCell.m in Sources */,
 				0278092918D5B4CC00FED688 /* SHGameCellView.m in Sources */,
+				02C05F6118E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m in Sources */,
 				0278093E18D6111E00FED688 /* Constants.m in Sources */,
 				C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */,
 				C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */,
+				02C05F5E18E0C8ED006DB4B8 /* SHTriangleView.m in Sources */,
 				C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */,
 				C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */,
 				C5C2333691B5D903A9AAC70E /* SHGameCenterManager.m in Sources */,
 				C5C23EA62536577B829FBDD1 /* SHGameTurn.m in Sources */,
+				C5C230BB742D7E547FA0DE7D /* SHHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

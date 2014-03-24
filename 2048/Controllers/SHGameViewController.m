@@ -16,7 +16,11 @@
 #import "UIViewController+MJPopupViewController.h"
 #import "SHGameTurn.h"
 #import <CoreMotion/CoreMotion.h>
+#import <KVOController/FBKVOController.h>
 #import "UIAlertView+BlocksKit.h"
+#import "SHMultiplayerHeaderView.h"
+#import "UIView+AutoLayout.h"
+#import "SHHelpers.h"
 
 @interface SHGameViewController ()
 
@@ -36,6 +40,7 @@
 @property(nonatomic, strong) UIViewController *gameCenterLoginController;
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
 @property(nonatomic, strong) NSMutableDictionary *turnsForMatch;
+@property(nonatomic, strong) FBKVOController *kvoController;
 @end
 
 @implementation SHGameViewController
@@ -533,13 +538,13 @@
 #pragma mark - Setters
 - (void)setScore:(int)score {
     _score = score;
-    self.scoreLabel.text = [[self scoreFormatter] stringFromNumber:@(score)];
+    self.scoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(score)];
 }
 
 - (void)setBestScore:(NSInteger)bestScore {
     _bestScore = bestScore;
     if (bestScore != 0) {
-        self.bestScoreLabel.text = [[self scoreFormatter] stringFromNumber:@(bestScore)];
+        self.bestScoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(bestScore)];
     } else {
         self.bestScoreLabel.text = @"-";
     }
@@ -611,15 +616,6 @@
 - (void)setupFacebook {
     self.facebookController = [[SHFacebookController alloc] init];
     [self.facebookController setup];
-}
-
-#pragma mark - Constants
-- (NSNumberFormatter *)scoreFormatter {
-    static NSNumberFormatter *formatter;
-    if (!formatter) {
-        formatter = [[NSNumberFormatter alloc] init];
-    }
-    return formatter;
 }
 
 #pragma mark - Core Motion Methods
@@ -838,6 +834,30 @@
     self.gameCenterManager = [SHGameCenterManager new];
     self.gameCenterManager.delegate = self;
     [[GKLocalPlayer localPlayer] registerListener:self.gameCenterManager];
+
+    self.kvoController = [FBKVOController controllerWithObserver:self];
+    [self.kvoController observe:self.gameCenterManager keyPath:@"currentMatch" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, SHGameCenterManager *gameCenterManager, NSDictionary *change) {
+        if (gameCenterManager.currentMatch == nil) {
+            // Single player match.
+            if (controller.singleplayerHeaderView.superview == nil) {
+                [controller.gameContentView addSubview:controller.singleplayerHeaderView];
+                [controller.singleplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
+                [controller.singleplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+
+                [controller.multiplayerHeaderView removeFromSuperview];
+            }
+        } else {
+            // Multi player match.
+            if (controller.multiplayerHeaderView.superview == nil) {
+                controller.multiplayerHeaderView.frame = controller.singleplayerHeaderView.frame;
+                [controller.gameContentView addSubview:controller.multiplayerHeaderView];
+                [controller.multiplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
+                [controller.multiplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+
+                [controller.singleplayerHeaderView removeFromSuperview];
+            }
+        }
+    }];
 }
 #pragma mark Game Center Manager Delegate
 - (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
@@ -873,6 +893,8 @@
         [self animateBoardMoveInDirection:turn.boardMoveDirection];
         // Add the new tile.
         [self addTile:turn.theNewCell];
+        // Update the multiplayer view
+        [self.multiplayerHeaderView setMatch:match turn:turn];
     }
 }
 

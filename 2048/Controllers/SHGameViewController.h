@@ -14,6 +14,8 @@
 
 @class SHFacebookController;
 @class SHGameCenterManager;
+@class SHMultiplayerHeaderView;
+@class FBKVOController;
 
 static const int kSHGameBoardSize = 4;
 
@@ -35,6 +37,9 @@ static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
 @property(strong, nonatomic) IBOutlet UIView *gameWonView;
 @property(strong, nonatomic) IBOutlet UIButton *menuButton;
 @property(strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property (strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
+@property (strong, nonatomic) IBOutlet UIView *singleplayerHeaderView;
+@property (strong, nonatomic) IBOutlet UIView *gameContentView;
 @end
 
 @interface SHBoardMoveResult : NSObject

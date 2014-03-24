@@ -49,7 +49,7 @@
 
 #pragma mark - Setup
 - (void)setupAnalytics {
-    [Flurry setCrashReportingEnabled:YES];
+//    [Flurry setCrashReportingEnabled:YES];
     [Flurry startSession:@"R2MWC8V6XV5JZ3GDT9JN"];
 }
 
