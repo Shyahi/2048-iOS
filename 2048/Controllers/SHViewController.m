@@ -29,8 +29,6 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"INTRO_VIEW_SHOWN"];
         [self setupFacebook];
         [self showIntroView];
-    } else {
-        [self startGame];
     }
 }
 
@@ -88,9 +86,20 @@
     page.descPositionY = 0.239583333f * self.view.bounds.size.height;
 }
 
+#pragma mark - Storyboard Outlets
+- (IBAction)singlePlayerTap:(id)sender {
+    [self startGame];
+}
+- (IBAction)multiplayerTap:(id)sender {
+    [self startGame];
+}
+- (IBAction)moreTap:(id)sender {
+    // TODO
+}
+
 #pragma mark - Intro View Delegate
 - (void)introDidFinish:(EAIntroView *)introView {
-    [self startGame];
+
 }
 
 #pragma mark - Facebook Intro Delegate
