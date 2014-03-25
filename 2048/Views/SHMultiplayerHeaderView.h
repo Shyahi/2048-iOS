@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *player1ScoreLabel;
 @property (strong, nonatomic) IBOutlet UILabel *player2ScoreLabel;
 @property (strong, nonatomic) IBOutlet SHTriangleView *player1TurnIndicatorView;
-@property (strong, nonatomic) IBOutlet UIView *player2TurnIndicatorView;
+@property (strong, nonatomic) IBOutlet SHTriangleView *player2TurnIndicatorView;
 
 - (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn;
 @end

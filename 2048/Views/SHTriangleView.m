@@ -45,8 +45,8 @@
 
 - (void)drawRect:(CGRect)rect {
     CGContextRef c = UIGraphicsGetCurrentContext(), context = c;
-    CGColorRef col = [UIColor redColor].CGColor;
-    CGColorRef bcol = [UIColor redColor].CGColor;
+    CGColorRef col = self.tintColor.CGColor;
+    CGColorRef bcol = self.tintColor.CGColor;
     CGContextSetFillColorWithColor(c, col);
     CGContextSetStrokeColorWithColor(c, bcol);
     CGContextSetLineWidth(c, self.borderRadius);

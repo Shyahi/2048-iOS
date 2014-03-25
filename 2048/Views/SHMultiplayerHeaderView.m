@@ -10,6 +10,7 @@
 #import "SHMultiplayerHeaderView.h"
 #import "SHGameTurn.h"
 #import "SHHelpers.h"
+#import "SHTriangleView.h"
 
 @interface SHMultiplayerHeaderView ()
 @property(nonatomic, strong) GKTurnBasedMatch *match;
@@ -87,7 +88,19 @@
         }
     }
 
+    // Update turn indicators
+    [self updateTurnIndicatorsForMatch:match];
+
     self.match = match;
+}
+
+- (void)updateTurnIndicatorsForMatch:(GKTurnBasedMatch *)match {
+    if (match.participants.count >= 1) {
+        self.player1TurnIndicatorView.hidden = [match.currentParticipant isEqual:match.participants[0]];
+        if (match.participants.count >= 2) {
+            self.player2TurnIndicatorView.hidden = [match.currentParticipant isEqual:match.participants[1]];
+        }
+    }
 }
 
 - (void)updateScoreForParticipant:(GKTurnBasedParticipant *)participant turn:(SHGameTurn *)turn label:(UILabel *)label {

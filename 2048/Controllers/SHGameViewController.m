@@ -853,6 +853,7 @@
                 [controller.gameContentView addSubview:controller.multiplayerHeaderView];
                 [controller.multiplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
                 [controller.multiplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+                [controller.multiplayerHeaderView setMatch:gameCenterManager.currentMatch turn:[NSKeyedUnarchiver unarchiveObjectWithData:gameCenterManager.currentMatch.matchData]];
 
                 [controller.singleplayerHeaderView removeFromSuperview];
             }
