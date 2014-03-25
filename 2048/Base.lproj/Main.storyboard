@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9DM-OK-a2U">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="113" width="320" height="151"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TFZ-Qu-uHz">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TFZ-Qu-uHz">
                                         <rect key="frame" x="0.0" y="49" width="285" height="54"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
@@ -60,7 +60,7 @@
                                             <constraint firstItem="sYf-D4-x7X" firstAttribute="top" secondItem="TFZ-Qu-uHz" secondAttribute="top" id="hhp-Iq-jFU"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Arrow-Back" translatesAutoresizingMaskIntoConstraints="NO" id="1aN-wp-rzK">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Arrow-Back" translatesAutoresizingMaskIntoConstraints="NO" id="1aN-wp-rzK">
                                         <rect key="frame" x="296" y="66" width="13" height="20"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -129,7 +129,7 @@
                                     <outletCollection property="gestureRecognizers" destination="vHN-Dn-H3o" appends="YES" id="nBs-cF-hZ5"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5ag-m7-42V" userLabel="Row 3">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ag-m7-42V" userLabel="Row 3">
                                 <rect key="frame" x="0.0" y="416" width="320" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -188,7 +188,7 @@
                                     <constraint firstAttribute="height" constant="1" id="0WQ-gO-Ifx"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="12c-sE-gJh" userLabel="Separator 2-3">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="12c-sE-gJh" userLabel="Separator 2-3">
                                 <rect key="frame" x="0.0" y="416" width="320" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.67843137249999996" green="0.61568627450000002" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
@@ -223,9 +223,10 @@
                             <constraint firstItem="kOz-nv-RG6" firstAttribute="top" secondItem="DlO-eK-ABO" secondAttribute="bottom" id="yvJ-5X-7w4"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="S1V-lx-7Mf"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
-                        <segue destination="cRF-iO-OYJ" kind="custom" identifier="SH_GAME_SEGUE" customClass="MFStoryboardPushSegue" id="JTj-iV-5rb"/>
+                        <segue destination="cRF-iO-OYJ" kind="push" identifier="SH_GAME_SEGUE" id="aYc-wp-wqs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -588,15 +589,31 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCI-q9-fVv">
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="SdC-Gk-Q4S"/>
+                                    <constraint firstAttribute="width" constant="44" id="vCk-TJ-XfJ"/>
+                                </constraints>
+                                <state key="normal" image="Arrow_Left">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backButtonClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="Qwt-Yf-CYb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="t4J-jr-b1m" secondAttribute="centerX" id="0eW-h1-CDj"/>
                             <constraint firstAttribute="centerY" secondItem="E3i-iW-M62" secondAttribute="centerY" id="4wN-k9-dyE"/>
+                            <constraint firstItem="eCI-q9-fVv" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="9hI-SY-ade"/>
                             <constraint firstItem="1hS-Q5-Imc" firstAttribute="top" secondItem="t4J-jr-b1m" secondAttribute="bottom" constant="20" id="FqL-o5-2z6"/>
                             <constraint firstItem="E3i-iW-M62" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="HiA-qQ-h0B"/>
                             <constraint firstItem="uZ5-sY-TqC" firstAttribute="centerY" secondItem="WmZ-b4-HLh" secondAttribute="centerY" id="QO9-5F-lB9"/>
+                            <constraint firstItem="eCI-q9-fVv" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" id="WW4-94-KhD"/>
                             <constraint firstItem="uZ5-sY-TqC" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" constant="2" id="oVL-FO-xjW"/>
                             <constraint firstItem="uZ5-sY-TqC" firstAttribute="leading" secondItem="WmZ-b4-HLh" secondAttribute="trailing" constant="20" id="p2h-Zu-IpD"/>
                             <constraint firstAttribute="trailing" secondItem="uZ5-sY-TqC" secondAttribute="trailing" constant="8" id="sLq-B2-mKs"/>
@@ -609,6 +626,7 @@
                             <outletCollection property="gestureRecognizers" destination="z9M-Mr-7NN" appends="YES" id="OeB-KP-46R"/>
                         </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="FaK-CJ-ASo"/>
                     <connections>
                         <outlet property="bestScoreLabel" destination="Ymf-g8-0IJ" id="foe-js-T3K"/>
                         <outlet property="bestScoreView" destination="aLp-9g-noF" id="JAV-5m-kOh"/>
@@ -654,9 +672,27 @@
             </objects>
             <point key="canvasLocation" x="526" y="69"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="IEW-JW-16E">
+            <objects>
+                <navigationController definesPresentationContext="YES" navigationBarHidden="YES" id="9DM-OK-a2U" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1xa-Rg-GLS">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="KrS-iX-B7m"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CUZ-4x-yKH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-248" y="69"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Arrow-Back" width="13" height="20"/>
+        <image name="Arrow_Left" width="30" height="30"/>
         <image name="TriangleUp" width="20" height="15"/>
         <image name="th-menu" width="30" height="30"/>
     </resources>

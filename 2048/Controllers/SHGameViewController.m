@@ -535,6 +535,10 @@
     [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
 }
 
+- (IBAction)backButtonClick:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Setters
 - (void)setScore:(int)score {
     _score = score;
