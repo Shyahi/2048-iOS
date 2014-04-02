@@ -9,7 +9,7 @@
 #import "SHAppDelegate.h"
 #import "Flurry.h"
 #import "FBAppCall.h"
-#import "GameCenterManager.h"
+#import "SHGameCenterManager.h"
 
 @implementation SHAppDelegate
 
@@ -80,7 +80,7 @@
 
 #pragma mark - Game Center
 - (void)setupGameCenter {
-    [[GameCenterManager sharedManager] setupManager];
+    [[SHGameCenterManager sharedManager] setup];
 }
 
 @end

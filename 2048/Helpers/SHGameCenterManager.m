@@ -5,15 +5,35 @@
 //
 
 
+#import "GameCenterManager.h"
 #import "SHGameCenterManager.h"
 #import "UIAlertView+BlocksKit.h"
 
 @interface SHGameCenterManager ()
 @property(nonatomic, strong) UIViewController *presentingViewController;
+@property(nonatomic, strong) GameCenterManager *gameCenterManager;
 @end
 
 @implementation SHGameCenterManager {
 
+}
+
+#pragma mark Public methods
+- (void)setup {
+    self.gameCenterManager = [GameCenterManager sharedManager];
+    [self.gameCenterManager setDelegate:self];
+    [self.gameCenterManager setupManager];
+}
+
++ (instancetype)sharedManager {
+    static SHGameCenterManager *singleton;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        singleton = [[self alloc] init];
+    });
+
+    return singleton;
 }
 
 - (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController {
@@ -104,4 +124,8 @@
 }
 
 
+#pragma mark Game Center Manager Delegate
+- (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
+    self.gameCenterLoginController = gameCenterLoginController;
+}
 @end

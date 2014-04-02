@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GameCenterManager/GameCenterManager.h>
 
 @interface SHAppDelegate : UIResponder <UIApplicationDelegate>
 

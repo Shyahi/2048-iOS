@@ -25,7 +25,7 @@ static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
 static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, GameCenterManagerDelegate, SHGameCenterManagerDelegate>
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate>
 @property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
 @property(strong, nonatomic) IBOutlet UIView *gameContainerView;
 

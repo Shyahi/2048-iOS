@@ -37,7 +37,6 @@
 @property(nonatomic, strong) SHMenuTiltModeViewController *menuTiltViewController;
 @property(nonatomic) BOOL gamePaused;
 
-@property(nonatomic, strong) UIViewController *gameCenterLoginController;
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
 @property(nonatomic, strong) NSMutableDictionary *turnsForMatch;
 @property(nonatomic, strong) FBKVOController *kvoController;
@@ -681,8 +680,8 @@
 }
 
 - (void)gameCenterLoginClick {
-    if (![GKLocalPlayer localPlayer].authenticated && self.gameCenterLoginController != nil) {
-        [self presentViewController:self.gameCenterLoginController animated:YES completion:nil];
+    if (![GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.gameCenterLoginController != nil) {
+        [self presentViewController:self.gameCenterManager.gameCenterLoginController animated:YES completion:nil];
     }
 }
 
@@ -834,8 +833,7 @@
 - (void)setupGameCenter {
     self.turnsForMatch = [[NSMutableDictionary alloc] init];
 
-    [[GameCenterManager sharedManager] setDelegate:self];
-    self.gameCenterManager = [SHGameCenterManager new];
+    self.gameCenterManager = [SHGameCenterManager sharedManager];
     self.gameCenterManager.delegate = self;
     [[GKLocalPlayer localPlayer] registerListener:self.gameCenterManager];
 
@@ -864,11 +862,6 @@
         }
     }];
 }
-#pragma mark Game Center Manager Delegate
-- (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
-    self.gameCenterLoginController = gameCenterLoginController;
-}
-
 #pragma mark SH Game Center Manager Delegate
 - (void)enterNewGame:(GKTurnBasedMatch *)match {
     DDLogVerbose(@"Entering new multiplayer game...");

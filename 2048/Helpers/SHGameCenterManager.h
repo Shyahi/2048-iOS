@@ -9,12 +9,18 @@
 #import <GameKit/GameKit.h>
 
 @protocol SHGameCenterManagerDelegate;
+@protocol GameCenterManagerDelegate;
 
-@interface SHGameCenterManager : NSObject <GKTurnBasedMatchmakerViewControllerDelegate, GKLocalPlayerListener>
+@interface SHGameCenterManager : NSObject <GKTurnBasedMatchmakerViewControllerDelegate, GKLocalPlayerListener, GameCenterManagerDelegate>
 @property(nonatomic, strong) GKTurnBasedMatch *currentMatch;
 @property(nonatomic, weak) id <SHGameCenterManagerDelegate> delegate;
+@property(nonatomic, strong) UIViewController *gameCenterLoginController;
+
++ (instancetype)sharedManager;
 
 - (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController;
+
+- (void)setup;
 @end
 
 @protocol SHGameCenterManagerDelegate
