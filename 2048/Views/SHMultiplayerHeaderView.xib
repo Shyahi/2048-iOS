@@ -57,7 +57,7 @@
                             <rect key="frame" x="28" y="112" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.13725490196078433" green="0.13725490196078433" blue="0.13725490196078433" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="20" id="HrE-mO-AEJ"/>
                                 <constraint firstAttribute="height" constant="20" id="OiE-JZ-yTP"/>
@@ -67,7 +67,7 @@
                             <rect key="frame" x="110" y="112" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="tintColor" red="1" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="tintColor" red="0.98431372549019602" green="0.0078431372549019607" blue="0.035294117647058823" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="USu-iC-Nka"/>
                                 <constraint firstAttribute="width" constant="20" id="oqn-hY-t7a"/>

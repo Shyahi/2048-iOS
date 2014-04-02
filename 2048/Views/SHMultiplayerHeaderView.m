@@ -7,6 +7,7 @@
 //
 
 #import <GameKit/GameKit.h>
+#import <HexColors/HexColor.h>
 #import "SHMultiplayerHeaderView.h"
 #import "SHGameTurn.h"
 #import "SHHelpers.h"
@@ -39,17 +40,15 @@
 }
 
 - (void)setupViews {
-    [self setupPlayerImageView:self.player1ImageView borderColor:[UIColor blueColor]];
-    [self setupPlayerImageView:self.player2ImageView borderColor:[UIColor redColor]];
+    [self setupPlayerImageView:self.player1ImageView borderColor:[UIColor colorWithHexString:@"#232323"]];
+    [self setupPlayerImageView:self.player2ImageView borderColor:[UIColor colorWithHexString:@"#FB0209"]];
 }
 
 - (void)setupPlayerImageView:(UIImageView *)imageView borderColor:(UIColor *)color {
-    imageView.layer.cornerRadius = imageView.frame.size.height / 2;
+    imageView.layer.cornerRadius = 25;
     imageView.layer.masksToBounds = YES;
     imageView.layer.borderWidth = 5;
     imageView.layer.borderColor = color.CGColor;
-
-    // TODO Set placeholder images for players
 }
 
 - (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn {
@@ -58,8 +57,6 @@
     if ([self.match.matchID isEqual:match.matchID] && [self.match.participants isEqualToArray:match.participants]) {
         // We already have info for all players in this match.
     } else {
-        // TODO Set placeholder images for players
-
         // Update player images.
         NSMutableArray *playerIds = [[NSMutableArray alloc] initWithCapacity:match.participants.count];
         for (GKTurnBasedParticipant *participant in match.participants) {
@@ -67,17 +64,19 @@
                 [playerIds addObject:participant.playerID];
             }
         }
+
+        // Set placeholder images.
+        [self.player1ImageView setImage:[UIImage imageNamed:[[SHMultiplayerHeaderView placeholderImageNames] objectAtIndex:0]]];
+        [self.player2ImageView setImage:[UIImage imageNamed:[[SHMultiplayerHeaderView placeholderImageNames] objectAtIndex:1]]];
+
+        // Load actual player images.
         [GKPlayer loadPlayersForIdentifiers:playerIds withCompletionHandler:^(NSArray *players, NSError *error) {
             if (error) {
                 DDLogWarn(@"Unable to load player info from id. %@", error);
                 return;
             }
-            if (players.count >= 1) {
-                [self updatePhotoForPlayer:players[0] inView:self.player1ImageView];
-                if (players.count >= 2) {
-                    [self updatePhotoForPlayer:players[1] inView:self.player2ImageView];
-                }
-            }
+            [self updatePhotoForPlayers:players index:0 inView:self.player1ImageView];
+            [self updatePhotoForPlayers:players index:1 inView:self.player2ImageView];
         }];
     }
     // Update scores
@@ -112,14 +111,28 @@
     }
 }
 
-- (void)updatePhotoForPlayer:(GKPlayer *)player inView:(UIImageView *)imageView {
-    [player loadPhotoForSize:GKPhotoSizeSmall withCompletionHandler:^(UIImage *photo, NSError *error) {
-        if (photo != nil) {
-            [imageView setImage:photo];
-        }
-        if (error) {
-            DDLogWarn(@"Unable to load player photo. %@", error);
-        }
-    }];
+- (void)updatePhotoForPlayers:(NSArray *)players index:(NSUInteger)index inView:(UIImageView *)imageView {
+    // Load photo
+    if (players.count > index) {
+        GKPlayer *player = players[index];
+        [player loadPhotoForSize:GKPhotoSizeSmall withCompletionHandler:^(UIImage *photo, NSError *error) {
+            if (photo != nil) {
+                [imageView setImage:photo];
+            }
+            if (error) {
+                DDLogWarn(@"Unable to load player photo. %@", error);
+            }
+        }];
+    }
+
+}
+
++ (NSArray *)placeholderImageNames {
+    static dispatch_once_t once;
+    static NSArray *placeholderImageNames;
+    dispatch_once(&once, ^{
+        placeholderImageNames = @[@"batman", @"ironman"];
+    });
+    return placeholderImageNames;
 }
 @end
