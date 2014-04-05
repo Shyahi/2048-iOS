@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GameCenterManager/GameCenterManager.h>
 #import "SHMenuViewController.h"
 #import "SHMenuTiltModeViewController.h"
 #import "SHGameCenterManager.h"
@@ -25,26 +24,13 @@ static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
 static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate>
-@property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
-@property(strong, nonatomic) IBOutlet UIView *gameContainerView;
-
-@property(strong, nonatomic) IBOutlet UIView *scoreView;
-@property(strong, nonatomic) IBOutlet UIView *bestScoreView;
-@property(strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
-@property(strong, nonatomic) IBOutlet UILabel *scoreLabel;
-@property(strong, nonatomic) IBOutlet UIView *gameTerminatedView;
-@property(strong, nonatomic) IBOutlet UIView *gameWonView;
-@property(strong, nonatomic) IBOutlet UIButton *menuButton;
-@property(strong, nonatomic) IBOutlet UILabel *statusLabel;
-@property (strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
-@property (strong, nonatomic) IBOutlet UIView *singleplayerHeaderView;
-@property (strong, nonatomic) IBOutlet UIView *gameContentView;
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate>
+@property(nonatomic) BOOL isMultiplayer;
 @end
 
 @interface SHBoardMoveResult : NSObject
-@property (nonatomic) int score;
-@property (nonatomic) BOOL moved;
+@property(nonatomic) int score;
+@property(nonatomic) BOOL moved;
 
 - (instancetype)initWithScore:(int)score moved:(BOOL)moved;
 

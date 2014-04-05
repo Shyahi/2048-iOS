@@ -26,8 +26,6 @@ PODS:
   - FlurrySDK (4.3.2):
     - FlurrySDK/FlurrySDK
   - FlurrySDK/FlurrySDK (4.3.2)
-  - GameCenterManager (5.3):
-    - Reachability
   - HexColors (2.2.1)
   - iRate (1.9.3)
   - KVOController (1.0.0)
@@ -42,10 +40,10 @@ DEPENDENCIES:
   - EAIntroView (~> 2.3)
   - Facebook-iOS-SDK (~> 3.13)
   - FlurrySDK (~> 4.3)
-  - GameCenterManager (~> 5.3)
   - HexColors (~> 2.2)
   - iRate (~> 1.9)
   - KVOController (~> 1.0)
+  - Reachability (~> 3.1)
   - UIColor+Additions (~> 1.0)
   - UIImage-Helpers (~> 0.0)
   - UIView+AutoLayout (~> 1.3)
@@ -56,7 +54,6 @@ SPEC CHECKSUMS:
   EAIntroView: 44482e1dfb11cdcb2fca0b4abcffc8a16a9c9a99
   Facebook-iOS-SDK: 5788541337dc88265bc940cb5ffb05915f9b64e3
   FlurrySDK: 0ba42379fd272d69246ae06386a2c5688516ffd8
-  GameCenterManager: a01ccfa425f831624bc2738f2fc7572ce5a40723
   HexColors: 3a68db077cd6572a8f7d4aa1add284dd2436a934
   iRate: 99aef520b335a1eb4a14a8d9ba5e8db4e1d95bbe
   KVOController: ead0912769f4fae399ca2274a6755b788b773958

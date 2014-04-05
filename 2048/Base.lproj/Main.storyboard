@@ -275,6 +275,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <connections>
                         <segue destination="cRF-iO-OYJ" kind="push" identifier="SH_GAME_SEGUE" id="aYc-wp-wqs"/>
+                        <segue destination="cRF-iO-OYJ" kind="push" identifier="SH_MULTIPLAYER_GAME_SEGUE" id="I39-MA-jUK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -749,4 +750,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="I39-MA-jUK"/>
+    </inferredMetricsTieBreakers>
 </document>

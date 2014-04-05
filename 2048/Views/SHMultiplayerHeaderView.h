@@ -21,4 +21,6 @@
 @property (strong, nonatomic) IBOutlet SHTriangleView *player2TurnIndicatorView;
 
 - (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn;
+
+- (void)updateTurnIndicatorsForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant;
 @end

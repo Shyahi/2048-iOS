@@ -5,13 +5,12 @@
 //
 
 
-#import "GameCenterManager.h"
 #import "SHGameCenterManager.h"
 #import "UIAlertView+BlocksKit.h"
+#import "Reachability.h"
 
 @interface SHGameCenterManager ()
 @property(nonatomic, strong) UIViewController *presentingViewController;
-@property(nonatomic, strong) GameCenterManager *gameCenterManager;
 @end
 
 @implementation SHGameCenterManager {
@@ -20,9 +19,7 @@
 
 #pragma mark Public methods
 - (void)setup {
-    self.gameCenterManager = [GameCenterManager sharedManager];
-    [self.gameCenterManager setDelegate:self];
-    [self.gameCenterManager setupManager];
+    [self authenticateLocalPlayer];
 }
 
 + (instancetype)sharedManager {
@@ -124,8 +121,37 @@
 }
 
 
-#pragma mark Game Center Manager Delegate
-- (void)gameCenterManager:(GameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
-    self.gameCenterLoginController = gameCenterLoginController;
+#pragma mark - Utility methods
+- (void)authenticateLocalPlayer {
+    if ([self isInternetAvailable]) {
+        [GKLocalPlayer localPlayer].authenticateHandler = ^(UIViewController *viewController, NSError *error) {
+            if (viewController != nil) {
+                self.gameCenterLoginController = viewController;
+                if ([self.delegate respondsToSelector:@selector(gameCenterManager:authenticateUser:)]) {
+                    [self.delegate gameCenterManager:self authenticateUser:viewController];
+                }
+            } else if ([GKLocalPlayer localPlayer].isAuthenticated) {
+                if ([self.delegate respondsToSelector:@selector(gameCenterManager:didAuthenticatePlayer:)]) {
+                    [self.delegate gameCenterManager:self didAuthenticatePlayer:[GKLocalPlayer localPlayer]];
+                }
+            } else {
+                if ([self.delegate respondsToSelector:@selector(gameCenterManagerdidFailToAuthenticatePlayer:)]) {
+                    [self.delegate gameCenterManagerdidFailToAuthenticatePlayer:self];
+                }
+            }
+        };
+    }
 }
+
+- (BOOL)isInternetAvailable {
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+
+    if (internetStatus == NotReachable) {
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 @end

@@ -9,6 +9,7 @@
 #import "SHViewController.h"
 #import "HexColor.h"
 #import "UIImage+ImageWithColor.h"
+#import "SHGameViewController.h"
 
 @interface SHViewController ()
 
@@ -35,10 +36,6 @@
 - (void)setupFacebook {
     self.facebookController = [[SHFacebookController alloc] init];
     [self.facebookController setup];
-}
-
-- (void)startGame {
-    [self performSegueWithIdentifier:@"SH_GAME_SEGUE" sender:self];
 }
 
 - (void)showIntroView {
@@ -86,13 +83,17 @@
     page.descPositionY = 0.239583333f * self.view.bounds.size.height;
 }
 
+
 #pragma mark - Storyboard Outlets
 - (IBAction)singlePlayerTap:(id)sender {
-    [self startGame];
+    [self startGameWithMultiplayer:NO];
 }
+
+
 - (IBAction)multiplayerTap:(id)sender {
-    [self startGame];
+    [self startGameWithMultiplayer:YES];
 }
+
 - (IBAction)moreTap:(id)sender {
     // TODO
 }
@@ -104,13 +105,32 @@
 
 #pragma mark - Facebook Intro Delegate
 - (void)playButtonClick {
-    [self startGame];
+    [self startGameWithMultiplayer:NO];
 }
 
 - (void)didConnectWithFacebook {
     // Do nothing.
 }
 
+#pragma mark - Navigation
+- (void)startGameWithMultiplayer:(BOOL)multiplayer {
+    if (multiplayer) {
+        [self performSegueWithIdentifier:kSHMultiplayerGameSegueIdentifier sender:self];
+    } else {
+        [self performSegueWithIdentifier:kSHGameSegueIdentifier sender:self];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [super prepareForSegue:segue sender:sender];
+    if ([segue.identifier isEqualToString:kSHMultiplayerGameSegueIdentifier]) {
+        SHGameViewController *destinationViewController = segue.destinationViewController;
+        destinationViewController.isMultiplayer = YES;
+    }
+}
+
+
+#pragma mark - Memory Management
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

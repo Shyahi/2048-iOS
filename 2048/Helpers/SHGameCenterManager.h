@@ -11,7 +11,7 @@
 @protocol SHGameCenterManagerDelegate;
 @protocol GameCenterManagerDelegate;
 
-@interface SHGameCenterManager : NSObject <GKTurnBasedMatchmakerViewControllerDelegate, GKLocalPlayerListener, GameCenterManagerDelegate>
+@interface SHGameCenterManager : NSObject <GKTurnBasedMatchmakerViewControllerDelegate, GKLocalPlayerListener>
 @property(nonatomic, strong) GKTurnBasedMatch *currentMatch;
 @property(nonatomic, weak) id <SHGameCenterManagerDelegate> delegate;
 @property(nonatomic, strong) UIViewController *gameCenterLoginController;
@@ -23,7 +23,7 @@
 - (void)setup;
 @end
 
-@protocol SHGameCenterManagerDelegate
+@protocol SHGameCenterManagerDelegate <NSObject>
 - (void)enterNewGame:(GKTurnBasedMatch *)match;
 
 - (void)layoutMatch:(GKTurnBasedMatch *)match;
@@ -31,4 +31,11 @@
 - (void)recieveEndGame:(GKTurnBasedMatch *)match;
 
 - (void)sendNotice:(NSString *)notice forMatch:(GKTurnBasedMatch *)match;
+
+@optional
+- (void)gameCenterManager:(SHGameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController;
+
+- (void)gameCenterManagerdidFailToAuthenticatePlayer:(SHGameCenterManager *)manager;
+
+- (void)gameCenterManager:(SHGameCenterManager *)manager didAuthenticatePlayer:(GKLocalPlayer *)player;
 @end

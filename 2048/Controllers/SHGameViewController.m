@@ -40,6 +40,21 @@
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
 @property(nonatomic, strong) NSMutableDictionary *turnsForMatch;
 @property(nonatomic, strong) FBKVOController *kvoController;
+
+// Storyboard outlets
+@property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
+@property(strong, nonatomic) IBOutlet UIView *gameContainerView;
+@property(strong, nonatomic) IBOutlet UIView *scoreView;
+@property(strong, nonatomic) IBOutlet UIView *bestScoreView;
+@property(strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
+@property(strong, nonatomic) IBOutlet UILabel *scoreLabel;
+@property(strong, nonatomic) IBOutlet UIView *gameTerminatedView;
+@property(strong, nonatomic) IBOutlet UIView *gameWonView;
+@property(strong, nonatomic) IBOutlet UIButton *menuButton;
+@property(strong, nonatomic) IBOutlet UILabel *statusLabel;
+@property(strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
+@property(strong, nonatomic) IBOutlet UIView *singleplayerHeaderView;
+@property(strong, nonatomic) IBOutlet UIView *gameContentView;
 @end
 
 @implementation SHGameViewController
@@ -752,10 +767,16 @@
                 }
             }];
         } else {
-            [self updateStatusLabelForMatch:currentMatch participant:nextParticipant];
+            [self didEndTurnWithMatch:currentMatch nextParticipant:nextParticipant];
+
         }
     }];
     DDLogVerbose(@"Send Turn %@", nextParticipant);
+}
+
+- (void)didEndTurnWithMatch:(GKTurnBasedMatch *)match nextParticipant:(GKTurnBasedParticipant *)participant {
+    [self updateStatusLabelForMatch:match participant:participant];
+    [self.multiplayerHeaderView updateTurnIndicatorsForMatch:match participant:participant];
 }
 
 - (void)endMultiplayerMatch:(GKTurnBasedMatch *)currentMatch withTurn:(SHGameTurn *)turn data:(NSData *)data {
@@ -833,10 +854,19 @@
 - (void)setupGameCenter {
     self.turnsForMatch = [[NSMutableDictionary alloc] init];
 
+    // Initialize the game center manager
     self.gameCenterManager = [SHGameCenterManager sharedManager];
     self.gameCenterManager.delegate = self;
     [[GKLocalPlayer localPlayer] registerListener:self.gameCenterManager];
 
+    // Check if we need to authenticate player.
+    if ([GKLocalPlayer localPlayer].isAuthenticated) {
+        [self gameCenterManager:self.gameCenterManager didAuthenticatePlayer:[GKLocalPlayer localPlayer]];
+    } else if (self.gameCenterManager.gameCenterLoginController) {
+        [self gameCenterManager:self.gameCenterManager authenticateUser:self.gameCenterManager.gameCenterLoginController];
+    }
+
+    // Set up observers for current match.
     self.kvoController = [FBKVOController controllerWithObserver:self];
     [self.kvoController observe:self.gameCenterManager keyPath:@"currentMatch" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, SHGameCenterManager *gameCenterManager, NSDictionary *change) {
         if (gameCenterManager.currentMatch == nil) {
@@ -912,16 +942,22 @@
 
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)gameCenterManager:(SHGameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
+    if (self.isMultiplayer && gameCenterLoginController) {
+        [self presentViewController:gameCenterLoginController animated:NO completion:nil];
+    }
 }
-*/
+
+- (void)gameCenterManagerdidFailToAuthenticatePlayer:(SHGameCenterManager *)manager {
+    // TODO: Do something
+}
+
+- (void)gameCenterManager:(SHGameCenterManager *)manager didAuthenticatePlayer:(GKLocalPlayer *)player {
+    if (self.isMultiplayer && self.gameCenterManager.currentMatch == nil) {
+        // Find a multiplayer game
+        [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+    }
+}
 
 @end
 
