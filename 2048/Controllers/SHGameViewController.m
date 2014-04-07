@@ -445,8 +445,8 @@
 
 - (IBAction)shareClick:(id)sender {
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-    NSString *textToShare = [NSString stringWithFormat:@"I scored %d points at 2048! #2048game http://itunes.com/apps/%@ via @2048iOS ", self.score, appName];
-    UIImage *imageToShare = [self.collectionView sh_takeSnapshot];
+    NSString *textToShare = [NSString stringWithFormat:@"I scored %d points at #2048game on my iPhone: http://bit.ly/2048iOS via @2048iOS ", self.score];
+    UIImage *imageToShare = [self.view sh_takeSnapshot];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textToShare, imageToShare] applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeAddToReadingList, UIActivityTypePostToVimeo, UIActivityTypeAirDrop];
     [self presentViewController:activityViewController animated:YES completion:nil];
@@ -594,7 +594,7 @@
         self.menuTiltViewController.delegate = self;
     }
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.gamePaused = YES;
         [self presentPopupViewController:self.menuTiltViewController animationType:MJPopupViewAnimationSlideTopBottom dismissed:^{
             self.gamePaused = NO;
