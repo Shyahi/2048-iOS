@@ -444,7 +444,6 @@
 }
 
 - (IBAction)shareClick:(id)sender {
-    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     NSString *textToShare = [NSString stringWithFormat:@"I scored %d points at #2048game on my iPhone: http://bit.ly/2048iOS via @2048iOS ", self.score];
     UIImage *imageToShare = [self.view sh_takeSnapshot];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textToShare, imageToShare] applicationActivities:nil];
@@ -533,8 +532,10 @@
 - (void)setTiltEnabled:(BOOL)tiltEnabled {
     _tiltEnabled = tiltEnabled;
     if (tiltEnabled) {
+        [UIApplication sharedApplication].idleTimerDisabled = YES;
         [self setupMotionDetection];
     } else {
+        [UIApplication sharedApplication].idleTimerDisabled = NO;
         [self stopMotionDetection];
     }
     [[NSUserDefaults standardUserDefaults] setBool:tiltEnabled forKey:kSHUserDefaultsGameOptionTiltEnabled];
