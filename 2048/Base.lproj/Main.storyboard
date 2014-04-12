@@ -582,6 +582,92 @@
                                                     <constraint firstAttribute="centerY" secondItem="ckt-g8-HYr" secondAttribute="centerY" id="wY8-3p-vFE"/>
                                                 </constraints>
                                             </view>
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wD1-Sk-EF4" userLabel="Multiplayer Connect View">
+                                                <rect key="frame" x="0.0" y="0.0" width="304" height="304"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect Game Center" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="282" translatesAutoresizingMaskIntoConstraints="NO" id="ksF-12-gjx">
+                                                        <rect key="frame" x="11" y="108" width="282" height="88"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" name="AvenirNext-Heavy" family="Avenir Next" pointSize="32"/>
+                                                        <color key="textColor" red="0.46666666670000001" green="0.43137254899999999" blue="0.39607843139999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2cW-U8-u6q">
+                                                        <rect key="frame" x="60" y="236" width="185" height="58"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <subviews>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rX1-5V-2bQ">
+                                                                <rect key="frame" x="11" y="11" width="76" height="36"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <color key="backgroundColor" red="0.5568627451" green="0.47450980390000003" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                                <inset key="contentEdgeInsets" minX="15" minY="7" maxX="15" maxY="7"/>
+                                                                <state key="normal" title="Log In">
+                                                                    <color key="titleColor" red="0.96862745098039216" green="0.96470588235294119" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="multiplayerLoginClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="WZW-vn-d6h"/>
+                                                                </connections>
+                                                            </button>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-gQ-h4b" userLabel="Login Complete View">
+                                                                <rect key="frame" x="11" y="11" width="76" height="36"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <subviews>
+                                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark" translatesAutoresizingMaskIntoConstraints="NO" id="T14-nc-Uy4">
+                                                                        <rect key="frame" x="23" y="3" width="30" height="30"/>
+                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    </imageView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="centerY" secondItem="T14-nc-Uy4" secondAttribute="centerY" id="VTM-W2-cNU"/>
+                                                                    <constraint firstAttribute="centerX" secondItem="T14-nc-Uy4" secondAttribute="centerX" id="m0j-0s-bAm"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vXX-hR-MiU">
+                                                                <rect key="frame" x="98" y="11" width="76" height="36"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <color key="backgroundColor" red="0.56078431370000004" green="0.47843137250000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="16"/>
+                                                                <inset key="contentEdgeInsets" minX="15" minY="7" maxX="15" maxY="7"/>
+                                                                <state key="normal" title="Play">
+                                                                    <color key="titleColor" red="0.97647058819999999" green="0.96470588239999999" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                </state>
+                                                                <connections>
+                                                                    <action selector="multiplayerPlayClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="eSQ-Ii-UEX"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="bottom" secondItem="rX1-5V-2bQ" secondAttribute="bottom" constant="11" id="244-oA-Ed9"/>
+                                                            <constraint firstItem="vXX-hR-MiU" firstAttribute="top" secondItem="2cW-U8-u6q" secondAttribute="top" constant="11" id="4pY-NH-E0c"/>
+                                                            <constraint firstAttribute="trailing" secondItem="vXX-hR-MiU" secondAttribute="trailing" constant="11" id="6Tt-di-IYd"/>
+                                                            <constraint firstItem="rX1-5V-2bQ" firstAttribute="trailing" secondItem="k3t-gQ-h4b" secondAttribute="trailing" id="8Of-fR-KPQ"/>
+                                                            <constraint firstItem="vXX-hR-MiU" firstAttribute="leading" secondItem="rX1-5V-2bQ" secondAttribute="trailing" constant="11" id="Afa-JA-ZOo"/>
+                                                            <constraint firstAttribute="bottom" secondItem="vXX-hR-MiU" secondAttribute="bottom" constant="11" id="BmI-VM-KjD"/>
+                                                            <constraint firstItem="rX1-5V-2bQ" firstAttribute="bottom" secondItem="k3t-gQ-h4b" secondAttribute="bottom" id="VjF-C4-fId"/>
+                                                            <constraint firstItem="vXX-hR-MiU" firstAttribute="width" secondItem="rX1-5V-2bQ" secondAttribute="width" id="Whr-M9-Dhk"/>
+                                                            <constraint firstItem="rX1-5V-2bQ" firstAttribute="leading" secondItem="k3t-gQ-h4b" secondAttribute="leading" id="X62-Om-bke"/>
+                                                            <constraint firstItem="rX1-5V-2bQ" firstAttribute="leading" secondItem="2cW-U8-u6q" secondAttribute="leading" constant="11" id="mDY-ui-sUB"/>
+                                                            <constraint firstItem="rX1-5V-2bQ" firstAttribute="top" secondItem="k3t-gQ-h4b" secondAttribute="top" id="wAq-JF-Iei"/>
+                                                            <constraint firstItem="rX1-5V-2bQ" firstAttribute="top" secondItem="2cW-U8-u6q" secondAttribute="top" constant="11" id="wvw-s6-2GK"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" red="0.92941176469999998" green="0.76078431369999999" blue="0.18039215689999999" alpha="0.5" colorSpace="calibratedRGB"/>
+                                                <constraints>
+                                                    <constraint firstItem="ksF-12-gjx" firstAttribute="leading" secondItem="wD1-Sk-EF4" secondAttribute="leading" constant="11" id="4BU-eR-R3x"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ksF-12-gjx" secondAttribute="trailing" constant="11" id="5Sj-tF-Cwn"/>
+                                                    <constraint firstAttribute="centerY" secondItem="ksF-12-gjx" secondAttribute="centerY" id="DxY-kq-9tk"/>
+                                                    <constraint firstAttribute="centerX" secondItem="2cW-U8-u6q" secondAttribute="centerX" id="Enm-bh-XTA"/>
+                                                    <constraint firstItem="2cW-U8-u6q" firstAttribute="top" secondItem="ksF-12-gjx" secondAttribute="bottom" constant="40" id="fil-ZW-3EE"/>
+                                                    <constraint firstAttribute="centerX" secondItem="ksF-12-gjx" secondAttribute="centerX" id="qP7-HG-nwy"/>
+                                                </constraints>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                         <constraints>
@@ -592,8 +678,12 @@
                                             <constraint firstAttribute="bottom" secondItem="6ft-BN-mNd" secondAttribute="bottom" id="Ieg-9g-Zoa"/>
                                             <constraint firstItem="DhN-Z5-fhc" firstAttribute="trailing" secondItem="6ft-BN-mNd" secondAttribute="trailing" id="IkR-of-xIO"/>
                                             <constraint firstAttribute="trailing" secondItem="6ft-BN-mNd" secondAttribute="trailing" id="KpX-hE-PUq"/>
+                                            <constraint firstItem="wD1-Sk-EF4" firstAttribute="leading" secondItem="DhN-Z5-fhc" secondAttribute="leading" id="WQt-2m-OnL"/>
                                             <constraint firstItem="DhN-Z5-fhc" firstAttribute="leading" secondItem="6ft-BN-mNd" secondAttribute="leading" id="YaA-fe-Yk5"/>
+                                            <constraint firstItem="wD1-Sk-EF4" firstAttribute="bottom" secondItem="DhN-Z5-fhc" secondAttribute="bottom" id="Yxm-Is-jjH"/>
                                             <constraint firstItem="DhN-Z5-fhc" firstAttribute="top" secondItem="6ft-BN-mNd" secondAttribute="top" id="dED-yF-xMS"/>
+                                            <constraint firstItem="wD1-Sk-EF4" firstAttribute="trailing" secondItem="DhN-Z5-fhc" secondAttribute="trailing" id="dLC-GY-xEu"/>
+                                            <constraint firstItem="wD1-Sk-EF4" firstAttribute="top" secondItem="DhN-Z5-fhc" secondAttribute="top" id="euC-US-of5"/>
                                             <constraint firstItem="DhN-Z5-fhc" firstAttribute="top" secondItem="YIs-se-mHg" secondAttribute="top" id="rTj-wm-QfL"/>
                                             <constraint firstItem="DhN-Z5-fhc" firstAttribute="trailing" secondItem="YIs-se-mHg" secondAttribute="trailing" id="sio-sK-qJJ"/>
                                             <constraint firstItem="DhN-Z5-fhc" firstAttribute="bottom" secondItem="6ft-BN-mNd" secondAttribute="bottom" id="vsv-jP-Icm"/>
@@ -685,7 +775,9 @@
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
                         <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
                         <outlet property="menuButton" destination="uZ5-sY-TqC" id="bE4-kI-1BR"/>
+                        <outlet property="multiplayerConnectView" destination="wD1-Sk-EF4" id="q8e-hj-6Cr"/>
                         <outlet property="multiplayerHeaderView" destination="Oa8-V8-CLx" id="7zb-l2-fpf"/>
+                        <outlet property="multiplayerLoginCompleteView" destination="k3t-gQ-h4b" id="MzZ-EF-cwU"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
                         <outlet property="scoreView" destination="Gzk-an-zjd" id="wcI-xI-8nc"/>
                         <outlet property="singleplayerHeaderView" destination="ZdA-eO-Sgx" id="au2-8n-3YC"/>
@@ -743,6 +835,7 @@
         <image name="Arrow-Back" width="13" height="20"/>
         <image name="Arrow_Left" width="30" height="30"/>
         <image name="TriangleUp" width="20" height="15"/>
+        <image name="checkmark" width="30" height="30"/>
         <image name="th-menu" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -55,6 +55,8 @@
 @property(strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
 @property(strong, nonatomic) IBOutlet UIView *singleplayerHeaderView;
 @property(strong, nonatomic) IBOutlet UIView *gameContentView;
+@property(strong, nonatomic) IBOutlet UIView *multiplayerConnectView;
+@property(strong, nonatomic) IBOutlet UIView *multiplayerLoginCompleteView;
 @end
 
 @implementation SHGameViewController
@@ -224,7 +226,7 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
-    if (self.gameTerminated || self.gameWon || self.gamePaused) {
+    if (self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid]) {
         return;
     }
 
@@ -549,6 +551,14 @@
     [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
 }
 
+- (IBAction)multiplayerLoginClick:(id)sender {
+    [self loginToGameCenter];
+}
+
+- (IBAction)multiplayerPlayClick:(id)sender {
+    [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+}
+
 - (IBAction)backButtonClick:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -695,6 +705,10 @@
 }
 
 - (void)gameCenterLoginClick {
+    [self loginToGameCenter];
+}
+
+- (void)loginToGameCenter {
     if (![GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.gameCenterLoginController != nil) {
         [self presentViewController:self.gameCenterManager.gameCenterLoginController animated:YES completion:nil];
     }
@@ -869,28 +883,53 @@
     // Set up observers for current match.
     self.kvoController = [FBKVOController controllerWithObserver:self];
     [self.kvoController observe:self.gameCenterManager keyPath:@"currentMatch" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, SHGameCenterManager *gameCenterManager, NSDictionary *change) {
-        if (gameCenterManager.currentMatch == nil) {
-            // Single player match.
-            if (controller.singleplayerHeaderView.superview == nil) {
-                [controller.gameContentView addSubview:controller.singleplayerHeaderView];
-                [controller.singleplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
-                [controller.singleplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
-
-                [controller.multiplayerHeaderView removeFromSuperview];
-            }
-        } else {
-            // Multi player match.
-            if (controller.multiplayerHeaderView.superview == nil) {
-                controller.multiplayerHeaderView.frame = controller.singleplayerHeaderView.frame;
-                [controller.gameContentView addSubview:controller.multiplayerHeaderView];
-                [controller.multiplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
-                [controller.multiplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
-                [controller.multiplayerHeaderView setMatch:gameCenterManager.currentMatch turn:[NSKeyedUnarchiver unarchiveObjectWithData:gameCenterManager.currentMatch.matchData]];
-
-                [controller.singleplayerHeaderView removeFromSuperview];
-            }
-        }
+        [self gameCenterManager:gameCenterManager currentMatchDidChange:gameCenterManager.currentMatch controller:controller];
     }];
+
+    // Set up observer for player's authentication state
+    [self.kvoController observe:[GKLocalPlayer localPlayer] keyPath:@"isAuthenticated" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, GKLocalPlayer *localPlayer, NSDictionary *change) {
+        [self localPlayer:localPlayer authenticationDidChange:controller];
+    }];
+
+}
+
+- (void)localPlayer:(GKLocalPlayer *)localPlayer authenticationDidChange:(SHGameViewController *)controller {
+    if (localPlayer.isAuthenticated) {
+        controller.multiplayerLoginCompleteView.hidden = NO;
+    } else {
+        controller.multiplayerLoginCompleteView.hidden = YES;
+    }
+}
+
+- (void)gameCenterManager:(SHGameCenterManager *)manager currentMatchDidChange:(GKTurnBasedMatch *)currentMatch controller:(SHGameViewController *)controller {
+    if (currentMatch == nil) {
+        // Show the multiplayer game selection if it is in multiplayer mode.
+        if (self.isMultiplayer) {
+            self.multiplayerConnectView.hidden = NO;
+        }
+
+        // Single player match.
+        if (controller.singleplayerHeaderView.superview == nil) {
+            [controller.gameContentView addSubview:controller.singleplayerHeaderView];
+            [controller.singleplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
+            [controller.singleplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+
+            [controller.multiplayerHeaderView removeFromSuperview];
+        }
+    } else {
+        self.multiplayerConnectView.hidden = YES;
+
+        // Multi player match.
+        if (controller.multiplayerHeaderView.superview == nil) {
+            controller.multiplayerHeaderView.frame = controller.singleplayerHeaderView.frame;
+            [controller.gameContentView addSubview:controller.multiplayerHeaderView];
+            [controller.multiplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
+            [controller.multiplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+            [controller.multiplayerHeaderView setMatch:manager.currentMatch turn:[NSKeyedUnarchiver unarchiveObjectWithData:manager.currentMatch.matchData]];
+
+            [controller.singleplayerHeaderView removeFromSuperview];
+        }
+    }
 }
 #pragma mark SH Game Center Manager Delegate
 - (void)enterNewGame:(GKTurnBasedMatch *)match {
@@ -949,7 +988,25 @@
 }
 
 - (void)gameCenterManagerdidFailToAuthenticatePlayer:(SHGameCenterManager *)manager {
-    // TODO: Do something
+    // Authentication failed. Try again?
+    if (self.isMultiplayer) {
+        [UIAlertView bk_showAlertViewWithTitle:@"Cannot login to Game Center" message:@"You need to be logged in to Game Center to play with other players" cancelButtonTitle:@"Go Back" otherButtonTitles:@[@"Retry"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            switch (buttonIndex) {
+                case 0:
+                    // Cancel. Go Back
+                    [self.navigationController popViewControllerAnimated:NO];
+                    break;
+                case 1:
+                    // Retry
+                    [self loginToGameCenter];
+                    break;
+                default:
+                    // Go Back
+                    [self.navigationController popViewControllerAnimated:NO];
+                    break;
+            }
+        }];
+    }
 }
 
 - (void)gameCenterManager:(SHGameCenterManager *)manager didAuthenticatePlayer:(GKLocalPlayer *)player {
@@ -959,6 +1016,19 @@
     }
 }
 
+#pragma mark - Computed Properties
+- (BOOL)multiplayerModeValid {
+    // Returns true if multiplayer mode is active, player is logged in and a match is in progress. False otherwise
+    if (self.isMultiplayer) {
+        if ([GKLocalPlayer localPlayer].isAuthenticated) {
+            if (self.gameCenterManager.currentMatch != nil) {
+                return YES;
+            }
+        }
+        return NO;
+    }
+    return YES;
+}
 @end
 
 @implementation SHBoardMoveResult
