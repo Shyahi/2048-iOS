@@ -13,14 +13,12 @@
 
 @interface SHMultiplayerHeaderView : UIView
 
-@property (strong, nonatomic) IBOutlet UIImageView *player1ImageView;
-@property (strong, nonatomic) IBOutlet UIImageView *player2ImageView;
-@property (strong, nonatomic) IBOutlet UILabel *player1ScoreLabel;
-@property (strong, nonatomic) IBOutlet UILabel *player2ScoreLabel;
-@property (strong, nonatomic) IBOutlet SHTriangleView *player1TurnIndicatorView;
-@property (strong, nonatomic) IBOutlet SHTriangleView *player2TurnIndicatorView;
+@property(strong, nonatomic) IBOutlet UIImageView *player1ImageView;
+@property(strong, nonatomic) IBOutlet UIImageView *player2ImageView;
+@property(strong, nonatomic) IBOutlet UILabel *player1ScoreLabel;
+@property(strong, nonatomic) IBOutlet UILabel *player2ScoreLabel;
+@property(strong, nonatomic) IBOutlet SHTriangleView *player1TurnIndicatorView;
+@property(strong, nonatomic) IBOutlet SHTriangleView *player2TurnIndicatorView;
 
-- (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn;
-
-- (void)updateTurnIndicatorsForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant;
+- (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn currentParticipant:(GKTurnBasedParticipant *)currentParticipant;
 @end

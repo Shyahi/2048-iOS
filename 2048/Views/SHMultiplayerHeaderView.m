@@ -51,7 +51,7 @@
     imageView.layer.borderColor = color.CGColor;
 }
 
-- (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn {
+- (void)setMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn currentParticipant:(GKTurnBasedParticipant *)currentParticipant{
 
     // Update player images
     if ([self.match.matchID isEqual:match.matchID] && [self.match.participants isEqualToArray:match.participants]) {
@@ -88,7 +88,7 @@
     }
 
     // Update turn indicators
-    [self updateTurnIndicatorsForMatch:match participant:match.currentParticipant];
+    [self updateTurnIndicatorsForMatch:match participant:currentParticipant];
 
     self.match = match;
 }

@@ -781,16 +781,16 @@
                 }
             }];
         } else {
-            [self didEndTurnWithMatch:currentMatch nextParticipant:nextParticipant];
+            [self didEndTurn:turn withMatch:currentMatch nextParticipant:nextParticipant];
 
         }
     }];
     DDLogVerbose(@"Send Turn %@", nextParticipant);
 }
 
-- (void)didEndTurnWithMatch:(GKTurnBasedMatch *)match nextParticipant:(GKTurnBasedParticipant *)participant {
+- (void)didEndTurn:(SHGameTurn *)turn withMatch:(GKTurnBasedMatch *)match nextParticipant:(GKTurnBasedParticipant *)participant {
     [self updateStatusLabelForMatch:match participant:participant];
-    [self.multiplayerHeaderView updateTurnIndicatorsForMatch:match participant:participant];
+    [self.multiplayerHeaderView setMatch:match turn:turn currentParticipant:participant];
 }
 
 - (void)endMultiplayerMatch:(GKTurnBasedMatch *)currentMatch withTurn:(SHGameTurn *)turn data:(NSData *)data {
@@ -925,7 +925,7 @@
             [controller.gameContentView addSubview:controller.multiplayerHeaderView];
             [controller.multiplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
             [controller.multiplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
-            [controller.multiplayerHeaderView setMatch:manager.currentMatch turn:[NSKeyedUnarchiver unarchiveObjectWithData:manager.currentMatch.matchData]];
+            [controller.multiplayerHeaderView setMatch:manager.currentMatch turn:[NSKeyedUnarchiver unarchiveObjectWithData:manager.currentMatch.matchData] currentParticipant:manager.currentMatch.currentParticipant];
 
             [controller.singleplayerHeaderView removeFromSuperview];
         }
@@ -961,7 +961,7 @@
         // Add the new tile.
         [self addTile:turn.theNewCell];
         // Update the multiplayer view
-        [self.multiplayerHeaderView setMatch:match turn:turn];
+        [self.multiplayerHeaderView setMatch:match turn:turn currentParticipant:match.currentParticipant];
     }
 }
 
