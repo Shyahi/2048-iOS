@@ -22,9 +22,8 @@ static const float kSHCellAnimationsDuration = 0.15;
 static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
 static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
-static NSString *const kSHGameCenterManagerUnknownPlayer = @"unknownPlayer";
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate>
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate>
 @property(nonatomic) BOOL isMultiplayer;
 @end
 

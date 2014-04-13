@@ -216,7 +216,7 @@
     for (int i = 0; i < self.board.count; ++i) {
         NSArray *boardRow = self.board[(NSUInteger) i];
         for (int j = 0; j < boardRow.count; ++j) {
-            SHGameCellData *cellData = boardRow[j];
+            SHGameCellData *cellData = boardRow[(NSUInteger) j];
             if (cellData.number == nil) {
                 [emptyCellIndices addObject:@(i * kSHGameBoardSize + j)];
             }
@@ -342,7 +342,7 @@
     [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
         cellView.frame = nextCellRect;
     }                completion:^(BOOL finished) {
-        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL finished) {
+        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL reloadFinished) {
             [cellView removeFromSuperview];
         }];
     }];
@@ -386,7 +386,7 @@
     for (int i = 0; i < self.board.count; ++i) {
         NSArray *boardRow = self.board[(NSUInteger) i];
         for (int j = 0; j < boardRow.count; ++j) {
-            SHGameCellData *cellData = boardRow[j];
+            SHGameCellData *cellData = boardRow[(NSUInteger) j];
             cellData.merged = NO;
         }
     }
@@ -572,7 +572,7 @@
 - (void)setBestScore:(NSInteger)bestScore {
     _bestScore = bestScore;
     if (bestScore != 0) {
-        self.bestScoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(bestScore)];
+        self.bestScoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(self.bestScore)];
     } else {
         self.bestScoreLabel.text = @"-";
     }
@@ -637,7 +637,7 @@
     } else {
         [self stopMotionDetection];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:tiltEnabled forKey:kSHUserDefaultsGameOptionTiltEnabled];
+    [[NSUserDefaults standardUserDefaults] setBool:self.tiltEnabled forKey:kSHUserDefaultsGameOptionTiltEnabled];
 }
 
 #pragma mark - Facebook
@@ -657,20 +657,20 @@
     CGFloat pitch = 0.0f;
     switch ([[UIApplication sharedApplication] statusBarOrientation]) {
         case UIInterfaceOrientationPortrait:
-            roll = deviceMotion.attitude.roll;
-            pitch = deviceMotion.attitude.pitch;
+            roll = (CGFloat) deviceMotion.attitude.roll;
+            pitch = (CGFloat) deviceMotion.attitude.pitch;
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
-            roll = -deviceMotion.attitude.roll;
-            pitch = -deviceMotion.attitude.pitch;
+            roll = (CGFloat) -deviceMotion.attitude.roll;
+            pitch = (CGFloat) -deviceMotion.attitude.pitch;
             break;
         case UIInterfaceOrientationLandscapeLeft:
-            roll = -deviceMotion.attitude.pitch;
-            pitch = -deviceMotion.attitude.roll;
+            roll = (CGFloat) -deviceMotion.attitude.pitch;
+            pitch = (CGFloat) -deviceMotion.attitude.roll;
             break;
         case UIInterfaceOrientationLandscapeRight:
-            roll = deviceMotion.attitude.pitch;
-            pitch = deviceMotion.attitude.roll;
+            roll = (CGFloat) deviceMotion.attitude.pitch;
+            pitch = (CGFloat) deviceMotion.attitude.roll;
             break;
     }
     // Update the image with the calculated values.
@@ -802,7 +802,7 @@
     }
 
     // Determine the scores and achievements earned for all players
-    NSArray *scores = [self multiplayerScoresForMatch:currentMatch turn:turn];
+    NSArray *scores = [self multiplayerScoresForTurn:turn];
     // End the match and report scores and achievements
     [currentMatch endMatchInTurnWithMatchData:data scores:scores achievements:nil completionHandler:^(NSError *error) {
         if (error) {
@@ -833,7 +833,7 @@
     return GKTurnBasedMatchOutcomeLost;
 }
 
-- (NSArray *)multiplayerScoresForMatch:(GKTurnBasedMatch *)match turn:(SHGameTurn *)turn {
+- (NSArray *)multiplayerScoresForTurn:(SHGameTurn *)turn {
     NSMutableArray *scores = [[NSMutableArray alloc] initWithCapacity:turn.scores.count];
     for (NSString *playerID in turn.scores) {
         GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.multiplayer" forPlayer:playerID];
