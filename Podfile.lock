@@ -1,4 +1,5 @@
 PODS:
+  - Analytics (0.10.5)
   - BlocksKit (2.2.0):
     - BlocksKit/All
   - BlocksKit/All (2.2.0):
@@ -23,9 +24,6 @@ PODS:
     - CocoaLumberjack/Core
   - EAIntroView (2.3.1)
   - Facebook-iOS-SDK (3.13.0)
-  - FlurrySDK (4.3.2):
-    - FlurrySDK/FlurrySDK
-  - FlurrySDK/FlurrySDK (4.3.2)
   - HexColors (2.2.1)
   - iRate (1.9.3)
   - KVOController (1.0.0)
@@ -35,11 +33,11 @@ PODS:
   - UIView+AutoLayout (1.3.0)
 
 DEPENDENCIES:
+  - Analytics (~> 0.10)
   - BlocksKit (~> 2.2)
   - CocoaLumberjack (~> 1.8)
   - EAIntroView (~> 2.3)
   - Facebook-iOS-SDK (~> 3.13)
-  - FlurrySDK (~> 4.3)
   - HexColors (~> 2.2)
   - iRate (~> 1.9)
   - KVOController (~> 1.0)
@@ -49,11 +47,11 @@ DEPENDENCIES:
   - UIView+AutoLayout (~> 1.3)
 
 SPEC CHECKSUMS:
+  Analytics: 1d16e1f48cd34a35ecc80d03c20ab356c16f908a
   BlocksKit: c10ccd83f4027d6a0af928d55d20e03b9280f73d
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
   EAIntroView: 44482e1dfb11cdcb2fca0b4abcffc8a16a9c9a99
   Facebook-iOS-SDK: 762cebd849e9c2c6274ba000212c61eabec1bde8
-  FlurrySDK: 2b2a1e80385e4716cfefdbc107967a88256531bf
   HexColors: 99211502e17904af7891fc8f687d0e4958a6d66e
   iRate: 99aef520b335a1eb4a14a8d9ba5e8db4e1d95bbe
   KVOController: ead0912769f4fae399ca2274a6755b788b773958

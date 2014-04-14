@@ -7,9 +7,9 @@
 //
 
 #import "SHAppDelegate.h"
-#import "Flurry.h"
 #import "FBAppCall.h"
 #import "SHGameCenterManager.h"
+#import "Analytics.h"
 
 @implementation SHAppDelegate
 
@@ -49,8 +49,8 @@
 
 #pragma mark - Setup
 - (void)setupAnalytics {
-//    [Flurry setCrashReportingEnabled:YES];
-    [Flurry startSession:@"R2MWC8V6XV5JZ3GDT9JN"];
+    [Analytics debug:YES];
+    [Analytics initializeWithSecret:@"0rtdrwphbm"]; // Write key
 }
 
 - (void)setupLogging {

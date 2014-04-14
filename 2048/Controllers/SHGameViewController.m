@@ -10,13 +10,13 @@
 #import "SHGameCellData.h"
 #import "SHGameCell.h"
 #import "SHGameCellView.h"
-#import "Flurry.h"
 #import "UIView+SHAdditions.h"
 #import "SHFacebookController.h"
 #import "UIViewController+MJPopupViewController.h"
 #import "SHGameTurn.h"
 #import <CoreMotion/CoreMotion.h>
 #import <KVOController/FBKVOController.h>
+#import <Analytics/Analytics.h>
 #import "UIAlertView+BlocksKit.h"
 #import "SHMultiplayerHeaderView.h"
 #import "UIView+AutoLayout.h"
@@ -165,7 +165,7 @@
 
 #pragma mark - Game
 - (void)initGame {
-    [Flurry logEvent:@"Game_Start"];
+    [[Analytics sharedAnalytics] track:@"Game_Start" properties:nil];
 
     self.score = 0;
     self.gameTerminated = NO;
@@ -523,7 +523,7 @@
 }
 
 - (IBAction)tryAgainClick:(id)sender {
-    [Flurry logEvent:@"Game_Try_Again"];
+    [[Analytics sharedAnalytics] track:@"Game_Try_Again" properties:nil];
     [self initGame];
 }
 
@@ -616,7 +616,8 @@
         self.gameWonView.hidden = YES;
         self.gameWonView.alpha = 1;
     } else {
-        [Flurry logEvent:@"Game_Won"];
+        [[Analytics sharedAnalytics] track:@"Game_Won" properties:nil];
+
         // Show the game terminated view.
         self.gameWonView.alpha = 0;
         self.gameWonView.hidden = NO;
