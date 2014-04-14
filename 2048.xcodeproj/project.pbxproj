@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0228166B18DEF29F000A535D /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0228166A18DEF29F000A535D /* GameKit.framework */; };
+		024AF00818FBEDE60003FD03 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 024AF00718FBEDE60003FD03 /* Crashlytics.framework */; };
 		026E28D418D4617A00369891 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D318D4617A00369891 /* Foundation.framework */; };
 		026E28D618D4617A00369891 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D518D4617A00369891 /* CoreGraphics.framework */; };
 		026E28D818D4617A00369891 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 026E28D718D4617A00369891 /* UIKit.framework */; };
@@ -61,6 +62,7 @@
 
 /* Begin PBXFileReference section */
 		0228166A18DEF29F000A535D /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		024AF00718FBEDE60003FD03 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		026E28D018D4617A00369891 /* 2048.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 2048.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		026E28D318D4617A00369891 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		026E28D518D4617A00369891 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -136,6 +138,7 @@
 				0228166B18DEF29F000A535D /* GameKit.framework in Frameworks */,
 				026E28D418D4617A00369891 /* Foundation.framework in Frameworks */,
 				85EB4336D6E443818D6E9BA2 /* libPods.a in Frameworks */,
+				024AF00818FBEDE60003FD03 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +178,7 @@
 		026E28D218D4617A00369891 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				024AF00718FBEDE60003FD03 /* Crashlytics.framework */,
 				0228166A18DEF29F000A535D /* GameKit.framework */,
 				ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */,
 				026E28D318D4617A00369891 /* Foundation.framework */,
@@ -329,6 +333,7 @@
 				026E28CD18D4617A00369891 /* Frameworks */,
 				026E28CE18D4617A00369891 /* Resources */,
 				62E671ED979D4461AFCED2DF /* Copy Pods Resources */,
+				024AF00618FBEDBD0003FD03 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -426,6 +431,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		024AF00618FBEDBD0003FD03 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 3a6eafbc09aeb0ae347350ae99040ae7a42d37b3 c755d9e400a80c9b16b8cee36b001b4e40c75bf8a7778f9e8a98aad3600f9aea";
+		};
 		62E671ED979D4461AFCED2DF /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -611,6 +629,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
 				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";
@@ -629,6 +651,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "2048/Supporting Files/2048-Prefix.pch";
 				INFOPLIST_FILE = "2048/Supporting Files/2048-Info.plist";

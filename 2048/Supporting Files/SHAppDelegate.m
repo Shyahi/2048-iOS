@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Shyahi. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
 #import "SHAppDelegate.h"
 #import "FBAppCall.h"
 #import "SHGameCenterManager.h"
@@ -49,8 +50,17 @@
 
 #pragma mark - Setup
 - (void)setupAnalytics {
+    [self setupSegmentAnalytics];
+    [self setupCrashlytics];
+}
+
+- (void)setupSegmentAnalytics {
     [Analytics debug:YES];
     [Analytics initializeWithSecret:@"0rtdrwphbm"]; // Write key
+}
+
+- (void)setupCrashlytics {
+    [Crashlytics startWithAPIKey:@"3a6eafbc09aeb0ae347350ae99040ae7a42d37b3"];
 }
 
 - (void)setupLogging {
