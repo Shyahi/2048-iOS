@@ -95,9 +95,9 @@
 
 - (void)updateTurnIndicatorsForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant{
     if (match.participants.count >= 1) {
-        self.player1TurnIndicatorView.hidden = [participant isEqual:match.participants[0]];
+        self.player1TurnIndicatorView.hidden = ![participant isEqual:match.participants[0]];
         if (match.participants.count >= 2) {
-            self.player2TurnIndicatorView.hidden = [participant isEqual:match.participants[1]];
+            self.player2TurnIndicatorView.hidden = ![participant isEqual:match.participants[1]];
         }
     }
 }
