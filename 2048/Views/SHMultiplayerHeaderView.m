@@ -103,7 +103,13 @@
 }
 
 - (void)updateScoreForParticipant:(GKTurnBasedParticipant *)participant turn:(SHGameTurn *)turn label:(UILabel *)label {
-    NSNumber *score = turn.scores[participant.playerID];
+    // Find the current score
+    NSNumber *score;
+    if (turn && turn.scores) {
+        score = turn.scores[participant.playerID];
+    }
+
+    // Update label
     if (score) {
         label.text = [[SHHelpers scoreFormatter] stringFromNumber:score];
     } else {

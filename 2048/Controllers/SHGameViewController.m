@@ -930,12 +930,17 @@
 
             [controller.singleplayerHeaderView removeFromSuperview];
         }
+
+        // TODO Update board for this match.
     }
 }
 #pragma mark SH Game Center Manager Delegate
 - (void)enterNewGame:(GKTurnBasedMatch *)match {
     DDLogVerbose(@"Entering new multiplayer game...");
+    // Initialize game
     [self initGame];
+    // Update the multiplayer header
+    [self.multiplayerHeaderView setMatch:match turn:nil currentParticipant:match.currentParticipant];
 }
 
 - (void)layoutMatch:(GKTurnBasedMatch *)match {
