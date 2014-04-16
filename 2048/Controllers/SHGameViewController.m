@@ -75,7 +75,7 @@
     [self setup];
     [self setupViews];
     [self setupFacebook];
-    [self initGame];
+    [self initGameCreateBoard:!self.isMultiplayer];
     [self setupGameCenter];
 }
 
@@ -164,14 +164,21 @@
 }
 
 #pragma mark - Game
-- (void)initGame {
+- (void)initGameCreateBoard:(BOOL)createBoard {
     [[Analytics sharedAnalytics] track:@"Game_Start" properties:nil];
-
+    // Initialize defaults
     self.score = 0;
     self.gameTerminated = NO;
     self.gameWon = NO;
     self.gamePaused = NO;
     self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
+    // Create board
+    if (createBoard) {
+        [self createGameBoard];
+    }
+}
+
+- (void)createGameBoard {
     [self initBoard];
     [self.collectionView reloadData];
     [self addRandomTile];
@@ -524,7 +531,7 @@
 
 - (IBAction)tryAgainClick:(id)sender {
     [[Analytics sharedAnalytics] track:@"Game_Try_Again" properties:nil];
-    [self initGame];
+    [self initGameCreateBoard:YES];
 }
 
 - (IBAction)shareClick:(id)sender {
@@ -697,7 +704,7 @@
 
 - (void)startNewGameClick {
     [self saveScore];
-    [self initGame];
+    [self initGameCreateBoard:YES ];
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
@@ -931,14 +938,15 @@
             [controller.singleplayerHeaderView removeFromSuperview];
         }
 
-        // TODO Update board for this match.
+        // Update board for this match.
+        [self layoutMatch:currentMatch];
     }
 }
 #pragma mark SH Game Center Manager Delegate
 - (void)enterNewGame:(GKTurnBasedMatch *)match {
     DDLogVerbose(@"Entering new multiplayer game...");
     // Initialize game
-    [self initGame];
+    [self initGameCreateBoard:YES ];
     // Update the multiplayer header
     [self.multiplayerHeaderView setMatch:match turn:nil currentParticipant:match.currentParticipant];
 }
