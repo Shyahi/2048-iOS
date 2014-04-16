@@ -910,7 +910,7 @@
 }
 
 - (void)gameCenterManager:(SHGameCenterManager *)manager currentMatchDidChange:(GKTurnBasedMatch *)currentMatch controller:(SHGameViewController *)controller {
-    if (currentMatch == nil) {
+    if (!self.isMultiplayer || currentMatch == nil) {
         // Show the multiplayer game selection if it is in multiplayer mode.
         if (self.isMultiplayer) {
             self.multiplayerConnectView.hidden = NO;
