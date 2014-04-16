@@ -1024,6 +1024,8 @@
 }
 
 - (void)gameCenterManager:(SHGameCenterManager *)manager didAuthenticatePlayer:(GKLocalPlayer *)player {
+    [self localPlayer:player authenticationDidChange:self];
+
     if (self.isMultiplayer && self.gameCenterManager.currentMatch == nil) {
         // Find a multiplayer game
         [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
