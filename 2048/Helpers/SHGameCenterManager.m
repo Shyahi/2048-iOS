@@ -39,17 +39,16 @@
 - (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController {
     self.presentingViewController = viewController;
 
+    // Create a match request
     GKMatchRequest *request = [[GKMatchRequest alloc] init];
     request.minPlayers = minPlayers;
     request.maxPlayers = maxPlayers;
 
-    GKTurnBasedMatchmakerViewController *mmvc = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
-    mmvc.turnBasedMatchmakerDelegate = self;
-    mmvc.showExistingMatches = YES;
-
-    [self.presentingViewController presentViewController:mmvc animated:YES completion:^{
-
-    }];
+    // Create and present the standard iOS matchmaking view controller
+    GKTurnBasedMatchmakerViewController *turnBasedMatchmakerViewController = [[GKTurnBasedMatchmakerViewController alloc] initWithMatchRequest:request];
+    turnBasedMatchmakerViewController.turnBasedMatchmakerDelegate = self;
+    turnBasedMatchmakerViewController.showExistingMatches = YES;
+    [self.presentingViewController presentViewController:turnBasedMatchmakerViewController animated:YES completion:nil];
 }
 
 #pragma mark - Turn Based Matchmaker View Controller Delegate
