@@ -777,7 +777,7 @@
     GKTurnBasedParticipant *nextParticipant;
     nextParticipant = [currentMatch.participants objectAtIndex:((currentIndex + 1) % [currentMatch.participants count])];
     // End current turn with next participant.
-    [currentMatch endTurnWithNextParticipants:@[nextParticipant, currentMatch.currentParticipant] turnTimeout:60 * 60 * 2 matchData:data completionHandler:^(NSError *error) {
+    [currentMatch endTurnWithNextParticipants:@[nextParticipant, currentMatch.currentParticipant] turnTimeout:GKTurnTimeoutDefault matchData:data completionHandler:^(NSError *error) {
         if (error) {
             DDLogWarn(@"Error in ending current turn %@", error);
             [UIAlertView bk_showAlertViewWithTitle:@"Error" message:@"There was an error playing your turn" cancelButtonTitle:@"End Game" otherButtonTitles:@[@"Try Again"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
