@@ -820,6 +820,7 @@
     for (GKTurnBasedParticipant *participant in currentMatch.participants) {
         if (participant.status == GKTurnBasedParticipantStatusActive) {
             participant.matchOutcome = [self outcomeForParticipant:participant scores:turn.scores];
+            DDLogVerbose(@"Match outcome for participant %@: %d", participant, participant.matchOutcome);
         }
     }
 
@@ -841,15 +842,24 @@
             DDLogVerbose(@"Ended multiplayer match %@", currentMatch.matchID);
         }
     }];
-
+    [self didEndTurn:turn withMatch:currentMatch nextParticipant:nil];
 }
 
 - (GKTurnBasedMatchOutcome)outcomeForParticipant:(GKTurnBasedParticipant *)participant scores:(NSMutableDictionary *)scores {
     // Find the max score
-    NSNumber *maxScore = [[scores allValues] valueForKeyPath:@"@max.integerValue"];
+    int maxScore = -1;
+    for (NSString *playerId in scores.allKeys) {
+        int score = [((NSNumber *) scores[playerId]) integerValue];
+        DDLogVerbose(@"Player %@, score %d", playerId, score);
+        if (maxScore < score) {
+            maxScore = score;
+        } else if (maxScore == score) {
+            return GKTurnBasedMatchOutcomeTied;
+        }
+    }
 
     // Find if the participant won or lost.
-    if ([scores[participant.playerID] isEqual:maxScore]) {
+    if ([((NSNumber *) scores[participant.playerID]) integerValue] == maxScore) {
         return GKTurnBasedMatchOutcomeWon;
     }
     return GKTurnBasedMatchOutcomeLost;
@@ -868,13 +878,22 @@
     if (match.status == GKTurnBasedMatchStatusEnded) {
         // Find the winner.
         for (GKTurnBasedParticipant *matchParticipant in match.participants) {
-            if (matchParticipant.matchOutcome == GKTurnBasedMatchOutcomeWon) {
-                if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-                    self.gameWonLabel.text = @"You win!";
-                } else {
-                    int playerNum = [match.participants indexOfObject:matchParticipant] + 1;
-                    self.gameWonLabel.text = [NSString stringWithFormat:@"You lose!"];
+            if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+                switch (matchParticipant.matchOutcome) {
+                    case GKTurnBasedMatchOutcomeWon:
+                        self.gameWonLabel.text = @"You win!";
+                        break;
+                    case GKTurnBasedMatchOutcomeLost:
+                        self.gameWonLabel.text = @"You lose!";
+                        break;
+                    case GKTurnBasedMatchOutcomeTied:
+                        self.gameWonLabel.text = @"Match tied!";
+                        break;
+                    default:
+                        self.gameWonLabel.text = @"Match over!";
+                        break;
                 }
+                break;
             }
         }
     } else {
