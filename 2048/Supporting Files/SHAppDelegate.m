@@ -7,10 +7,17 @@
 //
 
 #import <Crashlytics/Crashlytics.h>
+#import <GameKit/GameKit.h>
 #import "SHAppDelegate.h"
 #import "FBAppCall.h"
 #import "SHGameCenterManager.h"
 #import "Analytics.h"
+#import "SHGameViewController.h"
+#import "SHViewController.h"
+
+@interface SHAppDelegate ()
+@property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
+@end
 
 @implementation SHAppDelegate
 
@@ -55,7 +62,7 @@
 }
 
 - (void)setupSegmentAnalytics {
-    [Analytics debug:YES];
+    [Analytics debug:NO];
     [Analytics initializeWithSecret:@"0rtdrwphbm"]; // Write key
 }
 
@@ -90,7 +97,16 @@
 
 #pragma mark - Game Center
 - (void)setupGameCenter {
-    [[SHGameCenterManager sharedManager] setup];
+    self.gameCenterManager = [SHGameCenterManager sharedManager];
+    [self.gameCenterManager setupWithAppDelegate:self];
 }
 
+- (void)layoutMatch:(GKTurnBasedMatch *)match {
+    UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
+
+    if (![navigationController.topViewController isKindOfClass:[SHGameViewController class]]) {
+        // Segue to the game view controller
+        [navigationController.topViewController performSegueWithIdentifier:kSHMultiplayerGameSegueIdentifier sender:navigationController.topViewController];
+    }
+}
 @end

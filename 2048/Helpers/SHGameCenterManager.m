@@ -8,9 +8,11 @@
 #import "SHGameCenterManager.h"
 #import "UIAlertView+BlocksKit.h"
 #import "Reachability.h"
+#import "SHAppDelegate.h"
 
 @interface SHGameCenterManager ()
 @property(nonatomic, strong) UIViewController *presentingViewController;
+@property(nonatomic, weak) SHAppDelegate *appDelegate;
 @end
 
 @implementation SHGameCenterManager {
@@ -18,7 +20,8 @@
 }
 
 #pragma mark Public methods
-- (void)setup {
+- (void)setupWithAppDelegate:(SHAppDelegate *)delegate {
+    self.appDelegate = delegate;
     [self authenticateLocalPlayer];
 }
 
@@ -95,7 +98,12 @@
     if (didBecomeActive) {
         // Application was started by clicking on this notification. Switch to this match.
         self.currentMatch = match;
-        [self.delegate layoutMatch:match];
+
+        if (self.delegate == nil) {
+            [self.appDelegate layoutMatch:match];
+        } else {
+            [self.delegate layoutMatch:match];
+        }
     } else {
         if ([self.currentMatch isEqual:match]) {
             // This is the current match. Update UI for this turn.
@@ -120,7 +128,6 @@
     }
 }
 
-
 #pragma mark - Utility methods
 - (void)authenticateLocalPlayer {
     if ([self isInternetAvailable]) {
@@ -131,6 +138,10 @@
                     [self.delegate gameCenterManager:self authenticateUser:viewController];
                 }
             } else if ([GKLocalPlayer localPlayer].isAuthenticated) {
+                // Register listener
+                [[GKLocalPlayer localPlayer] registerListener:self];
+
+                // Call didAuthenticatePlayer on delegate
                 if ([self.delegate respondsToSelector:@selector(gameCenterManager:didAuthenticatePlayer:)]) {
                     [self.delegate gameCenterManager:self didAuthenticatePlayer:[GKLocalPlayer localPlayer]];
                 }

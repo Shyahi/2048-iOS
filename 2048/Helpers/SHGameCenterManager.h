@@ -10,6 +10,7 @@
 
 @protocol SHGameCenterManagerDelegate;
 @protocol GameCenterManagerDelegate;
+@class SHAppDelegate;
 
 @interface SHGameCenterManager : NSObject <GKTurnBasedMatchmakerViewControllerDelegate, GKLocalPlayerListener>
 @property(nonatomic, strong) GKTurnBasedMatch *currentMatch;
@@ -21,6 +22,8 @@
 - (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController;
 
 - (void)setup;
+
+- (void)setupWithAppDelegate:(SHAppDelegate *)delegate;
 @end
 
 @protocol SHGameCenterManagerDelegate <NSObject>

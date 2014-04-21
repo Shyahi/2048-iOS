@@ -44,7 +44,7 @@
 
 
 - (void)drawRect:(CGRect)rect {
-    CGContextRef c = UIGraphicsGetCurrentContext(), context = c;
+    CGContextRef c = UIGraphicsGetCurrentContext();
     CGColorRef col = self.tintColor.CGColor;
     CGColorRef bcol = self.tintColor.CGColor;
     CGContextSetFillColorWithColor(c, col);

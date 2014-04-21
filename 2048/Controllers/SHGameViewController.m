@@ -879,7 +879,6 @@
     // Initialize the game center manager
     self.gameCenterManager = [SHGameCenterManager sharedManager];
     self.gameCenterManager.delegate = self;
-    [[GKLocalPlayer localPlayer] registerListener:self.gameCenterManager];
 
     // Check if we need to authenticate player.
     if ([GKLocalPlayer localPlayer].isAuthenticated) {
