@@ -773,6 +773,7 @@
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
                         <outlet property="gameContentView" destination="E3i-iW-M62" id="z3m-OC-MS2"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
+                        <outlet property="gameWonLabel" destination="ckt-g8-HYr" id="mbr-Ic-Dlx"/>
                         <outlet property="gameWonView" destination="YIs-se-mHg" id="gAz-m3-4e5"/>
                         <outlet property="menuButton" destination="uZ5-sY-TqC" id="bE4-kI-1BR"/>
                         <outlet property="multiplayerConnectView" destination="wD1-Sk-EF4" id="q8e-hj-6Cr"/>

@@ -51,6 +51,7 @@
 @property(strong, nonatomic) IBOutlet UILabel *scoreLabel;
 @property(strong, nonatomic) IBOutlet UIView *gameTerminatedView;
 @property(strong, nonatomic) IBOutlet UIView *gameWonView;
+@property(strong, nonatomic) IBOutlet UILabel *gameWonLabel;
 @property(strong, nonatomic) IBOutlet UIButton *menuButton;
 @property(strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property(strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
@@ -540,7 +541,7 @@
         [self startMultiplayerMatch];
     } else {
         // Start new single player game
-    [self initGameCreateBoard:YES];
+        [self initGameCreateBoard:YES];
     }
 }
 
@@ -638,6 +639,9 @@
         // Show the game terminated view.
         self.gameWonView.alpha = 0;
         self.gameWonView.hidden = NO;
+        if (!self.isMultiplayer) {
+            self.gameWonLabel.text = @"You win!";
+        }
         [UIView animateWithDuration:1 animations:^{
             self.gameWonView.alpha = 1;
         }                completion:^(BOOL finished) {
@@ -866,10 +870,10 @@
         for (GKTurnBasedParticipant *matchParticipant in match.participants) {
             if (matchParticipant.matchOutcome == GKTurnBasedMatchOutcomeWon) {
                 if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-                    self.statusLabel.text = @"Match ended. You Won!";
+                    self.gameWonLabel.text = @"You win!";
                 } else {
                     int playerNum = [match.participants indexOfObject:matchParticipant] + 1;
-                    self.statusLabel.text = [NSString stringWithFormat:@"Match ended. Player %d won!", playerNum];
+                    self.gameWonLabel.text = [NSString stringWithFormat:@"You lose!"];
                 }
             }
         }
