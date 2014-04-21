@@ -21,6 +21,7 @@
 #import "SHMultiplayerHeaderView.h"
 #import "UIView+AutoLayout.h"
 #import "SHHelpers.h"
+#import "SVProgressHUD.h"
 
 @interface SHGameViewController ()
 
@@ -234,7 +235,14 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
-    if (self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid] || (self.isMultiplayer && ![self isCurrentPlayersTurn])) {
+    if (self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid]) {
+        return;
+    }
+
+    if (self.isMultiplayer && ![self isCurrentPlayersTurn]) {
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, self.view.bounds.size.height/2 - 24)];
+        [[SVProgressHUD appearance] setHudFont:[UIFont fontWithName:@"AvenirNext" size:16]];
+        [SVProgressHUD showImage:nil status:@"Be patient! Not your turn"];
         return;
     }
 
