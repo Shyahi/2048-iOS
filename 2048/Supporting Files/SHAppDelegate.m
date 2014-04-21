@@ -104,9 +104,19 @@
 - (void)layoutMatch:(GKTurnBasedMatch *)match {
     UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
 
-    if (![navigationController.topViewController isKindOfClass:[SHGameViewController class]]) {
+    if ([navigationController.topViewController isKindOfClass:[SHViewController class]]) {
         // Segue to the game view controller
         [navigationController.topViewController performSegueWithIdentifier:kSHMultiplayerGameSegueIdentifier sender:navigationController.topViewController];
+    } else if ([navigationController.topViewController isKindOfClass:[SHGameViewController class]]) {
+        // It is the top controller. Just layout this match
+        SHGameViewController *gameViewController = (SHGameViewController *) navigationController.topViewController;
+        if (gameViewController.isMultiplayer) {
+            [gameViewController layoutMatch:match];
+        } else {
+            // TODO Switch to multiplayer game from a single player game?
+        }
+    } else {
+        // TODO Open game view controller from other controllers?
     }
 }
 @end

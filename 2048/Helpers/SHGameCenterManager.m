@@ -112,8 +112,15 @@
         } else if ([match.currentParticipant.playerID isEqual:player.playerID]) {
             // Its our player's turn in another match. Notify him.
             [UIAlertView bk_showAlertViewWithTitle:@"Its your turn" message:@"Its your turn in another match. Switch now?" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Take turn"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                self.currentMatch = match;
-                [self.delegate layoutMatch:match];
+                switch (buttonIndex) {
+                    case 1:
+                        // Switch match
+                        self.currentMatch = match;
+                        [self.appDelegate layoutMatch:match];
+                        break;
+                    default:
+                        break;
+                }
             }];
         }
     }
