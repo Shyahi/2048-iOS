@@ -234,12 +234,7 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
-    if (self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid]) {
-        return;
-    }
-
-    if ([GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.currentMatch && ![self.gameCenterManager.currentMatch.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-        DDLogVerbose(@"Local player id: %@, Player with turn: %@", [GKLocalPlayer localPlayer].playerID, self.gameCenterManager.currentMatch.currentParticipant.playerID);
+    if (self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid] || (self.isMultiplayer && ![self isCurrentPlayersTurn])) {
         return;
     }
 
@@ -941,6 +936,14 @@
         // Update board for this match.
         [self layoutMatch:currentMatch];
     }
+}
+
+- (BOOL)isCurrentPlayersTurn {
+    if ([GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.currentMatch && ![self.gameCenterManager.currentMatch.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+        DDLogVerbose(@"Not current player's turn. Local player id: %@, Player with turn: %@", [GKLocalPlayer localPlayer].playerID, self.gameCenterManager.currentMatch.currentParticipant.playerID);
+        return NO;
+    }
+    return YES;
 }
 
 - (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match {
