@@ -240,7 +240,7 @@
     }
 
     if (self.isMultiplayer && ![self isCurrentPlayersTurn]) {
-        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, self.view.bounds.size.height/2 - 24)];
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, self.view.bounds.size.height / 2 - 24)];
         [[SVProgressHUD appearance] setHudFont:[UIFont fontWithName:@"AvenirNext" size:16]];
         [SVProgressHUD showImage:nil status:@"Be patient! Not your turn"];
         return;
@@ -535,7 +535,13 @@
 
 - (IBAction)tryAgainClick:(id)sender {
     [[Analytics sharedAnalytics] track:@"Game_Try_Again" properties:nil];
+    if (self.isMultiplayer) {
+        // Open multiplayer game selection
+        [self startMultiplayerMatch];
+    } else {
+        // Start new single player game
     [self initGameCreateBoard:YES];
+    }
 }
 
 - (IBAction)shareClick:(id)sender {
@@ -559,7 +565,7 @@
 }
 
 - (IBAction)multiplayerGameClick:(id)sender {
-    [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+    [self startMultiplayerMatch];
 }
 
 - (IBAction)multiplayerLoginClick:(id)sender {
@@ -567,7 +573,7 @@
 }
 
 - (IBAction)multiplayerPlayClick:(id)sender {
-    [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+    [self startMultiplayerMatch];
 }
 
 - (IBAction)backButtonClick:(id)sender {
@@ -824,7 +830,7 @@
                     // Cancel.
                 } else if (buttonIndex == 1) {
                     // Try again.
-                    [self continueMultiplayerMatch:currentMatch withTurn:turn data:data];
+                    [self endMultiplayerMatch:currentMatch withTurn:turn data:data];
                 }
             }];
         } else {
@@ -957,6 +963,10 @@
 - (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match {
     self.isMultiplayer = YES;
     [self setup];
+}
+
+- (void)startMultiplayerMatch {
+    [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
 }
 #pragma mark SH Game Center Manager Delegate
 - (void)enterNewGame:(GKTurnBasedMatch *)match {
