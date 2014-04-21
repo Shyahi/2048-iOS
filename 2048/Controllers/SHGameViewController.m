@@ -73,14 +73,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setup];
-    [self setupViews];
-    [self setupFacebook];
-    [self initGameCreateBoard:!self.isMultiplayer];
-    [self setupGameCenter];
 }
 
 - (void)setup {
     self.tiltEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kSHUserDefaultsGameOptionTiltEnabled];
+
+    [self setupViews];
+    [self setupFacebook];
+    [self initGameCreateBoard:!self.isMultiplayer];
+    [self setupGameCenter];
 }
 
 - (void)setupViews {
@@ -941,6 +942,11 @@
         [self layoutMatch:currentMatch];
     }
 }
+
+- (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match {
+    self.isMultiplayer = YES;
+    [self setup];
+}
 #pragma mark SH Game Center Manager Delegate
 - (void)enterNewGame:(GKTurnBasedMatch *)match {
     DDLogVerbose(@"Entering new multiplayer game...");
@@ -1044,6 +1050,7 @@
     }
     return YES;
 }
+
 @end
 
 @implementation SHBoardMoveResult

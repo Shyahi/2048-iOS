@@ -25,6 +25,8 @@ static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_T
 
 @interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate>
 @property(nonatomic) BOOL isMultiplayer;
+
+- (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match;
 @end
 
 @interface SHBoardMoveResult : NSObject

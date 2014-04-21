@@ -14,6 +14,7 @@
 #import "Analytics.h"
 #import "SHGameViewController.h"
 #import "SHViewController.h"
+#import "UIAlertView+BlocksKit.h"
 
 @interface SHAppDelegate ()
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
@@ -113,7 +114,18 @@
         if (gameViewController.isMultiplayer) {
             [gameViewController layoutMatch:match];
         } else {
-            // TODO Switch to multiplayer game from a single player game?
+            // Switch to multiplayer game from a single player game?
+            [UIAlertView bk_showAlertViewWithTitle:@"End This Match" message:@"You will loose the current progress when switching to multiplayer mode. Are you sure you want to end this match?" cancelButtonTitle:@"No" otherButtonTitles:@[@"Yes"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                switch (buttonIndex) {
+                    case 1:
+                        // Continue. Switch to multiplayer mode.
+                        [gameViewController switchToMultiplayerModeWithMatch:match];
+                        break;
+                    default:
+                        break;
+
+                }
+            }];
         }
     } else {
         // TODO Open game view controller from other controllers?
