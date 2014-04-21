@@ -31,7 +31,7 @@
 
 - (void)viewDidLoad {
     // Initialize defaults
-    self.borderRadius = 10.f;
+    self.borderRadius = 7.f;
 
     // Create a bezier path
     CGFloat a = self.borderRadius / 2.f;
