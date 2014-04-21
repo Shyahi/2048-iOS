@@ -995,6 +995,8 @@
         // Update the current score for this player.
         if ([turn.scores objectForKey:[GKLocalPlayer localPlayer].playerID]) {
             self.score = ((NSNumber *) [turn.scores objectForKey:[GKLocalPlayer localPlayer].playerID]).integerValue;
+        } else {
+            self.score = 0;
         }
         // Update the current state of board.
         self.board = [turn.board mutableCopy];
