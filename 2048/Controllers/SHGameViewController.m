@@ -744,6 +744,15 @@
 - (void)loginToGameCenter {
     if (![GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.gameCenterLoginController != nil) {
         [self presentViewController:self.gameCenterManager.gameCenterLoginController animated:YES completion:nil];
+    } else if (![GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.gameCenterLoginError != nil) {
+        if (self.gameCenterManager.gameCenterLoginError.code == 2) {
+            // User has cancelled login several times and needs to logout and login to Game Center app to re enable.
+            // https://sprint.ly/product/19603/#!/item/13
+            [UIAlertView bk_showAlertViewWithTitle:@"Cannot login to Game Center" message:@"There was a problem logging into Game Center. Please log out and log in again from the GameCenter app to enable multiplayer mode" cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+        } else {
+            [UIAlertView bk_showAlertViewWithTitle:@"Cannot login to Game Center" message:@"There was a problem logging into Game Center. Please contact us (2048@shyahi.com) if this problem persists." cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+        }
+
     }
 }
 

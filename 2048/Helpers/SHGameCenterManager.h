@@ -16,12 +16,11 @@
 @property(nonatomic, strong) GKTurnBasedMatch *currentMatch;
 @property(nonatomic, weak) id <SHGameCenterManagerDelegate> delegate;
 @property(nonatomic, strong) UIViewController *gameCenterLoginController;
+@property(nonatomic, strong) NSError *gameCenterLoginError;
 
 + (instancetype)sharedManager;
 
 - (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController;
-
-- (void)setup;
 
 - (void)setupWithAppDelegate:(SHAppDelegate *)delegate;
 @end

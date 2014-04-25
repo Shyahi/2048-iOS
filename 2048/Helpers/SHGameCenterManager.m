@@ -136,6 +136,7 @@
 
 #pragma mark - Utility methods
 - (void)authenticateLocalPlayer {
+    self.gameCenterLoginError = nil;
     if ([self isInternetAvailable]) {
         [GKLocalPlayer localPlayer].authenticateHandler = ^(UIViewController *viewController, NSError *error) {
             if (viewController != nil) {
@@ -155,6 +156,7 @@
                 if ([self.delegate respondsToSelector:@selector(gameCenterManagerdidFailToAuthenticatePlayer:)]) {
                     [self.delegate gameCenterManagerdidFailToAuthenticatePlayer:self];
                 }
+                self.gameCenterLoginError = error;
             }
         };
     }
