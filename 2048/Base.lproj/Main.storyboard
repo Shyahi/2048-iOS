@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9DM-OK-a2U">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="9DM-OK-a2U">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -27,7 +27,7 @@
                                 <rect key="frame" x="150" y="98" width="20" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOz-nv-RG6" userLabel="Row 1">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kOz-nv-RG6" userLabel="Row 1">
                                 <rect key="frame" x="0.0" y="113" width="320" height="153"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -180,7 +180,7 @@
                                     <outletCollection property="gestureRecognizers" destination="gCX-DY-2EV" appends="YES" id="M5A-oD-PPI"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9I7-eY-VjX" userLabel="Separator 1-2">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9I7-eY-VjX" userLabel="Separator 1-2">
                                 <rect key="frame" x="0.0" y="266" width="320" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -611,6 +611,21 @@
                                                                     <action selector="multiplayerLoginClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="WZW-vn-d6h"/>
                                                                 </connections>
                                                             </button>
+                                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YiP-9d-VjK" userLabel="Login Activity View">
+                                                                <rect key="frame" x="11" y="11" width="76" height="36"/>
+                                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                <subviews>
+                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="elG-fC-iZn">
+                                                                        <rect key="frame" x="28" y="8" width="20" height="20"/>
+                                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                                    </activityIndicatorView>
+                                                                </subviews>
+                                                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="centerY" secondItem="elG-fC-iZn" secondAttribute="centerY" id="GHU-6F-WuU"/>
+                                                                    <constraint firstAttribute="centerX" secondItem="elG-fC-iZn" secondAttribute="centerX" id="y1x-AP-DQc"/>
+                                                                </constraints>
+                                                            </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-gQ-h4b" userLabel="Login Complete View">
                                                                 <rect key="frame" x="11" y="11" width="76" height="36"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -649,9 +664,13 @@
                                                             <constraint firstItem="rX1-5V-2bQ" firstAttribute="trailing" secondItem="k3t-gQ-h4b" secondAttribute="trailing" id="8Of-fR-KPQ"/>
                                                             <constraint firstItem="vXX-hR-MiU" firstAttribute="leading" secondItem="rX1-5V-2bQ" secondAttribute="trailing" constant="11" id="Afa-JA-ZOo"/>
                                                             <constraint firstAttribute="bottom" secondItem="vXX-hR-MiU" secondAttribute="bottom" constant="11" id="BmI-VM-KjD"/>
+                                                            <constraint firstItem="YiP-9d-VjK" firstAttribute="top" secondItem="k3t-gQ-h4b" secondAttribute="top" id="Kid-My-aaj"/>
+                                                            <constraint firstItem="YiP-9d-VjK" firstAttribute="bottom" secondItem="k3t-gQ-h4b" secondAttribute="bottom" id="SWf-vq-cuB"/>
+                                                            <constraint firstItem="YiP-9d-VjK" firstAttribute="trailing" secondItem="k3t-gQ-h4b" secondAttribute="trailing" id="TZh-tv-D1E"/>
                                                             <constraint firstItem="rX1-5V-2bQ" firstAttribute="bottom" secondItem="k3t-gQ-h4b" secondAttribute="bottom" id="VjF-C4-fId"/>
                                                             <constraint firstItem="vXX-hR-MiU" firstAttribute="width" secondItem="rX1-5V-2bQ" secondAttribute="width" id="Whr-M9-Dhk"/>
                                                             <constraint firstItem="rX1-5V-2bQ" firstAttribute="leading" secondItem="k3t-gQ-h4b" secondAttribute="leading" id="X62-Om-bke"/>
+                                                            <constraint firstItem="YiP-9d-VjK" firstAttribute="leading" secondItem="k3t-gQ-h4b" secondAttribute="leading" id="iLm-Rv-ES9"/>
                                                             <constraint firstItem="rX1-5V-2bQ" firstAttribute="leading" secondItem="2cW-U8-u6q" secondAttribute="leading" constant="11" id="mDY-ui-sUB"/>
                                                             <constraint firstItem="rX1-5V-2bQ" firstAttribute="top" secondItem="k3t-gQ-h4b" secondAttribute="top" id="wAq-JF-Iei"/>
                                                             <constraint firstItem="rX1-5V-2bQ" firstAttribute="top" secondItem="2cW-U8-u6q" secondAttribute="top" constant="11" id="wvw-s6-2GK"/>
@@ -778,6 +797,7 @@
                         <outlet property="menuButton" destination="uZ5-sY-TqC" id="bE4-kI-1BR"/>
                         <outlet property="multiplayerConnectView" destination="wD1-Sk-EF4" id="q8e-hj-6Cr"/>
                         <outlet property="multiplayerHeaderView" destination="Oa8-V8-CLx" id="7zb-l2-fpf"/>
+                        <outlet property="multiplayerLoginActivityView" destination="YiP-9d-VjK" id="G2I-0s-25A"/>
                         <outlet property="multiplayerLoginCompleteView" destination="k3t-gQ-h4b" id="MzZ-EF-cwU"/>
                         <outlet property="scoreLabel" destination="qYM-7a-FXv" id="sXV-cb-mY5"/>
                         <outlet property="scoreView" destination="Gzk-an-zjd" id="wcI-xI-8nc"/>

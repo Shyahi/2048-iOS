@@ -22,6 +22,8 @@
 
 - (void)findMatchWithMinPlayers:(NSUInteger)minPlayers maxPlayers:(NSUInteger)maxPlayers viewController:(UIViewController *)viewController;
 
+- (void)authenticateLocalPlayer;
+
 - (void)setupWithAppDelegate:(SHAppDelegate *)delegate;
 @end
 
