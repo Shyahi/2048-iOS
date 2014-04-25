@@ -59,7 +59,7 @@
 @property(strong, nonatomic) IBOutlet UIView *gameContentView;
 @property(strong, nonatomic) IBOutlet UIView *multiplayerConnectView;
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginCompleteView;
-@property (strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
+@property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
 @end
 
 @implementation SHGameViewController
@@ -634,10 +634,28 @@
     }
 }
 
+- (void)publishScore {
+    // Send score to facebook
+    [self.facebookController updateScoreOnFacebook:self.score];
+
+    if (!self.isMultiplayer) {
+        // Send score to Game Center singleplayer leaderboards
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.singleplayer"];
+        score.value = self.score;
+        [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
+            if (error) {
+                DDLogWarn(@"Error when reporting score to game center. %@", error);
+            }
+        }];
+    }
+}
+
 - (void)saveScoreAndPublish {
     [self saveScore];
-    [self.facebookController updateScoreOnFacebook:self.score];
+    [self publishScore];
+
 }
+
 
 - (void)setGameWon:(BOOL)gameWon {
     _gameWon = gameWon;
