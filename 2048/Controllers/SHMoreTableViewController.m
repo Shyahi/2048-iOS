@@ -34,6 +34,10 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [UIView new];
+}
+
 #pragma mark - Table View Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
