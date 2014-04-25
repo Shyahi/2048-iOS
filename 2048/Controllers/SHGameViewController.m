@@ -585,6 +585,11 @@
 - (void)setScore:(int)score {
     _score = score;
     self.scoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(score)];
+
+    // Update best score if current score is better
+    if (_score > self.bestScore) {
+        self.bestScore = _score;
+    }
 }
 
 - (void)setBestScore:(NSInteger)bestScore {
@@ -594,6 +599,9 @@
     } else {
         self.bestScoreLabel.text = @"-";
     }
+
+    // Save score
+    [self saveScore];
 }
 
 - (void)setGameTerminated:(BOOL)gameTerminated {
@@ -613,7 +621,7 @@
         }];
 
         // Save score
-        [self saveScore];
+        [self saveScoreAndPublish];
     }
 }
 
@@ -623,7 +631,10 @@
     if (currentBest < self.score) {
         [[NSUserDefaults standardUserDefaults] setInteger:self.score forKey:kSHBestUserScoreKey];
     }
+}
 
+- (void)saveScoreAndPublish {
+    [self saveScore];
     [self.facebookController updateScoreOnFacebook:self.score];
 }
 
@@ -648,7 +659,7 @@
 
         }];
 
-        [self saveScore];
+        [self saveScoreAndPublish];
     }
 }
 
@@ -717,7 +728,7 @@
 }
 
 - (void)startNewGameClick {
-    [self saveScore];
+    [self saveScoreAndPublish];
     [self initGameCreateBoard:YES ];
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
