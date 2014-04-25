@@ -48,6 +48,8 @@
 		ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */; };
 		ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */; };
 		ED17BF3218DB49B000A0AF40 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */; };
+		ED3EB920190AA2350010BCC0 /* SHMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED3EB91F190AA2350010BCC0 /* SHMoreViewController.m */; };
+		ED3EB923190AA3FF0010BCC0 /* SHMoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ED3EB922190AA3FF0010BCC0 /* SHMoreTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,10 @@
 		ED17BF2E18DB353800A0AF40 /* SHFacebookIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFacebookIntroView.h; sourceTree = "<group>"; };
 		ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFacebookIntroView.m; sourceTree = "<group>"; };
 		ED17BF3118DB49B000A0AF40 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		ED3EB91E190AA2350010BCC0 /* SHMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMoreViewController.h; sourceTree = "<group>"; };
+		ED3EB91F190AA2350010BCC0 /* SHMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMoreViewController.m; sourceTree = "<group>"; };
+		ED3EB921190AA3FF0010BCC0 /* SHMoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHMoreTableViewController.h; sourceTree = "<group>"; };
+		ED3EB922190AA3FF0010BCC0 /* SHMoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHMoreTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +274,10 @@
 				02E8093B18DB82CD00E7C02E /* SHMenuTiltModeViewController.h */,
 				02E8093C18DB82CD00E7C02E /* SHMenuTiltModeViewController.m */,
 				02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */,
+				ED3EB91E190AA2350010BCC0 /* SHMoreViewController.h */,
+				ED3EB91F190AA2350010BCC0 /* SHMoreViewController.m */,
+				ED3EB921190AA3FF0010BCC0 /* SHMoreTableViewController.h */,
+				ED3EB922190AA3FF0010BCC0 /* SHMoreTableViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -497,11 +507,13 @@
 				C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */,
 				C4FE8EAFD212829F797C4862 /* SHFacebookController.m in Sources */,
 				02C05F5E18E0C8ED006DB4B8 /* SHTriangleView.m in Sources */,
+				ED3EB920190AA2350010BCC0 /* SHMoreViewController.m in Sources */,
 				C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */,
 				C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */,
 				C5C2333691B5D903A9AAC70E /* SHGameCenterManager.m in Sources */,
 				C5C23EA62536577B829FBDD1 /* SHGameTurn.m in Sources */,
 				C5C230BB742D7E547FA0DE7D /* SHHelpers.m in Sources */,
+				ED3EB923190AA3FF0010BCC0 /* SHMoreTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
