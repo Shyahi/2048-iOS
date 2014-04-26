@@ -1030,6 +1030,7 @@
                     <connections>
                         <outlet property="leaderboardsCell" destination="eaA-AS-dPn" id="UIr-xZ-Jm3"/>
                         <outlet property="sendFriendRequestCell" destination="QXL-dW-epW" id="19A-pd-xJY"/>
+                        <outlet property="tellAFriendCell" destination="PS1-Op-Ubd" id="N7r-ZO-LTX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbd-p8-dLk" userLabel="First Responder" sceneMemberID="firstResponder"/>

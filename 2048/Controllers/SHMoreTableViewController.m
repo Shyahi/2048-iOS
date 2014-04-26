@@ -12,6 +12,7 @@
 @interface SHMoreTableViewController ()
 @property(strong, nonatomic) IBOutlet UITableViewCell *leaderboardsCell;
 @property(strong, nonatomic) IBOutlet UITableViewCell *sendFriendRequestCell;
+@property(strong, nonatomic) IBOutlet UITableViewCell *tellAFriendCell;
 
 @end
 
@@ -46,7 +47,16 @@
         [self onLeaderboardsClick];
     } else if (theCellClicked == self.sendFriendRequestCell) {
         [self sendFriendRequest];
+    } else if (theCellClicked == self.tellAFriendCell) {
+        [self tellAFriend];
     }
+}
+
+- (void)tellAFriend {
+    NSString *textToShare = [NSString stringWithFormat:@"Check out multiplayer #2048game on iPhone. http://bit.ly/2048iOS"];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textToShare] applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeAddToReadingList, UIActivityTypePostToVimeo, UIActivityTypeAirDrop];
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 - (void)sendFriendRequest {
