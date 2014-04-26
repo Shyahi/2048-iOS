@@ -918,6 +918,9 @@
 
 - (void)updateStatusForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant {
     if (match.status == GKTurnBasedMatchStatusEnded) {
+        // Match won
+        self.gameWon = YES;
+
         // Find the winner.
         for (GKTurnBasedParticipant *matchParticipant in match.participants) {
             if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
