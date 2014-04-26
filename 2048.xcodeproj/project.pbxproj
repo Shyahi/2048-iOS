@@ -32,6 +32,8 @@
 		0285BFF618D47A450096EA5E /* SHGameCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0285BFF518D47A450096EA5E /* SHGameCellData.m */; };
 		028B8EB5190BA04200F4AE5A /* SHAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 028B8EB4190BA04200F4AE5A /* SHAboutViewController.m */; };
 		028B8EB8190BA2AD00F4AE5A /* SHAboutTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 028B8EB7190BA2AD00F4AE5A /* SHAboutTableViewController.m */; };
+		028B8EBC190C3C2F00F4AE5A /* SHHowToPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 028B8EBA190C3C2F00F4AE5A /* SHHowToPlayViewController.m */; };
+		028B8EBD190C3C2F00F4AE5A /* SHHowToPlayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 028B8EBB190C3C2F00F4AE5A /* SHHowToPlayViewController.xib */; };
 		02C05F5B18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02C05F5A18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib */; };
 		02C05F5E18E0C8ED006DB4B8 /* SHTriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C05F5D18E0C8ED006DB4B8 /* SHTriangleView.m */; };
 		02C05F6118E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C05F6018E0CB8A006DB4B8 /* SHMultiplayerHeaderView.m */; };
@@ -102,6 +104,9 @@
 		028B8EB4190BA04200F4AE5A /* SHAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHAboutViewController.m; sourceTree = "<group>"; };
 		028B8EB6190BA2AD00F4AE5A /* SHAboutTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHAboutTableViewController.h; sourceTree = "<group>"; };
 		028B8EB7190BA2AD00F4AE5A /* SHAboutTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHAboutTableViewController.m; sourceTree = "<group>"; };
+		028B8EB9190C3C2F00F4AE5A /* SHHowToPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHHowToPlayViewController.h; sourceTree = "<group>"; };
+		028B8EBA190C3C2F00F4AE5A /* SHHowToPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHowToPlayViewController.m; sourceTree = "<group>"; };
+		028B8EBB190C3C2F00F4AE5A /* SHHowToPlayViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHHowToPlayViewController.xib; sourceTree = "<group>"; };
 		02C05F5A18E0C69A006DB4B8 /* SHMultiplayerHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SHMultiplayerHeaderView.xib; sourceTree = "<group>"; };
 		02C05F5C18E0C8ED006DB4B8 /* SHTriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTriangleView.h; sourceTree = "<group>"; };
 		02C05F5D18E0C8ED006DB4B8 /* SHTriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTriangleView.m; sourceTree = "<group>"; };
@@ -280,6 +285,9 @@
 				02E8093B18DB82CD00E7C02E /* SHMenuTiltModeViewController.h */,
 				02E8093C18DB82CD00E7C02E /* SHMenuTiltModeViewController.m */,
 				02E8093D18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib */,
+				028B8EB9190C3C2F00F4AE5A /* SHHowToPlayViewController.h */,
+				028B8EBA190C3C2F00F4AE5A /* SHHowToPlayViewController.m */,
+				028B8EBB190C3C2F00F4AE5A /* SHHowToPlayViewController.xib */,
 				ED3EB91E190AA2350010BCC0 /* SHMoreViewController.h */,
 				ED3EB91F190AA2350010BCC0 /* SHMoreViewController.m */,
 				ED3EB921190AA3FF0010BCC0 /* SHMoreTableViewController.h */,
@@ -437,6 +445,7 @@
 				02E8093718DB7DF300E7C02E /* SHMenuView.xib in Resources */,
 				026E28E718D4617A00369891 /* Main.storyboard in Resources */,
 				02E8093F18DB82CD00E7C02E /* SHMenuTiltModeViewController.xib in Resources */,
+				028B8EBD190C3C2F00F4AE5A /* SHHowToPlayViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +535,7 @@
 				C5C230BB742D7E547FA0DE7D /* SHHelpers.m in Sources */,
 				ED3EB923190AA3FF0010BCC0 /* SHMoreTableViewController.m in Sources */,
 				028B8EB5190BA04200F4AE5A /* SHAboutViewController.m in Sources */,
+				028B8EBC190C3C2F00F4AE5A /* SHHowToPlayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

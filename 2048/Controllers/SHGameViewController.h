@@ -10,11 +10,13 @@
 #import "SHMenuViewController.h"
 #import "SHMenuTiltModeViewController.h"
 #import "SHGameCenterManager.h"
+#import "SHHowToPlayViewController.h"
 
 @class SHFacebookController;
 @class SHGameCenterManager;
 @class SHMultiplayerHeaderView;
 @class FBKVOController;
+@class SHHowToPlayViewController;
 
 static const int kSHGameBoardSize = 4;
 
@@ -23,7 +25,7 @@ static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
 static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate>
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate, SHMenuHowToPlayDelegate>
 @property(nonatomic) BOOL isMultiplayer;
 
 - (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match;

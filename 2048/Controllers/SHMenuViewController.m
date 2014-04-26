@@ -26,6 +26,7 @@
 - (void)setupViews {
     [self styleButton:self.tiltModeButton];
     [self styleButton:self.theNewGameButton];
+    [self styleButton:self.howToPlayButton];
     [self styleButton:self.closeButton];
     self.closeButton.layer.borderWidth = 1;
 }
@@ -43,6 +44,9 @@
 }
 - (IBAction)closeClick:(id)sender {
     [self.delegate closeClick];
+}
+- (IBAction)howToPlayClick:(id)sender {
+    [self.delegate howToPlayClick];
 }
 
 - (void)didReceiveMemoryWarning

@@ -23,6 +23,7 @@
 #import "SHHelpers.h"
 #import "SVProgressHUD.h"
 #import "Reachability.h"
+#import "SHHowToPlayViewController.h"
 
 @interface SHGameViewController ()
 
@@ -62,6 +63,7 @@
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
 @property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
 @property(nonatomic) BOOL movingBoard;
+@property(nonatomic, strong) SHHowToPlayViewController *menuHowToPlayViewController;
 @end
 
 @implementation SHGameViewController
@@ -787,6 +789,22 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
+- (void)howToPlayClick {
+    [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
+    if (self.menuHowToPlayViewController == nil) {
+        self.menuHowToPlayViewController = [[SHHowToPlayViewController alloc] initWithNibName:@"SHHowToPlayViewController" bundle:nil];;
+        self.menuHowToPlayViewController.delegate = self;
+    }
+
+    self.menuHowToPlayViewController.isMultiplayer = self.isMultiplayer;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (0.4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.gamePaused = YES;
+        [self presentPopupViewController:self.menuHowToPlayViewController animationType:MJPopupViewAnimationSlideTopBottom dismissed:^{
+            self.gamePaused = NO;
+        }];
+    });
+}
+
 - (void)loginToGameCenter {
     if (![GKLocalPlayer localPlayer].authenticated) {
         if (self.gameCenterManager.gameCenterLoginController != nil) {
@@ -816,6 +834,7 @@
     self.tiltEnabled = NO;
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
+
 
 #pragma mark - Memory Warning
 - (void)didReceiveMemoryWarning {
