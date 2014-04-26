@@ -6,9 +6,19 @@
 //  Copyright (c) 2014 Shyahi. All rights reserved.
 //
 
+#import <Crashlytics/Crashlytics.h>
+#import <GameKit/GameKit.h>
 #import "SHAppDelegate.h"
-#import "Flurry.h"
 #import "FBAppCall.h"
+#import "SHGameCenterManager.h"
+#import "Analytics.h"
+#import "SHGameViewController.h"
+#import "SHViewController.h"
+#import "UIAlertView+BlocksKit.h"
+
+@interface SHAppDelegate ()
+@property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
+@end
 
 @implementation SHAppDelegate
 
@@ -16,6 +26,7 @@
     // Override point for customization after application launch.
     [self setupLogging];
     [self setupAnalytics];
+    [self setupGameCenter];
     return YES;
 }
 
@@ -47,8 +58,17 @@
 
 #pragma mark - Setup
 - (void)setupAnalytics {
-    [Flurry setCrashReportingEnabled:YES];
-    [Flurry startSession:@"R2MWC8V6XV5JZ3GDT9JN"];
+    [self setupSegmentAnalytics];
+    [self setupCrashlytics];
+}
+
+- (void)setupSegmentAnalytics {
+    [Analytics debug:NO];
+    [Analytics initializeWithSecret:@"0rtdrwphbm"]; // Write key
+}
+
+- (void)setupCrashlytics {
+    [Crashlytics startWithAPIKey:@"3a6eafbc09aeb0ae347350ae99040ae7a42d37b3"];
 }
 
 - (void)setupLogging {
@@ -76,4 +96,39 @@
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
 
+#pragma mark - Game Center
+- (void)setupGameCenter {
+    self.gameCenterManager = [SHGameCenterManager sharedManager];
+    [self.gameCenterManager setupWithAppDelegate:self];
+}
+
+- (void)layoutMatch:(GKTurnBasedMatch *)match {
+    UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
+
+    if ([navigationController.topViewController isKindOfClass:[SHViewController class]]) {
+        // Segue to the game view controller
+        [navigationController.topViewController performSegueWithIdentifier:kSHMultiplayerGameSegueIdentifier sender:navigationController.topViewController];
+    } else if ([navigationController.topViewController isKindOfClass:[SHGameViewController class]]) {
+        // It is the top controller. Just layout this match
+        SHGameViewController *gameViewController = (SHGameViewController *) navigationController.topViewController;
+        if (gameViewController.isMultiplayer) {
+            [gameViewController layoutMatch:match];
+        } else {
+            // Switch to multiplayer game from a single player game?
+            [UIAlertView bk_showAlertViewWithTitle:@"End This Match" message:@"You will loose the current progress when switching to multiplayer mode. Are you sure you want to end this match?" cancelButtonTitle:@"No" otherButtonTitles:@[@"Yes"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                switch (buttonIndex) {
+                    case 1:
+                        // Continue. Switch to multiplayer mode.
+                        [gameViewController switchToMultiplayerModeWithMatch:match];
+                        break;
+                    default:
+                        break;
+
+                }
+            }];
+        }
+    } else {
+        // TODO Open game view controller from other controllers?
+    }
+}
 @end

@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class SHGameCenterManager;
+@class GKTurnBasedMatch;
+
 @interface SHAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
+@property(strong, nonatomic) UIWindow *window;
 
+- (void)layoutMatch:(GKTurnBasedMatch *)match;
 @end

@@ -13,6 +13,10 @@
 
 @class SHFacebookController;
 
+static NSString *const kSHMultiplayerGameSegueIdentifier = @"SH_MULTIPLAYER_GAME_SEGUE";
+
+static NSString *const kSHGameSegueIdentifier = @"SH_GAME_SEGUE";
+
 @interface SHViewController : UIViewController <EAIntroDelegate, SHFacebookIntroDelegate>
 
 @end

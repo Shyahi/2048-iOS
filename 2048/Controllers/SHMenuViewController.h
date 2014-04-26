@@ -21,8 +21,6 @@
 
 @protocol SHMenuDelegate
 - (void)tiltModeClick;
-
 - (void)startNewGameClick;
-
 - (void)closeClick;
 @end

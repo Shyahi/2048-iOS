@@ -10,11 +10,19 @@
 #import "SHGameCellData.h"
 #import "SHGameCell.h"
 #import "SHGameCellView.h"
-#import "Flurry.h"
 #import "UIView+SHAdditions.h"
 #import "SHFacebookController.h"
 #import "UIViewController+MJPopupViewController.h"
+#import "SHGameTurn.h"
 #import <CoreMotion/CoreMotion.h>
+#import <KVOController/FBKVOController.h>
+#import <Analytics/Analytics.h>
+#import "UIAlertView+BlocksKit.h"
+#import "SHMultiplayerHeaderView.h"
+#import "UIView+AutoLayout.h"
+#import "SHHelpers.h"
+#import "SVProgressHUD.h"
+#import "Reachability.h"
 
 @interface SHGameViewController ()
 
@@ -31,6 +39,29 @@
 @property(nonatomic, strong) SHMenuTiltModeViewController *menuTiltViewController;
 @property(nonatomic) BOOL gamePaused;
 
+@property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
+@property(nonatomic, strong) NSMutableDictionary *turnsForMatch;
+@property(nonatomic, strong) FBKVOController *kvoController;
+
+// Storyboard outlets
+@property(strong, nonatomic) IBOutlet UICollectionView *collectionView;
+@property(strong, nonatomic) IBOutlet UIView *gameContainerView;
+@property(strong, nonatomic) IBOutlet UIView *scoreView;
+@property(strong, nonatomic) IBOutlet UIView *bestScoreView;
+@property(strong, nonatomic) IBOutlet UILabel *bestScoreLabel;
+@property(strong, nonatomic) IBOutlet UILabel *scoreLabel;
+@property(strong, nonatomic) IBOutlet UIView *gameTerminatedView;
+@property(strong, nonatomic) IBOutlet UIView *gameWonView;
+@property(strong, nonatomic) IBOutlet UILabel *gameWonLabel;
+@property(strong, nonatomic) IBOutlet UIButton *menuButton;
+@property(strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
+@property(strong, nonatomic) IBOutlet UIView *singleplayerHeaderView;
+@property(strong, nonatomic) IBOutlet UIView *gameContentView;
+@property(strong, nonatomic) IBOutlet UIView *multiplayerConnectView;
+@property(strong, nonatomic) IBOutlet UIView *multiplayerLoginCompleteView;
+@property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
+@property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
+@property(nonatomic) BOOL movingBoard;
 @end
 
 @implementation SHGameViewController
@@ -46,19 +77,23 @@
 #pragma mark - UI
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[Analytics sharedAnalytics] screen:@"Game Screen" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
     [self setup];
-    [self setupViews];
-    [self setupFacebook];
-    [self initGame];
 }
 
 - (void)setup {
     self.tiltEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:kSHUserDefaultsGameOptionTiltEnabled];
+
+    [self setupViews];
+    [self setupFacebook];
+    [self initGameCreateBoard:!self.isMultiplayer];
+    [self setupGameCenter];
 }
 
 - (void)setupViews {
     [self setupCollectionView];
     [self setupScoreViews];
+    [self setupMultiplayerViews];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,6 +116,10 @@
 
 - (void)setupCollectionView {
     [self.collectionView sh_addCornerRadius:5];
+}
+
+- (void)setupMultiplayerViews {
+    self.gameCenterButton.hidden = !self.isMultiplayer;
 }
 
 #pragma mark - Motion
@@ -137,14 +176,24 @@
 }
 
 #pragma mark - Game
-- (void)initGame {
-    [Flurry logEvent:@"Game_Start"];
+- (void)initGameCreateBoard:(BOOL)createBoard {
+    if (createBoard) {
+        [[Analytics sharedAnalytics] track:@"Game_Start" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+    }
 
+    // Initialize defaults
     self.score = 0;
     self.gameTerminated = NO;
     self.gameWon = NO;
     self.gamePaused = NO;
     self.bestScore = [[NSUserDefaults standardUserDefaults] integerForKey:kSHBestUserScoreKey];
+    // Create board
+    if (createBoard) {
+        [self createGameBoard];
+    }
+}
+
+- (void)createGameBoard {
     [self initBoard];
     [self.collectionView reloadData];
     [self addRandomTile];
@@ -162,14 +211,26 @@
     }
 }
 
-- (void)addRandomTile {
+- (SHGameTurnNewCell *)addRandomTile {
+    // Find a random empty cell index.
     NSArray *emptyCellIndices = [self findEmptyCells];
     NSUInteger itemIndex = arc4random_uniform(emptyCellIndices.count);
     NSNumber *cellIndex = emptyCellIndices[itemIndex];
+    // Create a new random number.
     NSUInteger row = (NSUInteger) (cellIndex.integerValue / kSHGameBoardSize);
     NSUInteger column = (NSUInteger) (cellIndex.integerValue % kSHGameBoardSize);
-    ((SHGameCellData *) self.board[row][column]).number = (drand48() > 0.9) ? @4 : @2;
-    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cellIndex.integerValue inSection:0]]];
+    NSNumber *number = (drand48() > 0.9) ? @4 : @2;
+    // Add the new tile
+    SHGameTurnNewCell *newTile = [SHGameTurnNewCell cellWithPosition:CGPointMake(column, row) number:number];
+    [self addTile:newTile];
+
+    return newTile;
+}
+
+- (void)addTile:(SHGameTurnNewCell *)cell {
+    NSUInteger cellIndex = (NSUInteger) (cell.position.y * kSHGameBoardSize + cell.position.x);
+    ((SHGameCellData *) self.board[(NSUInteger) cell.position.y][(NSUInteger) cell.position.x]).number = cell.number;
+    [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:cellIndex inSection:0]]];
 }
 
 - (NSArray *)findEmptyCells {
@@ -177,7 +238,7 @@
     for (int i = 0; i < self.board.count; ++i) {
         NSArray *boardRow = self.board[(NSUInteger) i];
         for (int j = 0; j < boardRow.count; ++j) {
-            SHGameCellData *cellData = boardRow[j];
+            SHGameCellData *cellData = boardRow[(NSUInteger) j];
             if (cellData.number == nil) {
                 [emptyCellIndices addObject:@(i * kSHGameBoardSize + j)];
             }
@@ -187,14 +248,41 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
-    if (self.gameTerminated || self.gameWon || self.gamePaused) {
+    if (self.movingBoard || self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid]) {
         return;
     }
+
+    if (self.isMultiplayer && ![self isCurrentPlayersTurn]) {
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, self.view.bounds.size.height / 2 - 24)];
+        [[SVProgressHUD appearance] setHudFont:[UIFont fontWithName:@"AvenirNext" size:16]];
+        [SVProgressHUD showImage:nil status:@"Be patient! Not your turn"];
+        return;
+    }
+
     [self prepareCells];
 
+    NSArray *currentBoard = [self copyBoard];
+
+    // Move the board and update score.
+    self.movingBoard = YES;
+    SHBoardMoveResult *boardMoveResult = [self animateBoardMoveInDirection:direction];
+    self.score += boardMoveResult.score;
+
+    if (boardMoveResult.moved) {
+        // Board was moved.
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kSHCellAnimationsDuration * 1.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self didMoveBoard:currentBoard inDirection:direction];
+        });
+    } else {
+        self.movingBoard = NO;
+    }
+}
+
+- (SHBoardMoveResult *)animateBoardMoveInDirection:(SHMoveDirection)direction {
     CGPoint vector = [self getVectorInDirection:direction];
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
     BOOL moved = NO;
+    int score = 0;
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
@@ -207,38 +295,11 @@
                 CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
                 SHGameCellData *nextCellData = [self dataForCellAtPosition:nextCellPosition];
 
-                // Find index paths and frame of items.
-                NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
-                NSIndexPath *nextCellIndexPath = [self indexPathForPosition:nextCellPosition];
-                NSIndexPath *farthestCellIndexPath = [self indexPathForPosition:farthestAvailablePosition];
-                CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
-                CGRect nextCellRect = [self checkBoundsForCell:nextCellPosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame : CGRectZero;
-                CGRect farthestCellRect = [self checkBoundsForCell:farthestAvailablePosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame : CGRectZero;
-
                 // Can cells be merged?
                 if (!cellData.merged && !nextCellData.merged && nextCellData.number && [nextCellData.number isEqualToNumber:cellData.number]) {
-                    // Create a new view and animate it.
-                    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
-                    cellView.number = cellData.number;
-                    [self.gameContainerView addSubview:cellView];
-                    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
-                        cellView.frame = nextCellRect;
-                    }                completion:^(BOOL finished) {
-                        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL finished) {
-                            [cellView removeFromSuperview];
-                        }];
-                    }];
-
-                    // Merge cells.
-                    nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
-                    nextCellData.merged = YES;
-                    cellData.number = nil;
-                    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
-                    }];
-
-                    // Update score.
-                    self.score += nextCellData.number.integerValue;
-
+                    // Merge cell and update score.
+                    nextCellData = [self mergeCell:cell forPositions:positions];
+                    score += nextCellData.number.integerValue;
                     // Board was moved;
                     moved = YES;
 
@@ -247,43 +308,95 @@
                         self.gameWon = YES;
                     }
                 } else if (!(farthestAvailablePosition.x == cell.x && farthestAvailablePosition.y == cell.y)) {
-                    // Move current cell to farthest available position.
-                    SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
-                    farthestCellData.number = cellData.number;
-                    cellData.number = nil;
-                    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
-                    }];
-
-                    // Create view and animate.
-                    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
-                    cellView.number = farthestCellData.number;
-                    [self.gameContainerView addSubview:cellView];
-
-                    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
-                        cellView.frame = farthestCellRect;
-                    }                completion:^(BOOL finished) {
-                        [self reloadCollectionViewItemsAtIndexPaths:@[farthestCellIndexPath] completion:^(BOOL b) {
-                            [cellView removeFromSuperview];
-                        }];
-                    }];
-
+                    [self moveCell:cell toFarthestPosition:positions];
                     // Board was moved;
                     moved = YES;
                 }
             }
         }
     }
-
-    if (moved) {
-        [self performSelector:@selector(didMoveBoard) withObject:nil afterDelay:kSHCellAnimationsDuration * 1.1];
-    }
+    return [SHBoardMoveResult resultWithScore:score moved:moved];
 }
 
-- (void)didMoveBoard {
-    [self addRandomTile];
+- (void)moveCell:(CGPoint)cell toFarthestPosition:(NSDictionary *)positions {
+    // Find positions of farthest available and next cells.
+    CGPoint farthestAvailablePosition = [((NSValue *) positions[@"farthest"]) CGPointValue];
+    SHGameCellData *cellData = [self dataForCellAtPosition:cell];
+
+    // Find index paths and frame of items.
+    NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
+    NSIndexPath *farthestCellIndexPath = [self indexPathForPosition:farthestAvailablePosition];
+    CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
+    CGRect farthestCellRect = [self checkBoundsForCell:farthestAvailablePosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:farthestCellIndexPath].frame : CGRectZero;
+
+    // Move current cell to farthest available position.
+    SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
+    farthestCellData.number = cellData.number;
+    cellData.number = nil;
+    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
+    }];
+
+    // Create view and animate.
+    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
+    cellView.number = farthestCellData.number;
+    [self.gameContainerView addSubview:cellView];
+
+    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
+        cellView.frame = farthestCellRect;
+    }                completion:^(BOOL finished) {
+        [self reloadCollectionViewItemsAtIndexPaths:@[farthestCellIndexPath] completion:^(BOOL b) {
+            [cellView removeFromSuperview];
+        }];
+    }];
+
+}
+
+- (SHGameCellData *)mergeCell:(CGPoint)cell forPositions:(NSDictionary *)positions {
+    CGPoint nextCellPosition = [((NSValue *) positions[@"next"]) CGPointValue];
+    SHGameCellData *nextCellData = [self dataForCellAtPosition:nextCellPosition];
+    SHGameCellData *cellData = [self dataForCellAtPosition:cell];
+
+    // Find index paths and frame of items.
+    NSIndexPath *cellIndexPath = [self indexPathForPosition:cell];
+    NSIndexPath *nextCellIndexPath = [self indexPathForPosition:nextCellPosition];
+    CGRect cellRect = [self.collectionView layoutAttributesForItemAtIndexPath:cellIndexPath].frame;
+    CGRect nextCellRect = [self checkBoundsForCell:nextCellPosition] ? [self.collectionView layoutAttributesForItemAtIndexPath:nextCellIndexPath].frame : CGRectZero;
+
+    // Create a new view and animate it.
+    SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
+    cellView.number = cellData.number;
+    [self.gameContainerView addSubview:cellView];
+    [UIView animateWithDuration:kSHCellAnimationsDuration animations:^{
+        cellView.frame = nextCellRect;
+    }                completion:^(BOOL finished) {
+        [self reloadCollectionViewItemsAtIndexPaths:@[nextCellIndexPath] completion:^(BOOL reloadFinished) {
+            [cellView removeFromSuperview];
+        }];
+    }];
+
+    // Merge cells.
+    nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
+    nextCellData.merged = YES;
+    cellData.number = nil;
+    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
+    }];
+    return nextCellData;
+}
+
+- (NSArray *)copyBoard {
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self.board]];
+}
+
+- (void)didMoveBoard:(NSArray *)board inDirection:(SHMoveDirection)direction {
+    SHGameTurnNewCell *newCell = [self addRandomTile];
     if (![self movesAvailable]) {
         self.gameTerminated = YES;
     }
+
+    // Take turn for multiplayer game.
+    [self sendTurn:[SHGameTurn turnWithBoard:board direction:direction newCell:newCell]];
+
+    self.movingBoard = NO;
 }
 
 - (void)reloadCollectionViewItemsAtIndexPaths:(NSArray *)indexPaths completion:(void (^)(BOOL))completion {
@@ -302,7 +415,7 @@
     for (int i = 0; i < self.board.count; ++i) {
         NSArray *boardRow = self.board[(NSUInteger) i];
         for (int j = 0; j < boardRow.count; ++j) {
-            SHGameCellData *cellData = boardRow[j];
+            SHGameCellData *cellData = boardRow[(NSUInteger) j];
             cellData.merged = NO;
         }
     }
@@ -439,8 +552,14 @@
 }
 
 - (IBAction)tryAgainClick:(id)sender {
-    [Flurry logEvent:@"Game_Try_Again"];
-    [self initGame];
+    [[Analytics sharedAnalytics] track:@"Game_Try_Again" properties:nil];
+    if (self.isMultiplayer) {
+        // Open multiplayer game selection
+        [self startMultiplayerMatch];
+    } else {
+        // Start new single player game
+        [self initGameCreateBoard:YES];
+    }
 }
 
 - (IBAction)shareClick:(id)sender {
@@ -462,19 +581,43 @@
     }];
 }
 
+- (IBAction)multiplayerLoginClick:(id)sender {
+    [self loginToGameCenter];
+}
+
+- (IBAction)multiplayerPlayClick:(id)sender {
+    [self startMultiplayerMatch];
+}
+
+- (IBAction)backButtonClick:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)gameCenterButtonClick:(id)sender {
+    [self startMultiplayerMatch];
+}
+
 #pragma mark - Setters
 - (void)setScore:(int)score {
     _score = score;
-    self.scoreLabel.text = [[self scoreFormatter] stringFromNumber:@(score)];
+    self.scoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(score)];
+
+    // Update best score if current score is better
+    if (_score > self.bestScore) {
+        self.bestScore = _score;
+    }
 }
 
 - (void)setBestScore:(NSInteger)bestScore {
     _bestScore = bestScore;
     if (bestScore != 0) {
-        self.bestScoreLabel.text = [[self scoreFormatter] stringFromNumber:@(bestScore)];
+        self.bestScoreLabel.text = [[SHHelpers scoreFormatter] stringFromNumber:@(self.bestScore)];
     } else {
         self.bestScoreLabel.text = @"-";
     }
+
+    // Save score
+    [self saveScore];
 }
 
 - (void)setGameTerminated:(BOOL)gameTerminated {
@@ -484,6 +627,11 @@
         self.gameTerminatedView.hidden = YES;
         self.gameTerminatedView.alpha = 1;
     } else {
+        // Track match end
+        if (!self.isMultiplayer) {
+            [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+        }
+
         // Show the game terminated view.
         self.gameTerminatedView.alpha = 0;
         self.gameTerminatedView.hidden = NO;
@@ -494,7 +642,7 @@
         }];
 
         // Save score
-        [self saveScore];
+        [self saveScoreAndPublish];
     }
 }
 
@@ -504,9 +652,30 @@
     if (currentBest < self.score) {
         [[NSUserDefaults standardUserDefaults] setInteger:self.score forKey:kSHBestUserScoreKey];
     }
-
-    [self.facebookController updateScoreOnFacebook:self.score];
 }
+
+- (void)publishScore {
+    // Send score to facebook
+    [self.facebookController updateScoreOnFacebook:self.score];
+
+    if (!self.isMultiplayer) {
+        // Send score to Game Center singleplayer leaderboards
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.singleplayer"];
+        score.value = self.score;
+        [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
+            if (error) {
+                DDLogWarn(@"Error when reporting score to game center. %@", error);
+            }
+        }];
+    }
+}
+
+- (void)saveScoreAndPublish {
+    [self saveScore];
+    [self publishScore];
+
+}
+
 
 - (void)setGameWon:(BOOL)gameWon {
     _gameWon = gameWon;
@@ -515,17 +684,24 @@
         self.gameWonView.hidden = YES;
         self.gameWonView.alpha = 1;
     } else {
-        [Flurry logEvent:@"Game_Won"];
+        // Track match end
+        if (!self.isMultiplayer) {
+            [[Analytics sharedAnalytics] track:@"Game_Won" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+        }
+
         // Show the game terminated view.
         self.gameWonView.alpha = 0;
         self.gameWonView.hidden = NO;
+        if (!self.isMultiplayer) {
+            self.gameWonLabel.text = @"You win!";
+        }
         [UIView animateWithDuration:1 animations:^{
             self.gameWonView.alpha = 1;
         }                completion:^(BOOL finished) {
 
         }];
 
-        [self saveScore];
+        [self saveScoreAndPublish];
     }
 }
 
@@ -538,22 +714,13 @@
         [UIApplication sharedApplication].idleTimerDisabled = NO;
         [self stopMotionDetection];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:tiltEnabled forKey:kSHUserDefaultsGameOptionTiltEnabled];
+    [[NSUserDefaults standardUserDefaults] setBool:self.tiltEnabled forKey:kSHUserDefaultsGameOptionTiltEnabled];
 }
 
 #pragma mark - Facebook
 - (void)setupFacebook {
     self.facebookController = [[SHFacebookController alloc] init];
     [self.facebookController setup];
-}
-
-#pragma mark - Constants
-- (NSNumberFormatter *)scoreFormatter {
-    static NSNumberFormatter *formatter;
-    if (!formatter) {
-        formatter = [[NSNumberFormatter alloc] init];
-    }
-    return formatter;
 }
 
 #pragma mark - Core Motion Methods
@@ -567,20 +734,20 @@
     CGFloat pitch = 0.0f;
     switch ([[UIApplication sharedApplication] statusBarOrientation]) {
         case UIInterfaceOrientationPortrait:
-            roll = deviceMotion.attitude.roll;
-            pitch = deviceMotion.attitude.pitch;
+            roll = (CGFloat) deviceMotion.attitude.roll;
+            pitch = (CGFloat) deviceMotion.attitude.pitch;
             break;
         case UIInterfaceOrientationPortraitUpsideDown:
-            roll = -deviceMotion.attitude.roll;
-            pitch = -deviceMotion.attitude.pitch;
+            roll = (CGFloat) -deviceMotion.attitude.roll;
+            pitch = (CGFloat) -deviceMotion.attitude.pitch;
             break;
         case UIInterfaceOrientationLandscapeLeft:
-            roll = -deviceMotion.attitude.pitch;
-            pitch = -deviceMotion.attitude.roll;
+            roll = (CGFloat) -deviceMotion.attitude.pitch;
+            pitch = (CGFloat) -deviceMotion.attitude.roll;
             break;
         case UIInterfaceOrientationLandscapeRight:
-            roll = deviceMotion.attitude.pitch;
-            pitch = deviceMotion.attitude.roll;
+            roll = (CGFloat) deviceMotion.attitude.pitch;
+            pitch = (CGFloat) deviceMotion.attitude.roll;
             break;
     }
     // Update the image with the calculated values.
@@ -605,13 +772,38 @@
 }
 
 - (void)startNewGameClick {
-    [self saveScore];
-    [self initGame];
+    if (self.isMultiplayer) {
+        // Start new multiplyer game
+        [self startMultiplayerMatch];
+    } else {
+        // Start a new single player game.
+        [self saveScoreAndPublish];
+        [self initGameCreateBoard:YES ];
+    }
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
 - (void)closeClick {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
+}
+
+- (void)loginToGameCenter {
+    if (![GKLocalPlayer localPlayer].authenticated) {
+        if (self.gameCenterManager.gameCenterLoginController != nil) {
+            [self presentViewController:self.gameCenterManager.gameCenterLoginController animated:YES completion:nil];
+        } else if (self.gameCenterManager.gameCenterLoginError != nil) {
+            if (self.gameCenterManager.gameCenterLoginError.code == 2) {
+                // User has cancelled login several times and needs to logout and login to Game Center app to re enable.
+                // https://sprint.ly/product/19603/#!/item/13
+                [UIAlertView bk_showAlertViewWithTitle:@"Cannot login to Game Center" message:@"There was a problem logging into Game Center. Please log out and log in again from the GameCenter app to enable multiplayer mode" cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+            } else {
+                [UIAlertView bk_showAlertViewWithTitle:@"Cannot login to Game Center" message:@"There was a problem logging into Game Center. Please contact us (2048@shyahi.com) if this problem persists." cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+            }
+        } else {
+            [self.gameCenterManager authenticateLocalPlayer];
+            self.multiplayerLoginActivityView.hidden = NO;
+        }
+    }
 }
 
 #pragma mark - Menu Tilt Mode Delegate
@@ -631,15 +823,394 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - Multiplayer
+- (void)sendTurn:(SHGameTurn *)turn {
+    GKTurnBasedMatch *currentMatch = self.gameCenterManager.currentMatch;
+    if ([currentMatch.currentParticipant.playerID isEqual:[GKLocalPlayer localPlayer].playerID]) {
+        // Update scores
+        [self updateScoresForMatch:currentMatch turn:turn];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+        // Create the game data to send.
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:turn];
+
+        if (self.gameTerminated || self.gameWon) {
+            // End the match.
+            [self endMultiplayerMatch:currentMatch withTurn:turn data:data];
+        } else {
+            // Play turn
+            [self continueMultiplayerMatch:currentMatch withTurn:turn data:data];
+        }
+    } else {
+        DDLogWarn(@"Trying to send turn when not the current participant.");
+    }
 }
-*/
 
+- (void)updateScoresForMatch:(GKTurnBasedMatch *)currentMatch turn:(SHGameTurn *)turn {
+    // Update the scores in turn.
+    if ([self.turnsForMatch objectForKey:currentMatch.matchID]) {
+        SHGameTurn *lastTurn = [self.turnsForMatch objectForKey:currentMatch.matchID];
+        turn.scores = lastTurn.scores;
+    }
+    [turn.scores setObject:@(self.score) forKey:[GKLocalPlayer localPlayer].playerID];
+}
+
+- (void)continueMultiplayerMatch:(GKTurnBasedMatch *)currentMatch withTurn:(SHGameTurn *)turn data:(NSData *)data {
+    // Find the next participant
+    NSUInteger currentIndex = [currentMatch.participants indexOfObject:currentMatch.currentParticipant];
+    GKTurnBasedParticipant *nextParticipant;
+    nextParticipant = [currentMatch.participants objectAtIndex:((currentIndex + 1) % [currentMatch.participants count])];
+    // End current turn with next participant.
+    [currentMatch endTurnWithNextParticipants:@[nextParticipant, currentMatch.currentParticipant] turnTimeout:GKTurnTimeoutDefault matchData:data completionHandler:^(NSError *error) {
+        if (error) {
+            DDLogWarn(@"Error in ending current turn %@", error);
+            [UIAlertView bk_showAlertViewWithTitle:@"Error" message:@"There was an error playing your turn" cancelButtonTitle:@"End Game" otherButtonTitles:@[@"Try Again"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 0) {
+                    // Resign.
+                    [self endMultiplayerMatch:currentMatch withTurn:turn data:data];
+                } else if (buttonIndex == 1) {
+                    // Try again.
+                    [self continueMultiplayerMatch:currentMatch withTurn:turn data:data];
+                }
+            }];
+        } else {
+            [self didEndTurn:turn withMatch:currentMatch nextParticipant:nextParticipant];
+
+        }
+    }];
+    DDLogVerbose(@"Send Turn %@", nextParticipant);
+}
+
+- (void)didEndTurn:(SHGameTurn *)turn withMatch:(GKTurnBasedMatch *)match nextParticipant:(GKTurnBasedParticipant *)participant {
+    [self updateStatusForMatch:match participant:participant];
+    [self.multiplayerHeaderView setMatch:match turn:turn currentParticipant:participant];
+}
+
+- (void)endMultiplayerMatch:(GKTurnBasedMatch *)currentMatch withTurn:(SHGameTurn *)turn data:(NSData *)data {
+    // Set the status and outcome for each active participant.
+    for (GKTurnBasedParticipant *participant in currentMatch.participants) {
+        if (participant.status == GKTurnBasedParticipantStatusActive) {
+            participant.matchOutcome = [self outcomeForParticipant:participant scores:turn.scores];
+            DDLogVerbose(@"Match outcome for participant %@: %d", participant, participant.matchOutcome);
+        }
+    }
+
+    // Determine the scores and achievements earned for all players
+    NSArray *scores = [self multiplayerScoresForTurn:turn];
+    // End the match and report scores and achievements
+    [currentMatch endMatchInTurnWithMatchData:data scores:scores achievements:nil completionHandler:^(NSError *error) {
+        if (error) {
+            DDLogWarn(@"Cannot end multiplayer match. %@", error);
+            [UIAlertView bk_showAlertViewWithTitle:@"Error" message:error.localizedDescription cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Try Again"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 0) {
+                    // Cancel.
+                } else if (buttonIndex == 1) {
+                    // Try again.
+                    [self endMultiplayerMatch:currentMatch withTurn:turn data:data];
+                }
+            }];
+        } else {
+            DDLogVerbose(@"Ended multiplayer match %@", currentMatch.matchID);
+        }
+    }];
+
+    // Track match end
+    [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+
+    [self didEndTurn:turn withMatch:currentMatch nextParticipant:nil];
+}
+
+- (GKTurnBasedMatchOutcome)outcomeForParticipant:(GKTurnBasedParticipant *)participant scores:(NSMutableDictionary *)scores {
+    // Find the max score
+    int maxScore = -1;
+    for (NSString *playerId in scores.allKeys) {
+        int score = [((NSNumber *) scores[playerId]) integerValue];
+        DDLogVerbose(@"Player %@, score %d", playerId, score);
+        if (maxScore < score) {
+            maxScore = score;
+        } else if (maxScore == score) {
+            return GKTurnBasedMatchOutcomeTied;
+        }
+    }
+
+    // Find if the participant won or lost.
+    if ([((NSNumber *) scores[participant.playerID]) integerValue] == maxScore) {
+        return GKTurnBasedMatchOutcomeWon;
+    }
+    return GKTurnBasedMatchOutcomeLost;
+}
+
+- (NSArray *)multiplayerScoresForTurn:(SHGameTurn *)turn {
+    NSMutableArray *scores = [[NSMutableArray alloc] initWithCapacity:turn.scores.count];
+    for (NSString *playerID in turn.scores) {
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.multiplayer" forPlayer:playerID];
+        score.value = ((NSNumber *) turn.scores[playerID]).integerValue;
+    }
+    return scores;
+}
+
+- (void)updateStatusForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant {
+    if (match.status == GKTurnBasedMatchStatusEnded) {
+        // Match won
+        self.gameWon = YES;
+
+        // Find the winner.
+        for (GKTurnBasedParticipant *matchParticipant in match.participants) {
+            if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+                switch (matchParticipant.matchOutcome) {
+                    case GKTurnBasedMatchOutcomeWon:
+                        self.gameWonLabel.text = @"You win!";
+                        break;
+                    case GKTurnBasedMatchOutcomeLost:
+                        self.gameWonLabel.text = @"You lose!";
+                        break;
+                    case GKTurnBasedMatchOutcomeTied:
+                        self.gameWonLabel.text = @"Match tied!";
+                        break;
+                    default:
+                        self.gameWonLabel.text = @"Match over!";
+                        break;
+                }
+                break;
+            }
+        }
+    }
+}
+
+- (void)setupGameCenter {
+    self.turnsForMatch = [[NSMutableDictionary alloc] init];
+
+    // Initialize the game center manager
+    self.gameCenterManager = [SHGameCenterManager sharedManager];
+    self.gameCenterManager.delegate = self;
+
+    // Check if we need to authenticate player.
+    if ([GKLocalPlayer localPlayer].isAuthenticated) {
+        [self gameCenterManager:self.gameCenterManager didAuthenticatePlayer:[GKLocalPlayer localPlayer]];
+    } else if (self.gameCenterManager.gameCenterLoginController) {
+        [self gameCenterManager:self.gameCenterManager authenticateUser:self.gameCenterManager.gameCenterLoginController];
+    }
+
+    // Set up observers for current match.
+    self.kvoController = [FBKVOController controllerWithObserver:self];
+    [self.kvoController observe:self.gameCenterManager keyPath:@"currentMatch" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, SHGameCenterManager *gameCenterManager, NSDictionary *change) {
+        [self gameCenterManager:gameCenterManager currentMatchDidChange:gameCenterManager.currentMatch controller:controller];
+    }];
+
+    // Set up observer for player's authentication state
+    [self.kvoController observe:[GKLocalPlayer localPlayer] keyPath:@"isAuthenticated" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, GKLocalPlayer *localPlayer, NSDictionary *change) {
+        [self localPlayer:localPlayer authenticationDidChange:controller];
+    }];
+
+    [self setupReachability];
+}
+
+- (void)setupReachability {
+    // Allocate a reachability object
+    Reachability *reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    reach.unreachableBlock = ^(Reachability *reach) {
+        // Unreachable
+        if (self.isMultiplayer) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIAlertView bk_showAlertViewWithTitle:@"You are offline" message:@"You must be connected to the internet to play a multiplayer game" cancelButtonTitle:@"Go Back" otherButtonTitles:nil handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            });
+        }
+    };
+
+    // Start the notifier, which will cause the reachability object to retain itself!
+    [reach startNotifier];
+
+}
+
+- (void)localPlayer:(GKLocalPlayer *)localPlayer authenticationDidChange:(SHGameViewController *)controller {
+    if (localPlayer.isAuthenticated) {
+        // Hide activity view and show login complete view
+        self.multiplayerLoginActivityView.hidden = YES;
+        controller.multiplayerLoginCompleteView.hidden = NO;
+    } else {
+        // Don't show the activity view if we have the login controller or there is some error
+        if (self.gameCenterManager.gameCenterLoginController || self.gameCenterManager.gameCenterLoginError) {
+            self.multiplayerLoginActivityView.hidden = YES;
+        } else {
+            self.multiplayerLoginActivityView.hidden = NO;
+        }
+
+        // Hide the login complete view
+        controller.multiplayerLoginCompleteView.hidden = YES;
+    }
+}
+
+- (void)gameCenterManager:(SHGameCenterManager *)manager currentMatchDidChange:(GKTurnBasedMatch *)currentMatch controller:(SHGameViewController *)controller {
+    if (!self.isMultiplayer || currentMatch == nil) {
+        // Show the multiplayer game selection if it is in multiplayer mode.
+        if (self.isMultiplayer) {
+            self.multiplayerConnectView.hidden = NO;
+        }
+
+        // Single player match.
+        if (controller.singleplayerHeaderView.superview == nil) {
+            [controller.gameContentView addSubview:controller.singleplayerHeaderView];
+            [controller.singleplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
+            [controller.singleplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+
+            [controller.multiplayerHeaderView removeFromSuperview];
+        }
+    } else {
+        self.multiplayerConnectView.hidden = YES;
+
+        // Multi player match.
+        if (controller.multiplayerHeaderView.superview == nil) {
+            controller.multiplayerHeaderView.frame = controller.singleplayerHeaderView.frame;
+            [controller.gameContentView addSubview:controller.multiplayerHeaderView];
+            [controller.multiplayerHeaderView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsMake(0, 0, 0, 0) excludingEdge:ALEdgeBottom];
+            [controller.multiplayerHeaderView autoPinEdge:ALEdgeBottom toEdge:ALEdgeTop ofView:controller.gameContainerView];
+            [controller.multiplayerHeaderView setMatch:manager.currentMatch turn:[NSKeyedUnarchiver unarchiveObjectWithData:manager.currentMatch.matchData] currentParticipant:manager.currentMatch.currentParticipant];
+
+            [controller.singleplayerHeaderView removeFromSuperview];
+        }
+
+        // Update board for this match.
+        [self layoutMatch:currentMatch];
+    }
+}
+
+- (BOOL)isCurrentPlayersTurn {
+    if ([GKLocalPlayer localPlayer].authenticated && self.gameCenterManager.currentMatch && ![self.gameCenterManager.currentMatch.currentParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+        DDLogVerbose(@"Not current player's turn. Local player id: %@, Player with turn: %@", [GKLocalPlayer localPlayer].playerID, self.gameCenterManager.currentMatch.currentParticipant.playerID);
+        return NO;
+    }
+    return YES;
+}
+
+- (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match {
+    self.isMultiplayer = YES;
+    [self setup];
+}
+
+- (void)startMultiplayerMatch {
+    [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+}
+#pragma mark SH Game Center Manager Delegate
+- (void)enterNewGame:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Entering new multiplayer game...");
+    // Initialize game
+    [self initGameCreateBoard:YES ];
+    // Update the multiplayer header
+    [self.multiplayerHeaderView setMatch:match turn:nil currentParticipant:match.currentParticipant];
+}
+
+- (void)layoutMatch:(GKTurnBasedMatch *)match {
+    DDLogVerbose(@"Update match layout.");
+    [self updateGameStatus:match];
+    [self updateBoardForMatch:match];
+}
+
+- (void)updateBoardForMatch:(GKTurnBasedMatch *)match {
+    // Update board layout.
+    if ([match.matchData bytes]) {
+        SHGameTurn *turn = [NSKeyedUnarchiver unarchiveObjectWithData:match.matchData];
+        [self.turnsForMatch setObject:turn forKey:match.matchID];
+        // Update the current score for this player.
+        if ([turn.scores objectForKey:[GKLocalPlayer localPlayer].playerID]) {
+            self.score = ((NSNumber *) [turn.scores objectForKey:[GKLocalPlayer localPlayer].playerID]).integerValue;
+        } else {
+            self.score = 0;
+        }
+        // Update the current state of board.
+        self.board = [turn.board mutableCopy];
+        [self.collectionView reloadData];
+        [self.collectionView layoutIfNeeded];
+        // Move the board.
+        [self animateBoardMoveInDirection:turn.boardMoveDirection];
+        // Add the new tile.
+        [self addTile:turn.theNewCell];
+        // Update the multiplayer view
+        [self.multiplayerHeaderView setMatch:match turn:turn currentParticipant:match.currentParticipant];
+    }
+}
+
+- (void)updateGameStatus:(GKTurnBasedMatch *)match {
+    if (match.status != GKTurnBasedMatchStatusEnded) {
+        self.gameTerminated = NO;
+        self.gameWon = NO;
+    }
+    [self updateStatusForMatch:match participant:match.currentParticipant];
+}
+
+- (void)recieveEndGame:(GKTurnBasedMatch *)match {
+
+}
+
+- (void)sendNotice:(NSString *)notice forMatch:(GKTurnBasedMatch *)match {
+
+}
+
+- (void)gameCenterManager:(SHGameCenterManager *)manager authenticateUser:(UIViewController *)gameCenterLoginController {
+    if (self.isMultiplayer && gameCenterLoginController) {
+        [self presentViewController:gameCenterLoginController animated:NO completion:nil];
+    }
+}
+
+- (void)gameCenterManagerdidFailToAuthenticatePlayer:(SHGameCenterManager *)manager {
+    // Authentication failed. Try again?
+    if (self.isMultiplayer) {
+        [UIAlertView bk_showAlertViewWithTitle:@"Cannot login to Game Center" message:@"You need to be logged in to Game Center to play with other players" cancelButtonTitle:@"Go Back" otherButtonTitles:@[@"Retry"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            switch (buttonIndex) {
+                case 0:
+                    // Cancel. Go Back
+                    [self.navigationController popViewControllerAnimated:NO];
+                    break;
+                case 1:
+                    // Retry
+                    [self loginToGameCenter];
+                    break;
+                default:
+                    // Go Back
+                    [self.navigationController popViewControllerAnimated:NO];
+                    break;
+            }
+        }];
+    }
+}
+
+- (void)gameCenterManager:(SHGameCenterManager *)manager didAuthenticatePlayer:(GKLocalPlayer *)player {
+    [self localPlayer:player authenticationDidChange:self];
+
+    if (self.isMultiplayer && self.gameCenterManager.currentMatch == nil) {
+        // Find a multiplayer game
+        [self.gameCenterManager findMatchWithMinPlayers:2 maxPlayers:2 viewController:self];
+    }
+}
+
+#pragma mark - Computed Properties
+- (BOOL)multiplayerModeValid {
+    // Returns true if multiplayer mode is active, player is logged in and a match is in progress. False otherwise
+    if (self.isMultiplayer) {
+        if ([GKLocalPlayer localPlayer].isAuthenticated) {
+            if (self.gameCenterManager.currentMatch != nil) {
+                return YES;
+            }
+        }
+        return NO;
+    }
+    return YES;
+}
+
+@end
+
+@implementation SHBoardMoveResult
+- (instancetype)initWithScore:(int)score moved:(BOOL)moved {
+    self = [super init];
+    if (self) {
+        self.score = score;
+        self.moved = moved;
+    }
+
+    return self;
+}
+
++ (instancetype)resultWithScore:(int)score moved:(BOOL)moved {
+    return [[self alloc] initWithScore:score moved:moved];
+}
 @end
