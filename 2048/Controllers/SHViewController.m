@@ -7,6 +7,7 @@
 //
 
 #import <BlocksKit/UIAlertView+BlocksKit.h>
+#import <Analytics/Analytics.h>
 #import "SHViewController.h"
 #import "HexColor.h"
 #import "UIImage+ImageWithColor.h"
@@ -23,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    [[Analytics sharedAnalytics] screen:@"Home Screen" properties:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

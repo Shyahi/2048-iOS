@@ -7,12 +7,17 @@
 //
 
 #import "SHAboutViewController.h"
+#import "Analytics.h"
 
 @interface SHAboutViewController ()
 
 @end
 
 @implementation SHAboutViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[Analytics sharedAnalytics] screen:@"About Screen" properties:nil];
+}
 
 - (IBAction)backButtonClick:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

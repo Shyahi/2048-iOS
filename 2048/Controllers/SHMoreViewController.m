@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Shyahi. All rights reserved.
 //
 
+#import <Analytics/Analytics.h>
 #import "SHMoreViewController.h"
 
 @interface SHMoreViewController ()
@@ -26,23 +27,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [[Analytics sharedAnalytics] screen:@"More Screen" properties:nil];
 }
 
 #pragma mark - Storyboard outlets
 - (IBAction)backButtonClick:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

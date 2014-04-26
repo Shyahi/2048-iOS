@@ -23,11 +23,11 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TriangleUp" translatesAutoresizingMaskIntoConstraints="NO" id="DlO-eK-ABO">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="TriangleUp" translatesAutoresizingMaskIntoConstraints="NO" id="DlO-eK-ABO">
                                 <rect key="frame" x="150" y="98" width="20" height="15"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kOz-nv-RG6" userLabel="Row 1">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kOz-nv-RG6" userLabel="Row 1">
                                 <rect key="frame" x="0.0" y="113" width="320" height="153"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -180,7 +180,7 @@
                                     <outletCollection property="gestureRecognizers" destination="gCX-DY-2EV" appends="YES" id="M5A-oD-PPI"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9I7-eY-VjX" userLabel="Separator 1-2">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9I7-eY-VjX" userLabel="Separator 1-2">
                                 <rect key="frame" x="0.0" y="266" width="320" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>

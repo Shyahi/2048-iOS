@@ -76,6 +76,7 @@
 #pragma mark - UI
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[Analytics sharedAnalytics] screen:@"Game Screen" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
     [self setup];
 }
 
