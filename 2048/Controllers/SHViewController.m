@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 Shyahi. All rights reserved.
 //
 
+#import <BlocksKit/UIAlertView+BlocksKit.h>
 #import "SHViewController.h"
 #import "HexColor.h"
 #import "UIImage+ImageWithColor.h"
 #import "SHGameViewController.h"
+#import "Reachability.h"
 
 @interface SHViewController ()
 
@@ -92,7 +94,11 @@
 
 
 - (IBAction)multiplayerTap:(id)sender {
-    [self startGameWithMultiplayer:YES];
+    if ([self isInternetAvailable]) {
+        [self startGameWithMultiplayer:YES];
+    } else {
+        [UIAlertView bk_showAlertViewWithTitle:@"You are offline" message:@"You must be connected to the internet to play a multiplayer game" cancelButtonTitle:@"OK" otherButtonTitles:nil handler:nil];
+    }
 }
 
 #pragma mark - Intro View Delegate
@@ -128,10 +134,11 @@
 }
 
 
-#pragma mark - Memory Management
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Utility
+- (BOOL)isInternetAvailable {
+    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
+    return networkStatus != NotReachable;
 }
 
 @end

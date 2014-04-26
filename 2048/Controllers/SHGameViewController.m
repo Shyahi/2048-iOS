@@ -22,6 +22,7 @@
 #import "UIView+AutoLayout.h"
 #import "SHHelpers.h"
 #import "SVProgressHUD.h"
+#import "Reachability.h"
 
 @interface SHGameViewController ()
 
@@ -976,6 +977,26 @@
     [self.kvoController observe:[GKLocalPlayer localPlayer] keyPath:@"isAuthenticated" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, GKLocalPlayer *localPlayer, NSDictionary *change) {
         [self localPlayer:localPlayer authenticationDidChange:controller];
     }];
+
+    [self setupReachability];
+}
+
+- (void)setupReachability {
+    // Allocate a reachability object
+    Reachability *reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    reach.unreachableBlock = ^(Reachability *reach) {
+        // Unreachable
+        if (self.isMultiplayer) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [UIAlertView bk_showAlertViewWithTitle:@"You are offline" message:@"You must be connected to the internet to play a multiplayer game" cancelButtonTitle:@"Go Back" otherButtonTitles:nil handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            });
+        }
+    };
+
+    // Start the notifier, which will cause the reachability object to retain itself!
+    [reach startNotifier];
 
 }
 
