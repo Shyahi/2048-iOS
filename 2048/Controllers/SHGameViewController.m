@@ -59,6 +59,7 @@
 @property(strong, nonatomic) IBOutlet UIView *multiplayerConnectView;
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginCompleteView;
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
+@property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
 @end
 
 @implementation SHGameViewController
@@ -89,6 +90,7 @@
 - (void)setupViews {
     [self setupCollectionView];
     [self setupScoreViews];
+    [self setupMultiplayerViews];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -111,6 +113,10 @@
 
 - (void)setupCollectionView {
     [self.collectionView sh_addCornerRadius:5];
+}
+
+- (void)setupMultiplayerViews {
+    self.gameCenterButton.hidden = !self.isMultiplayer;
 }
 
 #pragma mark - Motion
@@ -575,6 +581,10 @@
 
 - (IBAction)backButtonClick:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)gameCenterButtonClick:(id)sender {
+    [self startMultiplayerMatch];
 }
 
 #pragma mark - Setters

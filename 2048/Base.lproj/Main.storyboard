@@ -744,14 +744,26 @@
                                     <action selector="backButtonClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="Qwt-Yf-CYb"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3q1-6i-kGH">
+                                <rect key="frame" x="244" y="2" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="gamecenter">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="gameCenterButtonClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="b6i-9s-pnI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="uZ5-sY-TqC" firstAttribute="leading" secondItem="3q1-6i-kGH" secondAttribute="trailing" constant="8" id="4R0-Jo-52S"/>
                             <constraint firstAttribute="centerY" secondItem="E3i-iW-M62" secondAttribute="centerY" id="4wN-k9-dyE"/>
                             <constraint firstItem="eCI-q9-fVv" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="9hI-SY-ade"/>
                             <constraint firstItem="E3i-iW-M62" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="HiA-qQ-h0B"/>
                             <constraint firstItem="eCI-q9-fVv" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" id="WW4-94-KhD"/>
+                            <constraint firstItem="3q1-6i-kGH" firstAttribute="centerY" secondItem="uZ5-sY-TqC" secondAttribute="centerY" id="bRt-cL-bun"/>
                             <constraint firstItem="uZ5-sY-TqC" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" constant="2" id="oVL-FO-xjW"/>
                             <constraint firstAttribute="trailing" secondItem="uZ5-sY-TqC" secondAttribute="trailing" constant="8" id="sLq-B2-mKs"/>
                             <constraint firstAttribute="trailing" secondItem="E3i-iW-M62" secondAttribute="trailing" id="z9O-Hf-1Qp"/>
@@ -768,6 +780,7 @@
                         <outlet property="bestScoreLabel" destination="Ymf-g8-0IJ" id="foe-js-T3K"/>
                         <outlet property="bestScoreView" destination="aLp-9g-noF" id="JAV-5m-kOh"/>
                         <outlet property="collectionView" destination="6ft-BN-mNd" id="pZd-Ij-34V"/>
+                        <outlet property="gameCenterButton" destination="3q1-6i-kGH" id="Tz3-wQ-W5b"/>
                         <outlet property="gameContainerView" destination="IOv-dE-leu" id="v33-4o-Ari"/>
                         <outlet property="gameContentView" destination="E3i-iW-M62" id="z3m-OC-MS2"/>
                         <outlet property="gameTerminatedView" destination="DhN-Z5-fhc" id="MEu-rF-OWj"/>
@@ -1237,6 +1250,7 @@
         <image name="Arrow_Left" width="30" height="30"/>
         <image name="TriangleUp" width="20" height="15"/>
         <image name="checkmark" width="30" height="30"/>
+        <image name="gamecenter" width="30" height="30"/>
         <image name="th-menu" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
