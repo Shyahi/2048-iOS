@@ -61,6 +61,7 @@
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginCompleteView;
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
 @property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
+@property(nonatomic) BOOL movingBoard;
 @end
 
 @implementation SHGameViewController
@@ -247,7 +248,7 @@
 }
 
 - (void)moveBoard:(SHMoveDirection)direction {
-    if (self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid]) {
+    if (self.movingBoard || self.gameTerminated || self.gameWon || self.gamePaused || ![self multiplayerModeValid]) {
         return;
     }
 
@@ -263,6 +264,7 @@
     NSArray *currentBoard = [self copyBoard];
 
     // Move the board and update score.
+    self.movingBoard = YES;
     SHBoardMoveResult *boardMoveResult = [self animateBoardMoveInDirection:direction];
     self.score += boardMoveResult.score;
 
@@ -271,6 +273,8 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t) (kSHCellAnimationsDuration * 1.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self didMoveBoard:currentBoard inDirection:direction];
         });
+    } else {
+        self.movingBoard = NO;
     }
 }
 
@@ -391,6 +395,8 @@
 
     // Take turn for multiplayer game.
     [self sendTurn:[SHGameTurn turnWithBoard:board direction:direction newCell:newCell]];
+
+    self.movingBoard = NO;
 }
 
 - (void)reloadCollectionViewItemsAtIndexPaths:(NSArray *)indexPaths completion:(void (^)(BOOL))completion {
