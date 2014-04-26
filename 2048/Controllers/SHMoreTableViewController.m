@@ -16,6 +16,7 @@
 @property(strong, nonatomic) IBOutlet UITableViewCell *sendFriendRequestCell;
 @property(strong, nonatomic) IBOutlet UITableViewCell *tellAFriendCell;
 @property(strong, nonatomic) IBOutlet UITableViewCell *sendFeedbackCell;
+@property (strong, nonatomic) IBOutlet UITableViewCell *aboutCell;
 
 @end
 
@@ -54,7 +55,13 @@
         [self tellAFriend];
     } else if (theCellClicked == self.sendFeedbackCell) {
         [self sendFeedback];
+    } else if (theCellClicked == self.aboutCell) {
+        [self openAboutPage];
     }
+}
+
+-(void) openAboutPage {
+    [self performSegueWithIdentifier:@"SH_MORE_ABOUT_SEGUE" sender:self];
 }
 
 - (void)sendFeedback {
