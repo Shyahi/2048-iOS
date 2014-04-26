@@ -291,7 +291,6 @@
                 </tapGestureRecognizer>
                 <tapGestureRecognizer id="gCX-DY-2EV" userLabel="Row3 Tap Gesture Recognizer">
                     <connections>
-                        <action selector="moreTap:" destination="vXZ-lx-hvc" id="aVl-go-SSe"/>
                         <segue destination="Qwh-66-Hfb" kind="push" id="qwQ-P0-XNX"/>
                     </connections>
                 </tapGestureRecognizer>

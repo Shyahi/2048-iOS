@@ -14,6 +14,7 @@
 @interface SHViewController ()
 
 @property(nonatomic, strong) SHFacebookController *facebookController;
+@property(nonatomic, strong) EAIntroView *introView;
 @end
 
 @implementation SHViewController
@@ -63,13 +64,13 @@
     view.delegate = self;
     [self styleIntroPage:page4];
 
-    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3, page4]];
-    intro.delegate = self;
-    intro.pageControl.currentPageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.8];
-    intro.pageControl.pageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.1];
-    intro.skipButton = nil;
-    intro.swipeToExit = NO;
-    [intro showInView:self.view animateDuration:0.0];
+    self.introView = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3, page4]];
+    self.introView.delegate = self;
+    self.introView.pageControl.currentPageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.8];
+    self.introView.pageControl.pageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.1];
+    self.introView.skipButton = nil;
+    self.introView.swipeToExit = NO;
+    [self.introView showInView:self.view animateDuration:0.0];
 }
 
 - (void)styleIntroPage:(EAIntroPage *)page {
@@ -94,18 +95,15 @@
     [self startGameWithMultiplayer:YES];
 }
 
-- (IBAction)moreTap:(id)sender {
-    // TODO
-}
-
 #pragma mark - Intro View Delegate
 - (void)introDidFinish:(EAIntroView *)introView {
-
+    [introView hideWithFadeOutDuration:1];
 }
 
 #pragma mark - Facebook Intro Delegate
 - (void)playButtonClick {
-    [self startGameWithMultiplayer:NO];
+//    [self startGameWithMultiplayer:NO];
+    [self.introView hideWithFadeOutDuration:1];
 }
 
 - (void)didConnectWithFacebook {
