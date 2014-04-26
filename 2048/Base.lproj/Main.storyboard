@@ -1029,6 +1029,7 @@
                     </tableView>
                     <connections>
                         <outlet property="leaderboardsCell" destination="eaA-AS-dPn" id="UIr-xZ-Jm3"/>
+                        <outlet property="sendFriendRequestCell" destination="QXL-dW-epW" id="19A-pd-xJY"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sbd-p8-dLk" userLabel="First Responder" sceneMemberID="firstResponder"/>

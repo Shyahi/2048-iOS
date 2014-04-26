@@ -11,6 +11,7 @@
 
 @interface SHMoreTableViewController ()
 @property(strong, nonatomic) IBOutlet UITableViewCell *leaderboardsCell;
+@property(strong, nonatomic) IBOutlet UITableViewCell *sendFriendRequestCell;
 
 @end
 
@@ -43,7 +44,14 @@
     UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
     if (theCellClicked == self.leaderboardsCell) {
         [self onLeaderboardsClick];
+    } else if (theCellClicked == self.sendFriendRequestCell) {
+        [self sendFriendRequest];
     }
+}
+
+- (void)sendFriendRequest {
+    GKFriendRequestComposeViewController *friendRequestViewController = [[GKFriendRequestComposeViewController alloc] init];
+    [self presentViewController:friendRequestViewController animated:YES completion:nil];
 }
 
 - (void)onLeaderboardsClick {
