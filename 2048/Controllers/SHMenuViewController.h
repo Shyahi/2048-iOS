@@ -15,17 +15,12 @@
 @property(strong, nonatomic) IBOutlet UIButton *tiltModeButton;
 @property(strong, nonatomic) IBOutlet UIButton *theNewGameButton;
 @property(strong, nonatomic) IBOutlet UIButton *closeButton;
-@property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
 
 @property(strong, nonatomic) id <SHMenuDelegate> delegate;
 @end
 
 @protocol SHMenuDelegate
 - (void)tiltModeClick;
-
 - (void)startNewGameClick;
-
 - (void)closeClick;
-
-- (void)gameCenterLoginClick;
 @end

@@ -767,10 +767,6 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
-- (void)gameCenterLoginClick {
-    [self loginToGameCenter];
-}
-
 - (void)loginToGameCenter {
     if (![GKLocalPlayer localPlayer].authenticated) {
         if (self.gameCenterManager.gameCenterLoginController != nil) {
