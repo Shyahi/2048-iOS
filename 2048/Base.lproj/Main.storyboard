@@ -975,7 +975,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Support" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7u5-pK-Xjk">
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Send Feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7u5-pK-Xjk">
                                                     <rect key="frame" x="15" y="0.0" width="290" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="18"/>
@@ -1029,6 +1029,7 @@
                     </tableView>
                     <connections>
                         <outlet property="leaderboardsCell" destination="eaA-AS-dPn" id="UIr-xZ-Jm3"/>
+                        <outlet property="sendFeedbackCell" destination="4go-iG-bMW" id="4MB-rE-RO1"/>
                         <outlet property="sendFriendRequestCell" destination="QXL-dW-epW" id="19A-pd-xJY"/>
                         <outlet property="tellAFriendCell" destination="PS1-Op-Ubd" id="N7r-ZO-LTX"/>
                     </connections>

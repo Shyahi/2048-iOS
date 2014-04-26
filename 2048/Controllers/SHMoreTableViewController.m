@@ -7,12 +7,15 @@
 //
 
 #import <GameKit/GameKit.h>
+#import <MessageUI/MessageUI.h>
 #import "SHMoreTableViewController.h"
+#import "MFMailComposeViewController+BlocksKit.h"
 
 @interface SHMoreTableViewController ()
 @property(strong, nonatomic) IBOutlet UITableViewCell *leaderboardsCell;
 @property(strong, nonatomic) IBOutlet UITableViewCell *sendFriendRequestCell;
 @property(strong, nonatomic) IBOutlet UITableViewCell *tellAFriendCell;
+@property(strong, nonatomic) IBOutlet UITableViewCell *sendFeedbackCell;
 
 @end
 
@@ -49,6 +52,23 @@
         [self sendFriendRequest];
     } else if (theCellClicked == self.tellAFriendCell) {
         [self tellAFriend];
+    } else if (theCellClicked == self.sendFeedbackCell) {
+        [self sendFeedback];
+    }
+}
+
+- (void)sendFeedback {
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        composeViewController.bk_completionBlock = ^(MFMailComposeViewController *controller, MFMailComposeResult result, NSError *error) {
+            [controller dismissViewControllerAnimated:YES completion:nil];
+        };
+        [composeViewController setToRecipients:@[@"2048@shyahi.com"]];
+        [composeViewController setSubject:@"Feedback for 2048 iOS App"];
+        [self presentViewController:composeViewController animated:YES completion:nil];
+    } else {
+        // Open website
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://2048.shyahi.com"]];
     }
 }
 
