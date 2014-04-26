@@ -731,16 +731,6 @@
                                     <action selector="menuButtonClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="5bP-HU-nXW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WmZ-b4-HLh">
-                                <rect key="frame" x="232" y="2" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="th-menu">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="multiplayerGameClick:" destination="cRF-iO-OYJ" eventType="touchUpInside" id="VcL-sr-dhR"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCI-q9-fVv" userLabel="Back Button">
                                 <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -762,10 +752,8 @@
                             <constraint firstAttribute="centerY" secondItem="E3i-iW-M62" secondAttribute="centerY" id="4wN-k9-dyE"/>
                             <constraint firstItem="eCI-q9-fVv" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="9hI-SY-ade"/>
                             <constraint firstItem="E3i-iW-M62" firstAttribute="leading" secondItem="N5q-WI-6zo" secondAttribute="leading" id="HiA-qQ-h0B"/>
-                            <constraint firstItem="uZ5-sY-TqC" firstAttribute="centerY" secondItem="WmZ-b4-HLh" secondAttribute="centerY" id="QO9-5F-lB9"/>
                             <constraint firstItem="eCI-q9-fVv" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" id="WW4-94-KhD"/>
                             <constraint firstItem="uZ5-sY-TqC" firstAttribute="top" secondItem="zw9-AD-unD" secondAttribute="bottom" constant="2" id="oVL-FO-xjW"/>
-                            <constraint firstItem="uZ5-sY-TqC" firstAttribute="leading" secondItem="WmZ-b4-HLh" secondAttribute="trailing" constant="20" id="p2h-Zu-IpD"/>
                             <constraint firstAttribute="trailing" secondItem="uZ5-sY-TqC" secondAttribute="trailing" constant="8" id="sLq-B2-mKs"/>
                             <constraint firstAttribute="trailing" secondItem="E3i-iW-M62" secondAttribute="trailing" id="z9O-Hf-1Qp"/>
                         </constraints>

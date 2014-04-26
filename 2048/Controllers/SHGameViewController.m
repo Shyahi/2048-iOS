@@ -565,10 +565,6 @@
     }];
 }
 
-- (IBAction)multiplayerGameClick:(id)sender {
-    [self startMultiplayerMatch];
-}
-
 - (IBAction)multiplayerLoginClick:(id)sender {
     [self loginToGameCenter];
 }
@@ -746,8 +742,14 @@
 }
 
 - (void)startNewGameClick {
-    [self saveScoreAndPublish];
-    [self initGameCreateBoard:YES ];
+    if (self.isMultiplayer) {
+        // Start new multiplyer game
+        [self startMultiplayerMatch];
+    } else {
+        // Start a new single player game.
+        [self saveScoreAndPublish];
+        [self initGameCreateBoard:YES ];
+    }
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
