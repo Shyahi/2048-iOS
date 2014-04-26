@@ -7,7 +7,6 @@
 
 #import "SHGameCenterManager.h"
 #import "UIAlertView+BlocksKit.h"
-#import "Reachability.h"
 #import "SHAppDelegate.h"
 
 @interface SHGameCenterManager ()
@@ -137,40 +136,26 @@
 #pragma mark - Utility methods
 - (void)authenticateLocalPlayer {
     self.gameCenterLoginError = nil;
-    if ([self isInternetAvailable]) {
-        [GKLocalPlayer localPlayer].authenticateHandler = ^(UIViewController *viewController, NSError *error) {
-            if (viewController != nil) {
-                self.gameCenterLoginController = viewController;
-                if ([self.delegate respondsToSelector:@selector(gameCenterManager:authenticateUser:)]) {
-                    [self.delegate gameCenterManager:self authenticateUser:viewController];
-                }
-            } else if ([GKLocalPlayer localPlayer].isAuthenticated) {
-                // Register listener
-                [[GKLocalPlayer localPlayer] registerListener:self];
-
-                // Call didAuthenticatePlayer on delegate
-                if ([self.delegate respondsToSelector:@selector(gameCenterManager:didAuthenticatePlayer:)]) {
-                    [self.delegate gameCenterManager:self didAuthenticatePlayer:[GKLocalPlayer localPlayer]];
-                }
-            } else {
-                if ([self.delegate respondsToSelector:@selector(gameCenterManagerdidFailToAuthenticatePlayer:)]) {
-                    [self.delegate gameCenterManagerdidFailToAuthenticatePlayer:self];
-                }
-                self.gameCenterLoginError = error;
+    [GKLocalPlayer localPlayer].authenticateHandler = ^(UIViewController *viewController, NSError *error) {
+        if (viewController != nil) {
+            self.gameCenterLoginController = viewController;
+            if ([self.delegate respondsToSelector:@selector(gameCenterManager:authenticateUser:)]) {
+                [self.delegate gameCenterManager:self authenticateUser:viewController];
             }
-        };
-    }
+        } else if ([GKLocalPlayer localPlayer].isAuthenticated) {
+            // Register listener
+            [[GKLocalPlayer localPlayer] registerListener:self];
+
+            // Call didAuthenticatePlayer on delegate
+            if ([self.delegate respondsToSelector:@selector(gameCenterManager:didAuthenticatePlayer:)]) {
+                [self.delegate gameCenterManager:self didAuthenticatePlayer:[GKLocalPlayer localPlayer]];
+            }
+        } else {
+            if ([self.delegate respondsToSelector:@selector(gameCenterManagerdidFailToAuthenticatePlayer:)]) {
+                [self.delegate gameCenterManagerdidFailToAuthenticatePlayer:self];
+            }
+            self.gameCenterLoginError = error;
+        }
+    };
 }
-
-- (BOOL)isInternetAvailable {
-    Reachability *reachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-
-    if (internetStatus == NotReachable) {
-        return NO;
-    } else {
-        return YES;
-    }
-}
-
 @end
