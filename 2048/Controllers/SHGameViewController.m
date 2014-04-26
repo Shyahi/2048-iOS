@@ -53,7 +53,6 @@
 @property(strong, nonatomic) IBOutlet UIView *gameWonView;
 @property(strong, nonatomic) IBOutlet UILabel *gameWonLabel;
 @property(strong, nonatomic) IBOutlet UIButton *menuButton;
-@property(strong, nonatomic) IBOutlet UILabel *statusLabel;
 @property(strong, nonatomic) IBOutlet SHMultiplayerHeaderView *multiplayerHeaderView;
 @property(strong, nonatomic) IBOutlet UIView *singleplayerHeaderView;
 @property(strong, nonatomic) IBOutlet UIView *gameContentView;
@@ -854,7 +853,7 @@
 }
 
 - (void)didEndTurn:(SHGameTurn *)turn withMatch:(GKTurnBasedMatch *)match nextParticipant:(GKTurnBasedParticipant *)participant {
-    [self updateStatusLabelForMatch:match participant:participant];
+    [self updateStatusForMatch:match participant:participant];
     [self.multiplayerHeaderView setMatch:match turn:turn currentParticipant:participant];
 }
 
@@ -917,7 +916,7 @@
     return scores;
 }
 
-- (void)updateStatusLabelForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant {
+- (void)updateStatusForMatch:(GKTurnBasedMatch *)match participant:(GKTurnBasedParticipant *)participant {
     if (match.status == GKTurnBasedMatchStatusEnded) {
         // Find the winner.
         for (GKTurnBasedParticipant *matchParticipant in match.participants) {
@@ -938,13 +937,6 @@
                 }
                 break;
             }
-        }
-    } else {
-        if ([participant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-            self.statusLabel.text = @"Your turn";
-        } else {
-            int playerNum = [match.participants indexOfObject:match.currentParticipant] + 1;
-            self.statusLabel.text = [NSString stringWithFormat:@"Player %d's Turn", playerNum];
         }
     }
 }
@@ -1088,7 +1080,7 @@
         self.gameTerminated = NO;
         self.gameWon = NO;
     }
-    [self updateStatusLabelForMatch:match participant:match.currentParticipant];
+    [self updateStatusForMatch:match participant:match.currentParticipant];
 }
 
 - (void)recieveEndGame:(GKTurnBasedMatch *)match {
