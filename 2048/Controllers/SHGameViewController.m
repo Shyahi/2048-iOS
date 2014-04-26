@@ -176,7 +176,10 @@
 
 #pragma mark - Game
 - (void)initGameCreateBoard:(BOOL)createBoard {
-    [[Analytics sharedAnalytics] track:@"Game_Start" properties:nil];
+    if (createBoard) {
+        [[Analytics sharedAnalytics] track:@"Game_Start" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+    }
+
     // Initialize defaults
     self.score = 0;
     self.gameTerminated = NO;
@@ -619,6 +622,11 @@
         self.gameTerminatedView.hidden = YES;
         self.gameTerminatedView.alpha = 1;
     } else {
+        // Track match end
+        if (!self.isMultiplayer) {
+            [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+        }
+
         // Show the game terminated view.
         self.gameTerminatedView.alpha = 0;
         self.gameTerminatedView.hidden = NO;
@@ -671,7 +679,10 @@
         self.gameWonView.hidden = YES;
         self.gameWonView.alpha = 1;
     } else {
-        [[Analytics sharedAnalytics] track:@"Game_Won" properties:nil];
+        // Track match end
+        if (!self.isMultiplayer) {
+            [[Analytics sharedAnalytics] track:@"Game_Won" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+        }
 
         // Show the game terminated view.
         self.gameWonView.alpha = 0;
@@ -894,6 +905,10 @@
             DDLogVerbose(@"Ended multiplayer match %@", currentMatch.matchID);
         }
     }];
+
+    // Track match end
+    [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+
     [self didEndTurn:turn withMatch:currentMatch nextParticipant:nil];
 }
 

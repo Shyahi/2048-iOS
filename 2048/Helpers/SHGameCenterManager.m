@@ -8,6 +8,7 @@
 #import "SHGameCenterManager.h"
 #import "UIAlertView+BlocksKit.h"
 #import "SHAppDelegate.h"
+#import "Analytics.h"
 
 @interface SHGameCenterManager ()
 @property(nonatomic, strong) UIViewController *presentingViewController;
@@ -143,6 +144,10 @@
                 [self.delegate gameCenterManager:self authenticateUser:viewController];
             }
         } else if ([GKLocalPlayer localPlayer].isAuthenticated) {
+            // Track player details
+            GKLocalPlayer *player = [GKLocalPlayer localPlayer];
+            [[Analytics sharedAnalytics] identify:player.playerID traits:@{@"alias" : player.alias, @"displayName" : player.displayName, @"underage" : @(player.underage)}];
+
             // Register listener
             [[GKLocalPlayer localPlayer] registerListener:self];
 
