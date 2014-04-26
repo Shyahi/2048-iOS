@@ -29,8 +29,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"INTRO_VIEW_SHOWN"]) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"INTRO_VIEW_SHOWN"];
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"INTRO_VIEW_V2_SHOWN"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"INTRO_VIEW_V2_SHOWN"];
         [self setupFacebook];
         [self showIntroView];
     }
@@ -61,12 +61,18 @@
     page3.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"TiltGestureLeft"]];
     [self styleIntroPage:page3];
 
-    EAIntroPage *page4 = [EAIntroPage pageWithCustomViewFromNibNamed:@"SHFacebookIntroView"];
-    SHFacebookIntroView *view = (SHFacebookIntroView *) page4.customView;
-    view.delegate = self;
+    EAIntroPage *page4 = [EAIntroPage page];
+    page4.title = @"A New Multiplayer Mode";
+    page4.desc = @"Compete 1 on 1 in a turn based match against other players";
+    page4.titleIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"multiplayer-welcome"]];
     [self styleIntroPage:page4];
 
-    self.introView = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3, page4]];
+    EAIntroPage *page5 = [EAIntroPage pageWithCustomViewFromNibNamed:@"SHFacebookIntroView"];
+    SHFacebookIntroView *view = (SHFacebookIntroView *) page5.customView;
+    view.delegate = self;
+    [self styleIntroPage:page5];
+
+    self.introView = [[EAIntroView alloc] initWithFrame:self.view.bounds andPages:@[page1, page2, page3, page4, page5]];
     self.introView.delegate = self;
     self.introView.pageControl.currentPageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.8];
     self.introView.pageControl.pageIndicatorTintColor = [[UIColor colorWithHexString:@"#776e65"] colorWithAlphaComponent:0.1];
