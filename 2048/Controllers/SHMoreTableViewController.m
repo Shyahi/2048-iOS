@@ -58,6 +58,8 @@
     } else if (theCellClicked == self.aboutCell) {
         [self openAboutPage];
     }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(void) openAboutPage {

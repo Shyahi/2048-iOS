@@ -34,6 +34,7 @@
     } else if (theCellClicked == self.appStoreCell) {
         [[iRate sharedInstance] openRatingsPageInAppStore];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)openUrl:(NSString *)url {
