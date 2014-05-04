@@ -38,6 +38,8 @@
 @property(nonatomic, strong) SHMenuViewController *menuViewController;
 @property(nonatomic, strong) SHMenuTiltModeViewController *menuTiltViewController;
 @property(nonatomic) BOOL gamePaused;
+@property(nonatomic) BOOL movingBoard;
+@property(nonatomic, strong) SHHowToPlayViewController *menuHowToPlayViewController;
 
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
 @property(nonatomic, strong) NSMutableDictionary *turnsForMatch;
@@ -61,8 +63,7 @@
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginCompleteView;
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
 @property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
-@property(nonatomic) BOOL movingBoard;
-@property(nonatomic, strong) SHHowToPlayViewController *menuHowToPlayViewController;
+
 @end
 
 @implementation SHGameViewController
@@ -303,6 +304,11 @@
                     score += nextCellData.number.integerValue;
                     // Board was moved;
                     moved = YES;
+
+                    // TODO Remove
+                    if (nextCellData.number.integerValue == 4) {
+                        self.gameWon = YES;
+                    }
 
                     // The mighty 2048 tile
                     if (nextCellData.number.integerValue == kSHGameMaxScore) {
@@ -564,11 +570,43 @@
 }
 
 - (IBAction)shareClick:(id)sender {
-    NSString *textToShare = [NSString stringWithFormat:@"I scored %d points at #2048game on my iPhone: http://bit.ly/2048iOS via @2048iOS ", self.score];
+    NSString *textToShare = [self textToShare];
     UIImage *imageToShare = [self.view sh_takeSnapshot];
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[textToShare, imageToShare] applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeAddToReadingList, UIActivityTypePostToVimeo, UIActivityTypeAirDrop];
     [self presentViewController:activityViewController animated:YES completion:nil];
+}
+
+- (NSString *)textToShare {
+    NSString *textToShareEnd = @"#2048game on my iPhone: http://bit.ly/2048iOS via @2048iOS";
+    NSString *textToShare = [NSString stringWithFormat:@"I scored %d points at ", self.score];
+    if (self.isMultiplayer) {
+        GKTurnBasedMatchOutcome outcome = [self getOutcomeForPlayer:[GKLocalPlayer localPlayer] forMatch:self.gameCenterManager.currentMatch];
+
+        // Get local player and opponent's scores
+        NSNumber *localPlayerScore, *opponentScore;
+        SHGameTurn *turn = [NSKeyedUnarchiver unarchiveObjectWithData:self.gameCenterManager.currentMatch.matchData];
+        for (NSString *playerID in turn.scores.allKeys) {
+            if ([playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+                localPlayerScore = turn.scores[playerID];
+            } else {
+                opponentScore = turn.scores[playerID];
+            }
+        }
+        // Create text based on match outcome
+        switch (outcome) {
+            case GKTurnBasedMatchOutcomeWon:
+                textToShare = [NSString stringWithFormat:@"I just won %d-%d in multiplayer ", localPlayerScore.integerValue, opponentScore.integerValue];
+                break;
+            case GKTurnBasedMatchOutcomeTied:
+                textToShare = [NSString stringWithFormat:@"I just tied %d-%d in multiplayer ", localPlayerScore.integerValue, opponentScore.integerValue];
+                break;
+            default:
+                textToShare = @"I just played multiplayer ";
+                break;
+        }
+    }
+    return [textToShare stringByAppendingString:textToShareEnd];
 }
 
 - (IBAction)menuButtonClick:(id)sender {
@@ -914,6 +952,7 @@
 
     // Determine the scores and achievements earned for all players
     NSArray *scores = [self multiplayerScoresForTurn:turn];
+
     // End the match and report scores and achievements
     [currentMatch endMatchInTurnWithMatchData:data scores:scores achievements:nil completionHandler:^(NSError *error) {
         if (error) {
@@ -971,27 +1010,32 @@
         // Match won
         self.gameWon = YES;
 
-        // Find the winner.
-        for (GKTurnBasedParticipant *matchParticipant in match.participants) {
-            if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
-                switch (matchParticipant.matchOutcome) {
-                    case GKTurnBasedMatchOutcomeWon:
-                        self.gameWonLabel.text = @"You win!";
-                        break;
-                    case GKTurnBasedMatchOutcomeLost:
-                        self.gameWonLabel.text = @"You lose!";
-                        break;
-                    case GKTurnBasedMatchOutcomeTied:
-                        self.gameWonLabel.text = @"Match tied!";
-                        break;
-                    default:
-                        self.gameWonLabel.text = @"Match over!";
-                        break;
-                }
+        // Update the match outcome
+        GKTurnBasedMatchOutcome outcome = [self getOutcomeForPlayer:[GKLocalPlayer localPlayer] forMatch:match];
+        switch (outcome) {
+            case GKTurnBasedMatchOutcomeWon:
+                self.gameWonLabel.text = @"You win!";
                 break;
-            }
+            case GKTurnBasedMatchOutcomeLost:
+                self.gameWonLabel.text = @"You lose!";
+                break;
+            case GKTurnBasedMatchOutcomeTied:
+                self.gameWonLabel.text = @"Match tied!";
+                break;
+            default:
+                self.gameWonLabel.text = @"Match over!";
+                break;
         }
     }
+}
+
+- (GKTurnBasedMatchOutcome)getOutcomeForPlayer:(GKLocalPlayer *)player forMatch:(GKTurnBasedMatch *)match {
+    for (GKTurnBasedParticipant *matchParticipant in match.participants) {
+        if ([matchParticipant.playerID isEqualToString:[GKLocalPlayer localPlayer].playerID]) {
+            return matchParticipant.matchOutcome;
+        }
+    }
+    return GKTurnBasedMatchOutcomeNone;
 }
 
 - (void)setupGameCenter {
