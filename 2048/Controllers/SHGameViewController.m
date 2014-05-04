@@ -305,11 +305,6 @@
                     // Board was moved;
                     moved = YES;
 
-                    // TODO Remove
-                    if (nextCellData.number.integerValue == 4) {
-                        self.gameWon = YES;
-                    }
-
                     // The mighty 2048 tile
                     if (nextCellData.number.integerValue == kSHGameMaxScore) {
                         self.gameWon = YES;
