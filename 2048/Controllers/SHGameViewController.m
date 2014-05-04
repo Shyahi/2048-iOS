@@ -23,7 +23,6 @@
 #import "SHHelpers.h"
 #import "SVProgressHUD.h"
 #import "Reachability.h"
-#import "SHHowToPlayViewController.h"
 
 @interface SHGameViewController ()
 
@@ -1120,9 +1119,12 @@
 }
 
 - (void)layoutMatch:(GKTurnBasedMatch *)match {
-    DDLogVerbose(@"Update match layout.");
-    [self updateGameStatus:match];
-    [self updateBoardForMatch:match];
+    // Layout only if in multiplayer mode
+    if (self.isMultiplayer) {
+        DDLogVerbose(@"Update match layout.");
+        [self updateGameStatus:match];
+        [self updateBoardForMatch:match];
+    }
 }
 
 - (void)updateBoardForMatch:(GKTurnBasedMatch *)match {
