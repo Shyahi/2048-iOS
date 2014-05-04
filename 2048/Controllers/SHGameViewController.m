@@ -666,14 +666,16 @@
             [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
         }
 
-        // Show the game terminated view.
-        self.gameTerminatedView.alpha = 0;
-        self.gameTerminatedView.hidden = NO;
-        [UIView animateWithDuration:1 animations:^{
-            self.gameTerminatedView.alpha = 1;
-        }                completion:^(BOOL finished) {
+        // Show the game terminated view only in single player mode.
+        if (!self.isMultiplayer) {
+            self.gameTerminatedView.alpha = 0;
+            self.gameTerminatedView.hidden = NO;
+            [UIView animateWithDuration:1 animations:^{
+                self.gameTerminatedView.alpha = 1;
+            }                completion:^(BOOL finished) {
 
-        }];
+            }];
+        }
 
         // Save score
         [self saveScoreAndPublish];
@@ -962,13 +964,13 @@
             }];
         } else {
             DDLogVerbose(@"Ended multiplayer match %@", currentMatch.matchID);
+
+            // Track match end
+            [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+
+            [self didEndTurn:turn withMatch:currentMatch nextParticipant:nil];
         }
     }];
-
-    // Track match end
-    [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
-
-    [self didEndTurn:turn withMatch:currentMatch nextParticipant:nil];
 }
 
 - (GKTurnBasedMatchOutcome)outcomeForParticipant:(GKTurnBasedParticipant *)participant scores:(NSMutableDictionary *)scores {
