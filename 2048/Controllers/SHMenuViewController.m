@@ -27,6 +27,7 @@
     [self styleButton:self.tiltModeButton];
     [self styleButton:self.theNewGameButton];
     [self styleButton:self.howToPlayButton];
+    [self styleButton:self.leaderboardsButton];
     [self styleButton:self.closeButton];
     self.closeButton.layer.borderWidth = 1;
 }
@@ -47,6 +48,9 @@
 }
 - (IBAction)howToPlayClick:(id)sender {
     [self.delegate howToPlayClick];
+}
+- (IBAction)leaderboardsClick:(id)sender {
+    [self.delegate leaderboardsClick];
 }
 
 - (void)didReceiveMemoryWarning

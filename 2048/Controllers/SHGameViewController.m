@@ -696,7 +696,7 @@
 
     if (!self.isMultiplayer) {
         // Send score to Game Center singleplayer leaderboards
-        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.singleplayer"];
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:kSHLeaderboardIdentifierSingleplayer];
         score.value = self.score;
         [GKScore reportScores:@[score] withCompletionHandler:^(NSError *error) {
             if (error) {
@@ -823,6 +823,20 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
+- (void)leaderboardsClick {
+    GKGameCenterViewController *gameCenterController = [[GKGameCenterViewController alloc] init];
+    if (gameCenterController != nil) {
+        gameCenterController.gameCenterDelegate = self;
+        gameCenterController.viewState = GKGameCenterViewControllerStateLeaderboards;
+        if (self.isMultiplayer) {
+            gameCenterController.leaderboardIdentifier = kSHLeaderboardIdentifierMultiplayer;
+        } else {
+            gameCenterController.leaderboardIdentifier = kSHLeaderboardIdentifierSingleplayer;
+        }
+        [self presentViewController:gameCenterController animated:YES completion:nil];
+    }
+}
+
 - (void)howToPlayClick {
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
     if (self.menuHowToPlayViewController == nil) {
@@ -869,11 +883,9 @@
     [self dismissPopupViewControllerWithanimationType:MJPopupViewAnimationSlideTopBottom];
 }
 
-
-#pragma mark - Memory Warning
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Game Center Delegate
+- (void)gameCenterViewControllerDidFinish:(GKGameCenterViewController *)gameCenterViewController {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Multiplayer
@@ -996,7 +1008,7 @@
 - (NSArray *)multiplayerScoresForTurn:(SHGameTurn *)turn {
     NSMutableArray *scores = [[NSMutableArray alloc] initWithCapacity:turn.scores.count];
     for (NSString *playerID in turn.scores) {
-        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.multiplayer" forPlayer:playerID];
+        GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:kSHLeaderboardIdentifierMultiplayer forPlayer:playerID];
         score.value = ((NSNumber *) turn.scores[playerID]).integerValue;
         [scores addObject:score];
     }

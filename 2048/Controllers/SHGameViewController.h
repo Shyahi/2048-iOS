@@ -25,7 +25,11 @@ static NSString *const kSHBestUserScoreKey = @"SH_BEST_USER_SCORE";
 static const int kSHGameMaxScore = 2048;
 static NSString *const kSHUserDefaultsGameOptionTiltEnabled = @"SH_GAME_OPTION_TILT_ENABLED";
 
-@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate, SHMenuHowToPlayDelegate>
+static NSString *const kSHLeaderboardIdentifierMultiplayer = @"com.shyahi.2048.multiplayer";
+
+static NSString *const kSHLeaderboardIdentifierSingleplayer = @"com.shyahi.2048.singleplayer";
+
+@interface SHGameViewController : UIViewController <UICollectionViewDataSource, SHMenuDelegate, SHMenuTiltDelegate, SHGameCenterManagerDelegate, SHMenuHowToPlayDelegate, GKGameCenterControllerDelegate>
 @property(nonatomic) BOOL isMultiplayer;
 
 - (void)switchToMultiplayerModeWithMatch:(GKTurnBasedMatch *)match;

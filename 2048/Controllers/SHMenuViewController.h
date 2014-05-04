@@ -16,6 +16,7 @@
 @property(strong, nonatomic) IBOutlet UIButton *theNewGameButton;
 @property(strong, nonatomic) IBOutlet UIButton *closeButton;
 @property (strong, nonatomic) IBOutlet UIButton *howToPlayButton;
+@property (strong, nonatomic) IBOutlet UIButton *leaderboardsButton;
 
 @property(strong, nonatomic) id <SHMenuDelegate> delegate;
 @end
@@ -25,4 +26,5 @@
 - (void)startNewGameClick;
 - (void)closeClick;
 - (void)howToPlayClick;
+- (void)leaderboardsClick;
 @end
