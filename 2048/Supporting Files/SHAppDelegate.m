@@ -8,6 +8,7 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import <GameKit/GameKit.h>
+#import <iRate/iRate.h>
 #import "SHAppDelegate.h"
 #import "FBAppCall.h"
 #import "SHGameCenterManager.h"
@@ -27,6 +28,7 @@
     [self setupLogging];
     [self setupAnalytics];
     [self setupGameCenter];
+    [self configureIRate];
     return YES;
 }
 
@@ -131,4 +133,11 @@
         // TODO Open game view controller from other controllers?
     }
 }
+
+#pragma mark iRate
+- (void)configureIRate {
+    [iRate sharedInstance].daysUntilPrompt = 4;
+    [iRate sharedInstance].usesUntilPrompt = 4;
+}
+
 @end
