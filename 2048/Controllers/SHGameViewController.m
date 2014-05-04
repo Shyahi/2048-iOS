@@ -64,6 +64,7 @@
 @property(strong, nonatomic) IBOutlet UIView *multiplayerLoginActivityView;
 @property(strong, nonatomic) IBOutlet UIButton *gameCenterButton;
 
+@property(nonatomic, strong) NSMutableArray *itemsToBeReloaded;
 @end
 
 @implementation SHGameViewController
@@ -285,6 +286,9 @@
     NSDictionary *traversals = [self buildTraversalsForVector:vector];
     BOOL moved = NO;
     int score = 0;
+
+    self.itemsToBeReloaded = [[NSMutableArray alloc] initWithCapacity:(NSUInteger) (kSHGameBoardSize * kSHGameBoardSize)];
+
     for (NSNumber *x in traversals[@"x"]) {
         for (NSNumber *y in traversals[@"y"]) {
             CGPoint cell = CGPointMake(x.integerValue, y.integerValue);
@@ -317,6 +321,13 @@
             }
         }
     }
+
+    // Reload items
+    if (self.itemsToBeReloaded && self.itemsToBeReloaded.count > 0) {
+        [self reloadCollectionViewItemsAtIndexPaths:self.itemsToBeReloaded completion:nil];
+    }
+    self.itemsToBeReloaded = nil;
+
     return [SHBoardMoveResult resultWithScore:score moved:moved];
 }
 
@@ -335,8 +346,8 @@
     SHGameCellData *farthestCellData = [self dataForCellAtPosition:farthestAvailablePosition];
     farthestCellData.number = cellData.number;
     cellData.number = nil;
-    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
-    }];
+    // Queue cell for reload
+    [self.itemsToBeReloaded addObject:cellIndexPath];
 
     // Create view and animate.
     SHGameCellView *cellView = [[SHGameCellView alloc] initWithFrame:cellRect];
@@ -380,8 +391,9 @@
     nextCellData.number = @(nextCellData.number.integerValue + cellData.number.integerValue);
     nextCellData.merged = YES;
     cellData.number = nil;
-    [self reloadCollectionViewItemsAtIndexPaths:@[cellIndexPath] completion:^(BOOL b) {
-    }];
+    // Queue cell for reload
+    [self.itemsToBeReloaded addObject:cellIndexPath];
+
     return nextCellData;
 }
 
