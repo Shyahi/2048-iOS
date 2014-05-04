@@ -1016,7 +1016,14 @@
 
     // Set up observer for player's authentication state
     [self.kvoController observe:[GKLocalPlayer localPlayer] keyPath:@"isAuthenticated" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, GKLocalPlayer *localPlayer, NSDictionary *change) {
-        [self localPlayer:localPlayer authenticationDidChange:controller];
+        [controller localPlayer:localPlayer authenticationDidChange:controller];
+    }];
+
+    // Set up observer for player's authentication state
+    [self.kvoController observe:self keyPath:@"isMultiplayer" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew block:^(SHGameViewController *controller, SHGameViewController *controller1, NSDictionary *change) {
+        if (!controller.isMultiplayer) {
+            controller.gameCenterManager.currentMatch = nil;
+        }
     }];
 
     [self setupReachability];
