@@ -998,6 +998,7 @@
     for (NSString *playerID in turn.scores) {
         GKScore *score = [[GKScore alloc] initWithLeaderboardIdentifier:@"com.shyahi.2048.multiplayer" forPlayer:playerID];
         score.value = ((NSNumber *) turn.scores[playerID]).integerValue;
+        [scores addObject:score];
     }
     return scores;
 }
