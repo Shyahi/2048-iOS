@@ -7,12 +7,12 @@
 //
 
 #import <BlocksKit/UIAlertView+BlocksKit.h>
-#import <Analytics/Analytics.h>
 #import "SHViewController.h"
 #import "HexColor.h"
 #import "UIImage+ImageWithColor.h"
 #import "SHGameViewController.h"
 #import "Reachability.h"
+#import "SHAnalytics.h"
 
 @interface SHViewController ()
 
@@ -24,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[Analytics sharedAnalytics] screen:@"Home Screen" properties:nil];
+    [[SHAnalytics sharedInstance] screen:@"Home Screen" properties:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

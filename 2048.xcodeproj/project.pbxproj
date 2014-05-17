@@ -48,6 +48,7 @@
 		C5C2368397F89F09824DCC2B /* UIView+SHAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C238A1F84FAC788F797239 /* UIView+SHAdditions.m */; };
 		C5C23B07A6314BE783E92F6B /* UIViewController+MJPopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */; };
 		C5C23B0960586E12691CDCCF /* MJPopupBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */; };
+		C5C23E9B0643FAD3C520C3BA /* SHAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C2354FF3E4B10FE37DEB9E /* SHAnalytics.m */; };
 		C5C23EA62536577B829FBDD1 /* SHGameTurn.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C233C27E26916FEE1DDF86 /* SHGameTurn.m */; };
 		ED17BF2D18DB334400A0AF40 /* SHFacebookIntroView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ED17BF2C18DB334400A0AF40 /* SHFacebookIntroView.xib */; };
 		ED17BF3018DB353800A0AF40 /* SHFacebookIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17BF2F18DB353800A0AF40 /* SHFacebookIntroView.m */; };
@@ -125,7 +126,9 @@
 		C5C23195F5C4AEDF5C37BDF8 /* SHGameCenterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameCenterManager.m; sourceTree = "<group>"; };
 		C5C233C27E26916FEE1DDF86 /* SHGameTurn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHGameTurn.m; sourceTree = "<group>"; };
 		C5C23523DBA5C5D8C688171F /* MJPopupBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPopupBackgroundView.h; sourceTree = "<group>"; };
+		C5C23529F4BA0EE10FB13294 /* SHAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHAnalytics.h; sourceTree = "<group>"; };
 		C5C2352A11BC03CB13CA9949 /* UIViewController+MJPopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+MJPopupViewController.m"; sourceTree = "<group>"; };
+		C5C2354FF3E4B10FE37DEB9E /* SHAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHAnalytics.m; sourceTree = "<group>"; };
 		C5C23576901F37CC1A472B0C /* SHGameTurn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHGameTurn.h; sourceTree = "<group>"; };
 		C5C236F2D95F1BE2C72DE98F /* MJPopupBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPopupBackgroundView.m; sourceTree = "<group>"; };
 		C5C2370DD82848043FF6571E /* SHHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHHelpers.m; sourceTree = "<group>"; };
@@ -268,6 +271,8 @@
 				C5C2383EE22A1D62B6D95B98 /* SHGameCenterManager.h */,
 				C5C2370DD82848043FF6571E /* SHHelpers.m */,
 				C5C23D07B97F7460CA7513DC /* SHHelpers.h */,
+				C5C2354FF3E4B10FE37DEB9E /* SHAnalytics.m */,
+				C5C23529F4BA0EE10FB13294 /* SHAnalytics.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -536,6 +541,7 @@
 				ED3EB923190AA3FF0010BCC0 /* SHMoreTableViewController.m in Sources */,
 				028B8EB5190BA04200F4AE5A /* SHAboutViewController.m in Sources */,
 				028B8EBC190C3C2F00F4AE5A /* SHHowToPlayViewController.m in Sources */,
+				C5C23E9B0643FAD3C520C3BA /* SHAnalytics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

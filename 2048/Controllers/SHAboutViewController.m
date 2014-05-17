@@ -7,7 +7,7 @@
 //
 
 #import "SHAboutViewController.h"
-#import "Analytics.h"
+#import "SHAnalytics.h"
 
 @interface SHAboutViewController ()
 
@@ -16,7 +16,7 @@
 @implementation SHAboutViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[Analytics sharedAnalytics] screen:@"About Screen" properties:nil];
+    [[SHAnalytics sharedInstance] screen:@"About Screen" properties:nil];
 }
 
 - (IBAction)backButtonClick:(id)sender {

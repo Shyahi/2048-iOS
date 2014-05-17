@@ -16,13 +16,13 @@
 #import "SHGameTurn.h"
 #import <CoreMotion/CoreMotion.h>
 #import <KVOController/FBKVOController.h>
-#import <Analytics/Analytics.h>
 #import "UIAlertView+BlocksKit.h"
 #import "SHMultiplayerHeaderView.h"
 #import "UIView+AutoLayout.h"
 #import "SHHelpers.h"
 #import "SVProgressHUD.h"
 #import "Reachability.h"
+#import "SHAnalytics.h"
 
 @interface SHGameViewController ()
 
@@ -80,7 +80,7 @@
 #pragma mark - UI
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[Analytics sharedAnalytics] screen:@"Game Screen" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+    [[SHAnalytics sharedInstance] screen:@"Game Screen" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
     [self setup];
 }
 
@@ -181,7 +181,7 @@
 #pragma mark - Game
 - (void)initGameCreateBoard:(BOOL)createBoard {
     if (createBoard) {
-        [[Analytics sharedAnalytics] track:@"Game_Start" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+        [[SHAnalytics sharedInstance] track:@"Game_Start" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
     }
 
     // Initialize defaults
@@ -566,7 +566,7 @@
 }
 
 - (IBAction)tryAgainClick:(id)sender {
-    [[Analytics sharedAnalytics] track:@"Game_Try_Again" properties:nil];
+    [[SHAnalytics sharedInstance] track:@"Game_Try_Again" properties:nil];
     if (self.isMultiplayer) {
         // Open multiplayer game selection
         [self startMultiplayerMatch];
@@ -675,7 +675,7 @@
     } else {
         // Track match end
         if (!self.isMultiplayer) {
-            [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+            [[SHAnalytics sharedInstance] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
         }
 
         // Show the game terminated view only in single player mode.
@@ -734,7 +734,7 @@
     } else {
         // Track match end
         if (!self.isMultiplayer) {
-            [[Analytics sharedAnalytics] track:@"Game_Won" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+            [[SHAnalytics sharedInstance] track:@"Game_Won" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
         }
 
         // Show the game terminated view.
@@ -990,7 +990,7 @@
             DDLogVerbose(@"Ended multiplayer match %@", currentMatch.matchID);
 
             // Track match end
-            [[Analytics sharedAnalytics] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
+            [[SHAnalytics sharedInstance] track:@"Game_Over" properties:@{@"isMultiplayer" : @(self.isMultiplayer)}];
 
             [self didEndTurn:turn withMatch:currentMatch nextParticipant:nil];
         }

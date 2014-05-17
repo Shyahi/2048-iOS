@@ -12,10 +12,10 @@
 #import "SHAppDelegate.h"
 #import "FBAppCall.h"
 #import "SHGameCenterManager.h"
-#import "Analytics.h"
 #import "SHGameViewController.h"
 #import "SHViewController.h"
 #import "UIAlertView+BlocksKit.h"
+#import "SHAnalytics.h"
 
 @interface SHAppDelegate ()
 @property(nonatomic, strong) SHGameCenterManager *gameCenterManager;
@@ -58,15 +58,19 @@
     [[FBSession activeSession] close];
 }
 
+#pragma mark - Push notifications
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[SHAnalytics sharedInstance] addPushDeviceToken:deviceToken];
+}
+
 #pragma mark - Setup
 - (void)setupAnalytics {
-    [self setupSegmentAnalytics];
+    [self setupUserAnalytics];
     [self setupCrashlytics];
 }
 
-- (void)setupSegmentAnalytics {
-    [Analytics debug:NO];
-    [Analytics initializeWithSecret:@"0rtdrwphbm"]; // Write key
+- (void)setupUserAnalytics {
+    [SHAnalytics sharedInstanceWithToken:@"f5cbb9544ffb2eab524f51901bde5ac8"];
 }
 
 - (void)setupCrashlytics {

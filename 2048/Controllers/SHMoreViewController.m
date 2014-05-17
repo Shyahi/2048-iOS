@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Shyahi. All rights reserved.
 //
 
-#import <Analytics/Analytics.h>
 #import "SHMoreViewController.h"
+#import "SHAnalytics.h"
 
 @interface SHMoreViewController ()
 
@@ -27,7 +27,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[Analytics sharedAnalytics] screen:@"More Screen" properties:nil];
+    [[SHAnalytics sharedInstance] screen:@"More Screen" properties:nil];
 }
 
 #pragma mark - Storyboard outlets
